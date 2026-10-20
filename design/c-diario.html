@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C — Diário de bordo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F6F5F1; --bg-2: #ECEAE3; --ink: #121212; --ink-2: #5E5C57; --ink-3: #9A978F; --line: #DCD9D0; --acc: #D9480F; --ok: #2B8A3E;
+  }
+  :root[data-theme="dark"] {
+    --bg: #0E0E0D; --bg-2: #181816; --ink: #F1EFE9; --ink-2: #A8A59D; --ink-3: #6B6962; --line: #262623; --acc: #FF7A3D; --ok: #69DB7C;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0E0E0D; --bg-2: #181816; --ink: #F1EFE9; --ink-2: #A8A59D; --ink-3: #6B6962; --line: #262623; --acc: #FF7A3D; --ok: #69DB7C;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--bg); color: var(--ink); font: 400 16px/1.6 "Instrument Sans", system-ui, sans-serif; transition: background .3s, color .3s; }
+  .mono { font-family: "Geist Mono", monospace; font-size: 12.5px; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+
+  header { position: sticky; top: 0; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); z-index: 2; border-bottom: 1px solid var(--line); }
+  header .wrap { display: flex; justify-content: space-between; align-items: center; height: 56px; }
+  .theme { background: none; border: 0; color: var(--ink-2); cursor: pointer; font: inherit; }
+  .theme:hover { color: var(--ink); }
+
+  .hero { padding: 96px 0 64px; }
+  .hero .meta { color: var(--ink-3); display: flex; gap: 18px; flex-wrap: wrap; margin-bottom: 28px; }
+  .hero .meta .on { color: var(--ok); }
+  h1 { font-family: "Instrument Serif", serif; font-weight: 400; font-size: clamp(48px, 8.5vw, 112px); line-height: .92; letter-spacing: -.025em; }
+  h1 i { color: var(--acc); }
+  .hero p { margin-top: 32px; max-width: 52ch; font-size: 19px; color: var(--ink-2); }
+  .hero p b { color: var(--ink); font-weight: 500; }
+
+  .proof { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .proof div { padding: 22px 0; }
+  .proof div + div { border-left: 1px solid var(--line); padding-left: 24px; }
+  .proof b { display: block; font-family: "Instrument Serif", serif; font-weight: 400; font-size: 40px; line-height: 1; }
+  .proof span { color: var(--ink-2); font-size: 14px; }
+
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; margin: 56px 0 8px; }
+  .filters button { border: 1px solid var(--line); background: transparent; color: var(--ink-2); border-radius: 999px; padding: 6px 14px; cursor: pointer; font: inherit; font-size: 14px; }
+  .filters button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+  .log { list-style: none; padding: 0; position: relative; }
+  .log::before { content: ""; position: absolute; left: 118px; top: 0; bottom: 0; width: 1px; background: var(--line); }
+  .entry { display: grid; grid-template-columns: 100px 36px 1fr; padding: 28px 0; border-bottom: 1px solid var(--line); }
+  .entry[hidden] { display: none; }
+  .entry .when { color: var(--ink-3); padding-top: 6px; }
+  .entry .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--bg); border: 2px solid var(--ink-3); margin: 10px 0 0 14px; position: relative; z-index: 1; }
+  .entry.feat .dot { border-color: var(--acc); background: var(--acc); }
+  .entry h3 { font-family: "Instrument Serif", serif; font-weight: 400; font-size: 32px; line-height: 1.1; display: flex; gap: 14px; align-items: baseline; flex-wrap: wrap; }
+  .entry h3 .ctx { font-family: "Geist Mono", monospace; font-size: 12px; color: var(--ink-3); letter-spacing: .02em; }
+  .entry .pr { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 12px; max-width: 760px; }
+  .entry .pr p { color: var(--ink-2); font-size: 15.5px; }
+  .entry .pr p::before { display: block; font-family: "Geist Mono", monospace; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
+  .entry .pr .p::before { content: "o problema"; }
+  .entry .pr .s::before { content: "o que eu fiz"; color: var(--acc); }
+  .entry .st { margin-top: 14px; color: var(--ink-3); display: flex; gap: 14px; flex-wrap: wrap; }
+  .entry .st .lock { color: var(--acc); }
+  .todo { border-bottom: 1px dashed var(--acc); }
+
+  footer { padding: 96px 0 64px; }
+  footer h2 { font-family: "Instrument Serif", serif; font-weight: 400; font-size: clamp(40px, 6vw, 72px); line-height: 1; max-width: 16ch; }
+  footer h2 i { color: var(--acc); }
+  footer .links { display: flex; gap: 24px; margin-top: 32px; }
+  footer a { color: var(--ink); }
+
+  @media (max-width: 760px) {
+    .hero { padding: 56px 0 40px; }
+    .proof { grid-template-columns: 1fr; }
+    .proof div + div { border-left: 0; padding-left: 0; border-top: 1px solid var(--line); }
+    .log::before { left: 4px; }
+    .entry { grid-template-columns: 24px 1fr; }
+    .entry .when { grid-column: 2; order: -1; padding: 0; }
+    .entry .dot { margin: 12px 0 0 0; }
+    .entry .pr { grid-template-columns: 1fr; gap: 10px; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <span class="mono">renan martins / projetos</span>
+    <button class="theme mono" type="button" data-theme-toggle>Tema</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="hero">
+    <div class="meta mono"><span class="on">● disponível para conversar</span><span>Juiz de Fora, MG</span><span>TI · infra · segurança · IA</span></div>
+    <h1>Eu pego um problema do dia a dia e entrego <i>um sistema que resolve</i>.</h1>
+    <p>Este é o diário de tudo que construí: o que estava travando o negócio e o que eu entreguei. A maior parte nasceu dentro da <b>Couve Flor Refeições</b>, restaurante corporativo meu e da minha esposa.</p>
+  </section>
+
+  <div class="proof">
+    <div><b>10</b><span>projetos entregues</span></div>
+    <div><b>7</b><span>feitos para a operação de um restaurante</span></div>
+    <div><b>0</b><span>chaves ou dados expostos no código <i class="todo">[confirmar]</i></span></div>
+  </div>
+
+  <div class="filters" role="group" aria-label="Filtrar">
+    <button type="button" data-f="all" aria-pressed="true">Tudo</button>
+    <button type="button" data-f="cf" aria-pressed="false">Couve Flor</button>
+    <button type="button" data-f="ia" aria-pressed="false">IA</button>
+    <button type="button" data-f="sec" aria-pressed="false">Privacidade &amp; segurança</button>
+    <button type="button" data-f="pes" aria-pressed="false">Pessoal</button>
+  </div>
+
+  <ol class="log">
+    <li class="entry feat" data-tags="cf"><span class="when mono">out 2026</span><span class="dot"></span><div>
+      <h3>Viagens dos motoristas <span class="ctx">COUVE FLOR · LOGÍSTICA</span></h3>
+      <div class="pr"><p class="p"><span class="todo">[controle das viagens era feito no papel?]</span></p><p class="s">App instalável no celular do motorista, com os registros indo direto para a planilha da gestão.</p></div>
+      <div class="st mono"><span>PWA</span><span>Apps Script</span><span>GitHub Pages</span></div></div></li>
+
+    <li class="entry" data-tags="cf sec"><span class="when mono">out 2026</span><span class="dot"></span><div>
+      <h3>Scanner de documentos <span class="ctx">COUVE FLOR · ADMINISTRATIVO</span></h3>
+      <div class="pr"><p class="p">Documentos em papel, fotos tortas e arquivos com nomes sem padrão.</p><p class="s">Digitaliza, corrige a perspectiva, lê o texto (OCR) e gera PDF. Tudo no aparelho: nada é enviado.</p></div>
+      <div class="st mono"><span class="lock">privado</span><span>PWA</span><span>OCR</span><span>pdf-lib</span></div></div></li>
+
+    <li class="entry" data-tags="cf sec"><span class="when mono">out 2026</span><span class="dot"></span><div>
+      <h3>Leitor de QR <span class="ctx">COUVE FLOR · SERVIÇO</span></h3>
+      <div class="pr"><p class="p"><span class="todo">[como era a contagem de refeições antes]</span></p><p class="s">Câmera lê o QR de cada refeição e registra por turno e data. CSV protegido contra injeção de fórmula.</p></div>
+      <div class="st mono"><span>JavaScript</span><span>PWA</span><span>jsQR</span></div></div></li>
+
+    <li class="entry" data-tags="ia pes"><span class="when mono">out 2026</span><span class="dot"></span><div>
+      <h3>English Coach <span class="ctx">IA · EDUCAÇÃO</span></h3>
+      <div class="pr"><p class="p">Treinar inglês falado para entrevistas de TI sem depender de horário de professor.</p><p class="s">Tutora por voz com Claude, que corrige cada frase. Chave da IA só no servidor, login obrigatório.</p></div>
+      <div class="st mono"><span>Cloudflare Worker</span><span>Supabase</span><span>Claude</span></div></div></li>
+
+    <li class="entry" data-tags="pes"><span class="when mono">out 2026</span><span class="dot"></span><div>
+      <h3>Apuração 2026 <span class="ctx">DADOS PÚBLICOS</span></h3>
+      <div class="pr"><p class="p">O TSE bloqueia consultas feitas direto do navegador de outro site.</p><p class="s">Funções no servidor que buscam os dados e entregam a apuração em tempo real.</p></div>
+      <div class="st mono"><span>Netlify Functions</span><span>Worker</span></div></div></li>
+
+    <li class="entry" data-tags="pes sec"><span class="when mono">set 2026</span><span class="dot"></span><div>
+      <h3>Finanças da Família <span class="ctx">PESSOAL</span></h3>
+      <div class="pr"><p class="p">Gastos anotados depois, de memória, e esquecidos.</p><p class="s">App que registra o gasto na hora, mesmo sem sinal, e sincroniza depois. Fechado por login, com RLS.</p></div>
+      <div class="st mono"><span>PWA</span><span>Supabase</span><span>RLS</span></div></div></li>
+
+    <li class="entry" data-tags="cf"><span class="when mono">set 2026</span><span class="dot"></span><div>
+      <h3>Painel Operação &amp; Financeiro <span class="ctx">COUVE FLOR · GESTÃO</span></h3>
+      <div class="pr"><p class="p">Relatórios do consultor chegando em PDFs separados, difíceis de cruzar.</p><p class="s">Painel único com os números do restaurante, recalculados por um segundo caminho para conferir.</p></div>
+      <div class="st mono"><span class="lock">privado</span><span>Cloudflare Workers</span><span>Python</span></div></div></li>
+
+    <li class="entry" data-tags="cf"><span class="when mono">set 2026</span><span class="dot"></span><div>
+      <h3>Gerador de cardápio <span class="ctx">COUVE FLOR · MARKETING</span></h3>
+      <div class="pr"><p class="p"><span class="todo">[tempo gasto montando a arte do dia]</span></p><p class="s">Gera a arte do cardápio do dia pronta para postar.</p></div>
+      <div class="st mono"><span>HTML</span><span>Canvas</span></div></div></li>
+
+    <li class="entry" data-tags="cf"><span class="when mono">ago 2026</span><span class="dot"></span><div>
+      <h3>Site institucional <span class="ctx">COUVE FLOR · VENDAS</span></h3>
+      <div class="pr"><p class="p"><span class="todo">[o que havia antes]</span></p><p class="s">Site do restaurante com SEO local para empresas de Juiz de Fora que procuram refeição corporativa.</p></div>
+      <div class="st mono"><span>HTML</span><span>SEO</span></div></div></li>
+  </ol>
+
+  <footer>
+    <h2>Qual processo seu ainda <i>roda no papel</i>?</h2>
+    <div class="links mono"><a href="#">e-mail</a><a href="#">linkedin</a><a href="#">github/renan1</a></div>
+  </footer>
+</div>
+
+<script>
+  var fb = document.querySelectorAll('.filters button');
+  fb.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var f = b.dataset.f;
+      fb.forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      document.querySelectorAll('.entry').forEach(function (e) {
+        e.hidden = f !== 'all' && e.dataset.tags.split(' ').indexOf(f) === -1;
+      });
+    });
+  });
+</script>
+<script src="theme.js"></script>
+</body>
+</html>

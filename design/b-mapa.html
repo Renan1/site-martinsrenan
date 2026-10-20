@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>B — Mapa da operação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #EEF1EC; --bg-2: #E2E7DF; --card: #F8FAF6; --ink: #13201A; --ink-2: #4F5E55; --line: #C3CDC4; --grid: rgba(19,32,26,.06);
+    --acc: #1F7A4D; --acc-soft: #D3E7D9; --warn: #B8571F;
+  }
+  :root[data-theme="dark"] {
+    --bg: #0C1310; --bg-2: #121B17; --card: #16211C; --ink: #E3ECE5; --ink-2: #93A69A; --line: #2A3A31; --grid: rgba(227,236,229,.05);
+    --acc: #5FD39A; --acc-soft: #173A29; --warn: #F0955E;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0C1310; --bg-2: #121B17; --card: #16211C; --ink: #E3ECE5; --ink-2: #93A69A; --line: #2A3A31; --grid: rgba(227,236,229,.05);
+      --acc: #5FD39A; --acc-soft: #173A29; --warn: #F0955E;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    background: var(--bg); color: var(--ink); font: 400 16px/1.55 "Archivo", system-ui, sans-serif;
+    background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 32px 32px; transition: background-color .3s, color .3s;
+  }
+  .mono { font-family: "JetBrains Mono", monospace; font-size: 12.5px; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+
+  header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-stretch: 110%; letter-spacing: -.01em; }
+  .logo i { width: 14px; height: 14px; border: 2px solid var(--acc); border-radius: 50%; position: relative; }
+  .logo i::after { content: ""; position: absolute; inset: 3px; background: var(--acc); border-radius: 50%; }
+  nav { display: flex; gap: 22px; align-items: center; }
+  nav a { color: var(--ink-2); text-decoration: none; font-size: 14px; }
+  .theme { background: var(--card); color: var(--ink); border: 1px solid var(--line); padding: 7px 12px; border-radius: 6px; font: 500 12.5px "JetBrains Mono", monospace; cursor: pointer; }
+
+  .hero { padding: 72px 0 40px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 48px; align-items: end; }
+  h1 { font-weight: 800; font-stretch: 85%; font-size: clamp(42px, 6.4vw, 86px); line-height: .95; letter-spacing: -.03em; text-transform: uppercase; }
+  h1 span { color: var(--acc); }
+  .hero p { color: var(--ink-2); font-size: 18px; max-width: 42ch; }
+  .hero p b { color: var(--ink); font-weight: 600; }
+  .status { display: inline-flex; gap: 8px; align-items: center; margin-bottom: 18px; color: var(--ink-2); }
+  .status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--acc); box-shadow: 0 0 0 4px var(--acc-soft); }
+
+  /* Mapa */
+  .map { border: 1px solid var(--line); background: color-mix(in srgb, var(--card) 85%, transparent); border-radius: 10px; padding: 22px; margin-top: 24px; }
+  .map-head { display: flex; justify-content: space-between; color: var(--ink-2); margin-bottom: 18px; }
+  .lanes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; }
+  .lane { padding: 0 14px; border-left: 1px dashed var(--line); position: relative; }
+  .lane:first-child { border-left: 0; }
+  .lane h3 { font-family: "JetBrains Mono", monospace; font-size: 11.5px; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-2); display: flex; gap: 8px; align-items: center; margin-bottom: 4px; }
+  .lane h3 b { color: var(--acc); font-weight: 500; }
+  .lane .q { font-size: 14px; color: var(--ink-2); margin-bottom: 16px; min-height: 2.6em; }
+  .flow { position: absolute; top: 6px; right: -8px; color: var(--acc); font: 14px "JetBrains Mono"; z-index: 1; }
+  .node {
+    display: block; width: 100%; text-align: left; background: var(--card); color: var(--ink); border: 1px solid var(--line);
+    border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; cursor: pointer; font: inherit; position: relative; transition: border-color .15s, transform .15s;
+  }
+  .node:hover { border-color: var(--acc); transform: translateY(-1px); }
+  .node[aria-pressed="true"] { border-color: var(--acc); box-shadow: inset 3px 0 0 var(--acc); }
+  .node strong { display: block; font-weight: 650; font-size: 15.5px; }
+  .node small { color: var(--ink-2); font-size: 13px; }
+  .node .lock { position: absolute; top: 10px; right: 12px; color: var(--warn); }
+
+  .detail { display: grid; grid-template-columns: 1fr 1.3fr; gap: 32px; margin-top: 22px; padding-top: 22px; border-top: 1px solid var(--line); }
+  .detail h2 { font-weight: 750; font-stretch: 90%; font-size: 34px; line-height: 1.05; letter-spacing: -.02em; margin: 6px 0 12px; }
+  .detail .where { color: var(--acc); }
+  .rows div { display: grid; grid-template-columns: 120px 1fr; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .rows dt { color: var(--ink-2); font-family: "JetBrains Mono", monospace; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; padding-top: 3px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chips span { background: var(--acc-soft); color: var(--ink); padding: 2px 8px; border-radius: 4px; }
+  .todo { color: var(--warn); }
+
+  .side { margin-top: 56px; }
+  .side h2 { font-weight: 800; font-stretch: 85%; text-transform: uppercase; font-size: 28px; letter-spacing: -.01em; margin-bottom: 14px; }
+  .side-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .side-grid .node { min-height: 96px; }
+
+  footer { margin: 80px 0 48px; display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 24px; }
+  footer h2 { font-weight: 800; font-stretch: 85%; text-transform: uppercase; font-size: clamp(28px, 4vw, 48px); line-height: 1; max-width: 18ch; }
+  footer nav a { color: var(--ink); border-bottom: 1px solid var(--acc); }
+
+  @media (max-width: 900px) {
+    nav a { display: none; }
+    .hero, .detail { grid-template-columns: 1fr; gap: 20px; }
+    .lanes { grid-template-columns: 1fr 1fr; row-gap: 20px; }
+    .lane:nth-child(3) { border-left: 0; }
+    .flow { display: none; }
+    .side-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo"><i></i>RENAN MARTINS</div>
+    <nav>
+      <a href="#mapa">Mapa</a><a href="#outros">Outros projetos</a><a href="#contato">Contato</a>
+      <button class="theme" type="button" data-theme-toggle>Tema</button>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div>
+      <p class="status mono">TI · infra · segurança · IA — Juiz de Fora, MG</p>
+      <h1>Um restaurante <span>inteiro</span>, digitalizado sistema por sistema.</h1>
+    </div>
+    <p>Este é o mapa da operação da <b>Couve Flor Refeições</b>. Cada caixa é um problema real do dia a dia que virou software. Clique em uma para ver o que era, o que eu fiz e o resultado.</p>
+  </section>
+
+  <section class="map" id="mapa">
+    <div class="map-head mono"><span>MAPA DA OPERAÇÃO · COUVE FLOR</span><span>7 sistemas · clique para abrir</span></div>
+    <div class="lanes" id="lanes"></div>
+    <div class="detail" aria-live="polite">
+      <div>
+        <p class="where mono" id="d-where"></p>
+        <h2 id="d-title"></h2>
+        <p id="d-desc"></p>
+      </div>
+      <dl class="rows">
+        <div><dt>Problema</dt><dd id="d-prob"></dd></div>
+        <div><dt>Resultado</dt><dd id="d-res"></dd></div>
+        <div><dt>Stack</dt><dd class="chips mono" id="d-stack"></dd></div>
+        <div><dt>Código</dt><dd id="d-code"></dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="side" id="outros">
+    <h2>Fora do restaurante</h2>
+    <div class="side-grid" id="side"></div>
+  </section>
+
+  <footer id="contato">
+    <h2>Seu processo também pode virar um sistema.</h2>
+    <nav class="mono"><a href="#">E-mail</a><a href="#">LinkedIn</a><a href="#">GitHub</a></nav>
+  </footer>
+</div>
+
+<script>
+  // Dados de exemplo. "[...]" = Renan precisa preencher.
+  var LANES = [
+    { key: 'cliente', label: 'Cliente', q: 'Como a empresa conhece e escolhe a refeição?' },
+    { key: 'servico', label: 'Serviço', q: 'Como cada refeição servida é contada?' },
+    { key: 'entrega', label: 'Entrega', q: 'Como as entregas são registradas?' },
+    { key: 'gestao',  label: 'Gestão',  q: 'Como os números e documentos chegam à gestão?' }
+  ];
+  var P = [
+    { id: 'site', lane: 'cliente', t: 'Site institucional', s: 'SEO local', desc: 'Site do restaurante, pensado para empresas que buscam refeição corporativa em Juiz de Fora.', prob: '[o que havia antes]', res: '[contatos/orçamentos vindos do site]', stack: ['HTML', 'SEO', 'GitHub Pages'], code: 'público' },
+    { id: 'cardapio', lane: 'cliente', t: 'Gerador de cardápio', s: 'post diário', desc: 'Monta a arte do cardápio do dia para as redes sociais.', prob: '[tempo gasto montando a arte à mão]', res: '[minutos por dia economizados]', stack: ['HTML', 'Canvas'], code: 'público' },
+    { id: 'tv', lane: 'cliente', t: 'TV Couve Flor', s: '[descrever]', desc: '[descrever]', prob: '[...]', res: '[...]', stack: ['HTML'], code: 'público' },
+    { id: 'qr', lane: 'servico', t: 'Leitor de QR', s: 'refeições por turno', desc: 'Cada refeição servida é lida pela câmera e registrada por turno e data, com exportação CSV.', prob: '[como a contagem era feita antes]', res: '[erros de contagem evitados]', stack: ['JavaScript', 'PWA', 'jsQR'], code: 'público' },
+    { id: 'viagens', lane: 'entrega', t: 'Viagens', s: 'app dos motoristas', desc: 'O motorista registra cada viagem pelo celular; os dados vão direto para uma planilha.', prob: '[controle de viagens no papel?]', res: '[tempo de conferência economizado]', stack: ['PWA', 'Google Apps Script'], code: 'público' },
+    { id: 'painel', lane: 'gestao', t: 'Painel Operação & Financeiro', s: 'privado', lock: true, desc: 'Os números do restaurante num painel só, recalculados por um caminho independente para não haver erro.', prob: '[relatórios espalhados em PDFs e planilhas]', res: '[decisão mais rápida / fechamento mais rápido]', stack: ['Cloudflare Workers', 'Python'], code: 'privado — só descrição' },
+    { id: 'scanner', lane: 'gestao', t: 'Scanner de documentos', s: 'privado', lock: true, desc: 'Digitaliza, lê (OCR), renomeia e gera PDF no próprio celular. Nada sai do aparelho.', prob: '[documentos em papel, nomes bagunçados]', res: '[...]', stack: ['PWA', 'Tesseract OCR', 'pdf-lib'], code: 'privado — só descrição' }
+  ];
+  var SIDE = [
+    { id: 'coach', t: 'English Coach', s: 'IA · voz', desc: 'Tutora de inglês falado com Claude, para entrevistas de TI.', prob: 'Treinar conversação sem professor disponível.', res: '[...]', stack: ['Cloudflare Worker', 'Supabase', 'Claude'], code: 'a definir' },
+    { id: 'financas', t: 'Finanças da Família', s: 'PWA · offline', desc: 'Controle de gastos que funciona sem sinal e sincroniza depois.', prob: 'Gastos anotados fora de hora e esquecidos.', res: '[...]', stack: ['PWA', 'Supabase', 'RLS'], code: 'público' },
+    { id: 'apuracao', t: 'Apuração 2026', s: 'dados públicos', desc: 'Acompanhamento da apuração das eleições com dados do TSE.', prob: 'O TSE bloqueia consultas diretas do navegador.', res: '[...]', stack: ['Netlify Functions', 'Worker'], code: 'público' }
+  ];
+
+  var ALL = P.concat(SIDE);
+  var buttons = [];
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text) e.textContent = text;
+    return e;
+  }
+  function node(p) {
+    var b = el('button', 'node');
+    b.type = 'button';
+    b.setAttribute('aria-pressed', 'false');
+    b.appendChild(el('strong', '', p.t));
+    b.appendChild(el('small', '', p.s));
+    if (p.lock) b.appendChild(el('span', 'lock mono', 'privado'));
+    b.addEventListener('click', function () { show(p.id); });
+    b.dataset.id = p.id;
+    buttons.push(b);
+    return b;
+  }
+  function fill(id, text) {
+    var e = document.getElementById(id);
+    e.textContent = text;
+    e.classList.toggle('todo', /^\[/.test(text));
+  }
+  function show(id) {
+    var p = ALL.filter(function (x) { return x.id === id; })[0];
+    var lane = LANES.filter(function (l) { return l.key === p.lane; })[0];
+    document.getElementById('d-where').textContent = lane ? 'ETAPA · ' + lane.label.toUpperCase() : 'PROJETO PESSOAL';
+    document.getElementById('d-title').textContent = p.t;
+    fill('d-desc', p.desc); fill('d-prob', p.prob); fill('d-res', p.res);
+    document.getElementById('d-code').textContent = p.code;
+    var st = document.getElementById('d-stack');
+    st.replaceChildren();
+    p.stack.forEach(function (s) { st.appendChild(el('span', '', s)); });
+    buttons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.id === id)); });
+  }
+
+  var lanesEl = document.getElementById('lanes');
+  LANES.forEach(function (l, i) {
+    var col = el('div', 'lane');
+    var h = el('h3');
+    h.appendChild(el('b', '', '0' + (i + 1)));
+    h.appendChild(document.createTextNode(l.label));
+    col.appendChild(h);
+    col.appendChild(el('p', 'q', l.q));
+    if (i < LANES.length - 1) col.appendChild(el('span', 'flow', '→'));
+    P.filter(function (p) { return p.lane === l.key; }).forEach(function (p) { col.appendChild(node(p)); });
+    lanesEl.appendChild(col);
+  });
+  var sideEl = document.getElementById('side');
+  SIDE.forEach(function (p) { sideEl.appendChild(node(p)); });
+  show('viagens');
+</script>
+<script src="theme.js"></script>
+</body>
+</html>
