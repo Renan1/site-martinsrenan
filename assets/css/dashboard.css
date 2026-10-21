@@ -1,0 +1,171 @@
+/* Página do projeto Dashboard: mesa com os 3 arquivos do mês + painel com filtros cruzados. */
+:root {
+  --bg: #EEF1F6; --grid: #E2E7EF; --ink: #182033; --ink-2: #5E677A; --line: #D7DDE8; --card: #FFFFFF; --soft: #F5F7FB;
+  --blue: #2563EB; --blue-soft: #DCE7FD; --ok: #16A34A; --bad: #DC2626; --warn: #D97706;
+  --cA: #DC2626; --cB: #2563EB; --cC: #D97706; --cX: #94A3B8;
+}
+:root[data-theme="dark"] {
+  --bg: #0E1320; --grid: #151C2C; --ink: #E6EBF5; --ink-2: #94A0B8; --line: #263049; --card: #141B2B; --soft: #18213A;
+  --blue: #6E9BFF; --blue-soft: #1C2B52; --ok: #4ADE80; --bad: #F87171; --warn: #FBBF24;
+  --cA: #F87171; --cB: #6E9BFF; --cC: #FBBF24; --cX: #64748B;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1320; --grid: #151C2C; --ink: #E6EBF5; --ink-2: #94A0B8; --line: #263049; --card: #141B2B; --soft: #18213A;
+    --blue: #6E9BFF; --blue-soft: #1C2B52; --ok: #4ADE80; --bad: #F87171; --warn: #FBBF24;
+    --cA: #F87171; --cB: #6E9BFF; --cC: #FBBF24; --cX: #64748B;
+  }
+}
+* { box-sizing: border-box; margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 400 16px/1.5 "Sora", system-ui, sans-serif; overflow-x: hidden; transition: background-color .3s, color .3s;
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 24px 24px; }
+button, input { font: inherit; color: inherit; }
+a { color: inherit; }
+.mono { font-family: "Red Hat Mono", monospace; }
+[hidden] { display: none !important; }
+
+.top { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 18px 28px; max-width: 1280px; margin: 0 auto; }
+.who { font-weight: 800; font-size: 18px; text-decoration: none; }
+.top nav { display: flex; gap: 8px; }
+.pill, .act { display: inline-block; white-space: nowrap; text-decoration: none; background: transparent; color: var(--ink); border: 1.5px solid var(--ink); border-radius: 999px; padding: 5px 13px; cursor: pointer; font-size: 13px; }
+
+.intro { max-width: 1280px; margin: 0 auto; padding: 8px 28px 28px; }
+.kicker { font: 500 12px "Red Hat Mono", monospace; letter-spacing: .16em; color: var(--blue); margin-bottom: 10px; }
+.intro h1 { font-weight: 800; font-size: clamp(30px, 4.4vw, 56px); line-height: 1; letter-spacing: -.035em; max-width: 22ch; }
+.intro h1 em { font-style: normal; color: var(--blue); }
+.intro p:last-child { color: var(--ink-2); margin-top: 14px; max-width: 70ch; }
+
+.lab { max-width: 1280px; margin: 0 auto; padding: 0 28px; display: grid; grid-template-columns: 270px 1fr; gap: 28px; align-items: start; }
+.lab > *, .mod, .card, .kpis, .pocket { min-width: 0; }
+.lbl { font: 600 11px "Red Hat Mono", monospace; letter-spacing: .14em; color: var(--ink-2); margin-bottom: 8px; }
+
+/* Mesa de arquivos */
+.desk { position: sticky; top: 16px; }
+.files { display: flex; flex-direction: column; gap: 10px; }
+.file { position: relative; display: grid; grid-template-columns: 42px 1fr; grid-template-rows: auto auto auto; column-gap: 10px; text-align: left; background: var(--card); border: 1.5px solid var(--line); border-radius: 10px; padding: 10px 12px; cursor: pointer; transition: transform .15s, border-color .15s; }
+.file:nth-child(1) { transform: rotate(-1.5deg); } .file:nth-child(2) { transform: rotate(1deg); } .file:nth-child(3) { transform: rotate(-.5deg); }
+.file:hover { border-color: var(--blue); transform: rotate(0) translateY(-2px); }
+.file .ic { grid-row: span 3; display: grid; place-items: center; height: 42px; border-radius: 6px; font: 700 10px "Red Hat Mono", monospace; color: #fff; background: #1D7A43; }
+.file.pdf .ic { background: #C2342B; }
+.file b { font-size: 13.5px; line-height: 1.2; }
+.file small { font-size: 12px; color: var(--ink-2); }
+.file i { grid-column: 2; margin-top: 3px; font: 600 10.5px "Red Hat Mono", monospace; font-style: normal; color: var(--blue); }
+.file.done { transform: none; border-color: var(--ok); background: color-mix(in srgb, var(--ok) 8%, var(--card)); cursor: default; }
+.file.done i { color: var(--ok); }
+.all { margin-top: 12px; width: 100%; }
+
+.sim { margin-top: 22px; background: var(--card); border: 1.5px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+.sim label { display: block; font-size: 13.5px; margin-top: 8px; }
+.sim label b { float: right; font-family: "Red Hat Mono", monospace; }
+.sim input[type="range"] { width: 100%; accent-color: var(--blue); }
+.sim .chk { display: flex; gap: 8px; align-items: center; }
+.sim .chk input { accent-color: var(--blue); width: 16px; height: 16px; }
+.sim .hint { font-size: 12px; color: var(--ink-2); margin-top: 8px; }
+.sim.off { opacity: .45; pointer-events: none; }
+
+/* Painel */
+.dash { background: var(--soft); border: 1.5px solid var(--line); border-radius: 16px; padding: 16px; box-shadow: 0 30px 50px -30px rgba(15,23,42,.45); }
+.dash-h { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+.dash-h b { display: block; font-size: 17px; }
+.dash-h small { color: var(--ink-2); font-size: 12.5px; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip { background: var(--blue-soft); color: var(--blue); border: 0; border-radius: 999px; padding: 3px 10px; font-size: 12.5px; font-weight: 600; cursor: pointer; }
+.chip.clear { background: none; text-decoration: underline; }
+.mod { position: relative; display: grid; gap: 12px; margin-bottom: 12px; }
+.mod .lock { display: none; }
+.mod.locked > :not(.lock) { filter: blur(3px) grayscale(.6); opacity: .35; pointer-events: none; user-select: none; }
+.mod.locked .lock { display: grid; place-items: center; position: absolute; inset: 0; z-index: 2; text-align: center; font-size: 14px; color: var(--ink); padding: 20px; }
+.mod.lit { animation: lit .9s ease-out; }
+@keyframes lit { from { box-shadow: 0 0 0 4px var(--blue-soft); border-radius: 12px; } }
+.card { background: var(--card); border: 1.5px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+.card-h { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.card-h b { font-size: 14.5px; }
+.card-h small { color: var(--ink-2); font-size: 12px; }
+
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.kpi { background: var(--card); border: 1.5px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+.kpi span { display: block; font: 600 10.5px "Red Hat Mono", monospace; letter-spacing: .1em; color: var(--ink-2); text-transform: uppercase; }
+.kpi b { display: block; font-size: 22px; font-weight: 800; letter-spacing: -.02em; }
+.kpi small { color: var(--ink-2); font-size: 11.5px; }
+.kpi .up { color: var(--ok); } .kpi .down { color: var(--bad); }
+
+.legend { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 6px; }
+.legend button { display: inline-flex; align-items: center; gap: 6px; background: none; border: 1.5px solid var(--line); border-radius: 999px; padding: 2px 10px; font-size: 12.5px; cursor: pointer; }
+.legend button i { width: 10px; height: 10px; border-radius: 3px; background: var(--c); }
+.legend button[aria-pressed="true"] { border-color: var(--blue); background: var(--blue-soft); }
+#bars { width: 100%; height: auto; display: block; }
+#bars .seg { cursor: pointer; transition: opacity .2s; }
+#bars .dim { opacity: .18; }
+#bars .mlabel { font: 600 12px "Red Hat Mono", monospace; fill: var(--ink-2); cursor: pointer; text-anchor: middle; }
+#bars .mlabel.on { fill: var(--blue); }
+#bars .axis { stroke: var(--line); }
+#bars .tick { font: 10px "Red Hat Mono", monospace; fill: var(--ink-2); }
+
+.pocket { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.pk { border: 1.5px solid var(--line); border-left-width: 5px; border-radius: 10px; padding: 8px 10px; }
+.pk.ok { border-left-color: var(--ok); } .pk.bad { border-left-color: var(--bad); }
+.pk span { display: block; font: 600 10.5px "Red Hat Mono", monospace; letter-spacing: .06em; color: var(--ink-2); text-transform: uppercase; }
+.pk b { display: block; font-size: 20px; font-weight: 800; }
+.pk small { font-size: 11px; color: var(--ink-2); }
+.reads { list-style: none; padding: 0; display: grid; gap: 8px; }
+.reads li { border-radius: 10px; padding: 9px 12px; border: 1.5px solid var(--line); font-size: 13.5px; }
+.reads li b { display: block; }
+.reads li.crit { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 7%, var(--card)); }
+.reads li.att { border-color: var(--warn); background: color-mix(in srgb, var(--warn) 8%, var(--card)); }
+.reads li.good { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 8%, var(--card)); }
+.reads li.calm { color: var(--ink-2); }
+.reads .todo { display: block; margin-top: 3px; font-size: 12.5px; color: var(--ink-2); }
+.reads .todo::before { content: "O que fazer: "; font-weight: 700; color: var(--ink); }
+
+.tbl-wrap { overflow-x: auto; }
+.conc { width: 100%; border-collapse: collapse; font-size: 13px; }
+.conc th { font: 600 10.5px "Red Hat Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); text-align: right; padding: 6px 8px; border-bottom: 1.5px solid var(--line); }
+.conc th:first-child, .conc td:first-child { text-align: left; }
+.conc td { text-align: right; padding: 7px 8px; border-bottom: 1px dashed var(--line); font-family: "Red Hat Mono", monospace; white-space: nowrap; }
+.conc .ok { color: var(--ok); font-weight: 700; } .conc .bad { color: var(--bad); font-weight: 700; }
+.conc .prov { color: var(--warn); font-size: 11px; display: block; }
+.conc .wait { color: var(--ink-2); font-style: italic; font-family: "Sora", sans-serif; }
+
+/* Abaixo: galeria e ficha */
+.app, .sheet { max-width: 1200px; margin: 0 auto; padding: 72px 28px 0; }
+.sec-h { margin-bottom: 28px; }
+.sec-h h2 { font-weight: 800; font-size: clamp(30px, 4vw, 48px); line-height: 1; letter-spacing: -.03em; }
+.sec-h p:last-child:not(.kicker) { margin-top: 10px; color: var(--ink-2); }
+.shots { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; align-items: start; }
+/* Moldura de celular: borda preta, cantos arredondados e um "notch" no topo; a figura toda inclina junto. */
+.shots figure { margin: 0; }
+.shots .phone { position: relative; border-radius: 24px; border: 7px solid #111; background: #111; box-shadow: 0 18px 30px -16px rgba(15,23,42,.5); transition: transform .25s; }
+.shots .phone::before { content: ""; position: absolute; left: 50%; top: 0; transform: translateX(-50%); width: 34%; height: 12px; background: #111; border-radius: 0 0 10px 10px; z-index: 1; }
+.shots img { display: block; width: 100%; height: auto; border-radius: 17px; background: var(--card); }
+.shots li:nth-child(odd) .phone { transform: rotate(-1deg); }
+.shots li:nth-child(even) .phone { transform: rotate(1deg) translateY(12px); }
+.shots li .phone:hover { transform: rotate(0) translateY(-6px) scale(1.03); }
+.shots figcaption { margin-top: 20px; font-size: 14px; line-height: 1.35; }
+.shots figcaption b { font-family: "Red Hat Mono", monospace; color: var(--blue); margin-right: 6px; }
+.spec { border-top: 2px solid var(--ink); margin: 0; }
+.spec div { display: grid; grid-template-columns: 200px 1fr; gap: 24px; padding: 16px 0; border-bottom: 1px dashed var(--line); }
+.spec dt { font: 600 12px "Red Hat Mono", monospace; letter-spacing: .12em; text-transform: uppercase; padding-top: 4px; }
+.spec dd { margin: 0; font-size: 16px; line-height: 1.6; max-width: 72ch; }
+.spec dd.mono { font-size: 14px; }
+.foot-nav { display: flex; gap: 10px; flex-wrap: wrap; padding: 36px 0 80px; }
+.foot-nav .act { font-size: 14px; padding: 8px 16px; }
+
+@media (max-width: 1000px) {
+  .lab { grid-template-columns: 1fr; }
+  .desk { position: static; }
+  .files { flex-direction: row; flex-wrap: wrap; }
+  .file { flex: 1 1 220px; }
+  .kpis, .pocket { grid-template-columns: 1fr 1fr; }
+  .shots { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 46%; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 18px; }
+  .shots li { scroll-snap-align: start; }
+}
+@media (max-width: 640px) {
+  .top { padding: 14px 16px; }
+  .top nav { gap: 6px; }
+  .pill { padding: 4px 9px; font-size: 12px; }
+  .intro, .lab { padding-left: 16px; padding-right: 16px; }
+  .dash { padding: 10px; }
+  .app, .sheet { padding: 56px 16px 0; }
+  .shots { grid-auto-columns: 70%; }
+  .spec div { grid-template-columns: 1fr; gap: 6px; }
+}
