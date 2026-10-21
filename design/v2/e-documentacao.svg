@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 1000" font-family="sans-serif" font-size="14">
+<rect width="1280" height="1000" fill="#fff"/>
+<g fill="none" stroke="#333" stroke-width="2"><rect x="20" y="20" width="1240" height="960"/><line x1="300" y1="20" x2="300" y2="980"/></g>
+<text x="40" y="55" font-weight="bold" font-size="18">Renan Martins</text><text x="40" y="78" fill="#555">Projetos de TI e IA · manual de sistemas</text>
+<g fill="#444"><text x="40" y="130" font-weight="bold">ÍNDICE</text>
+<text x="40" y="165">1  Visão geral</text><text x="40" y="195">2  Couveflor</text>
+<text x="60" y="222" fill="#777">2.1 scanner-couveflor</text><text x="60" y="247" fill="#777">2.2 viagens-couveflor</text><text x="60" y="272" fill="#777">2.3 gerarcardapio</text><text x="60" y="297" fill="#777">2.4 financeiro familiar</text>
+<text x="40" y="332">3  Projetos pessoais</text><text x="60" y="359" fill="#777">3.1 english-coach</text>
+<text x="40" y="394">4  Como eu trabalho</text><text x="40" y="424">5  Contato</text></g>
+<text x="340" y="80" fill="#777">1 · Visão geral</text>
+<text x="340" y="140" font-weight="bold" font-size="40">Sistemas que resolvem</text><text x="340" y="190" font-weight="bold" font-size="40">problemas reais de uma empresa.</text>
+<text x="340" y="235" fill="#555">Parágrafo curto: quem sou, de onde vim (infra/cyber), o que construo agora com IA.</text>
+<line x1="340" y1="270" x2="1220" y2="270" stroke="#333"/>
+<text x="340" y="310" fill="#777">2.1 · scanner-couveflor</text>
+<text x="340" y="350" font-weight="bold" font-size="26">Digitalizar, ler e arquivar documentos pelo celular</text>
+<text x="340" y="380" fill="#555">Problema → solução, 3 linhas.   Stack: PWA · OCR   Código: privado</text>
+<text x="340" y="425" font-weight="bold">Arquitetura</text>
+<g fill="none" stroke="#333" stroke-width="2"><rect x="340" y="445" width="150" height="70"/><rect x="560" y="445" width="150" height="70"/><rect x="780" y="445" width="150" height="70"/><rect x="1000" y="445" width="150" height="70"/>
+<line x1="490" y1="480" x2="560" y2="480"/><line x1="710" y1="480" x2="780" y2="480"/><line x1="930" y1="480" x2="1000" y2="480"/></g>
+<text x="380" y="485">câmera</text><text x="605" y="485">OCR</text><text x="815" y="485">renomear</text><text x="1030" y="485">compartilhar</text>
+<text x="340" y="550" fill="#777">Diagrama próprio por projeto — é o elemento central da página.</text>
+<rect x="340" y="580" width="400" height="230" fill="#ddd"/><text x="480" y="700">[print 1]</text>
+<rect x="760" y="580" width="400" height="230" fill="#ddd"/><text x="900" y="700">[print 2]</text>
+<text x="340" y="850" font-weight="bold">Decisões e o que aprendi</text>
+<g stroke="#bbb"><line x1="340" y1="875" x2="1160" y2="875"/><line x1="340" y1="900" x2="1100" y2="900"/><line x1="340" y1="925" x2="1000" y2="925"/></g>
+<text x="340" y="965" fill="#777">NOTA: prosa longa à esquerda, ficha lateral (stack, repo, status) pode ir à direita no desktop.</text>
+</svg>
