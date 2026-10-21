@@ -22,7 +22,7 @@ index.html                  página inicial (patch panel)
 projetos/index.html         projetos concluídos
 futuros/index.html          em construção + próximos projetos (futuros.js)
 contato/index.html          WhatsApp + e-mail (dados em assets/js/contact.js, montados em pedaços contra robôs de spam)
-projetos/<slug>/index.html  página interativa de cada projeto (hoje: scanner, leitor-qr)
+projetos/<slug>/index.html  página interativa de cada projeto (hoje: scanner, leitor-qr, cardapio)
 assets/css/  base.css (cores, tema, cabeçalho) · fonts.css · patch.css · projetos.css · scanner.css
 assets/js/   projects.js (FONTE ÚNICA dos 12 projetos) · patch.js · projetos.js · scanner.js · theme.js
 assets/fonts/ fontes locais .woff2 (OFL, ver LICENCAS.md) · assets/img/favicon.svg
@@ -74,7 +74,7 @@ Layout: problemas (U1) → calha de cabos (U2) → soluções (U3) → display e
 | 4 | Digitalizar documentos | Scanner / PDF | scanner-couveflor (privado) | **Scanner** |
 | 5 | Problema com a TI | Soluções em TI | — | página institucional: currículo de TI e experiências comprovadas |
 | 6 | Site desatualizado | Sites que atraem clientes | couveflor-site + site-martinsrenan | depois (os próprios sites são o portfólio) |
-| 7 | Post diário do cardápio | Gerador de cardápio | gerarcardapio-couveflor | depois |
+| 7 | Post diário do cardápio | Gerador de cardápio | gerarcardapio-couveflor | **Cardápio** (gerador real em canvas, 2026-10-21) |
 | 8 | Empresa em planilha | Dashboard interativo | couveflor-dashboard (privado) | depois — SEM dados reais |
 | 9 | Finanças pessoais | App financeiro familiar | sistemafinanceiro-familiar | depois — SEM dados reais |
 | 10 | Preço no chute (não sei precificar meus produtos) | Gerador de preço | será criado em Renan1 (nome a definir, ex.: gerador-preco) | depois — EM CONSTRUÇÃO (`soon: true`) |
@@ -104,6 +104,7 @@ Menu do topo (todas as páginas): Projetos concluídos (`/projetos/`, só conclu
 - [x] Estrutura do site criada e rodando localmente (estático, sem build)
 - [x] Página do Scanner com conteúdo real (2026-10-21): mesa com 6 problemas reais + galeria de 6 prints + ficha técnica. Fonte: guia do operador (PDF do Renan, prints com documentos de teste).
 - [x] Página do Leitor QR (2026-10-21): quadro de refeições + QR para tocar + impressora térmica (Presença, Rampa com recusa, desfazer, CSV com fórmula neutralizada) + 6 prints tarjados + ficha técnica. Fonte: guia do operador do Renan.
+- [x] Página do Gerador de cardápio (2026-10-21): gerador de verdade (canvas 1080x1920, baixa PNG) com as regras do app + 6 prints do guia (sem dado sensível) + ficha técnica. Ícones ilustrativos desenhados em código (os 147 ícones do app não foram copiados: licença desconhecida).
 - [ ] Páginas interativas dos demais projetos
 - [x] Contato: WhatsApp +55 32 98813-4420 e renanasmartins@gmail.com (aprovado pelo Renan para publicar).
 - [ ] E-mail contato@martinsrenan.com.br (decisão do Renan: QUER usar; provavelmente Cloudflare Email Routing, grátis). Fazer junto com a publicação/DNS; até lá o site usa o Gmail (trocar só `mail` em assets/js/contact.js). Conferir a doc oficial do Cloudflare antes.

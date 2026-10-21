@@ -1,0 +1,109 @@
+/* Página do projeto Gerador de cardápio: bancada (dia + pratos + galeria) e celular com a imagem gerada. */
+:root {
+  --bg: #EFE9DB; --bg-2: #E4DCC9; --ink: #1F2A1E; --ink-2: #5F6A5B; --line: #D2C8B2; --card: #FBF8F0;
+  --green: #2F6B3A; --green-2: #4C8A4F; --red: #B3261E; --field: #FFFFFF;
+}
+:root[data-theme="dark"] {
+  --bg: #121711; --bg-2: #1A2118; --ink: #E7EEE2; --ink-2: #9AA894; --line: #2F3A2C; --card: #1B231A;
+  --green: #7FC48A; --green-2: #5FA86B; --red: #F2867B; --field: #0F140E;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121711; --bg-2: #1A2118; --ink: #E7EEE2; --ink-2: #9AA894; --line: #2F3A2C; --card: #1B231A;
+    --green: #7FC48A; --green-2: #5FA86B; --red: #F2867B; --field: #0F140E;
+  }
+}
+* { box-sizing: border-box; margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 400 16px/1.5 "Sora", system-ui, sans-serif; overflow-x: hidden; transition: background-color .3s, color .3s;
+  background-image: linear-gradient(90deg, var(--bg-2) 1px, transparent 1px), linear-gradient(var(--bg-2) 1px, transparent 1px); background-size: 28px 28px; }
+button, input, select, textarea { font: inherit; color: inherit; }
+a { color: inherit; }
+.mono { font-family: "Red Hat Mono", monospace; }
+
+.top { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 18px 28px; max-width: 1200px; margin: 0 auto; }
+.who { font-weight: 800; font-size: 18px; text-decoration: none; }
+.top nav { display: flex; gap: 8px; }
+.pill, .act { display: inline-block; white-space: nowrap; text-decoration: none; background: transparent; color: var(--ink); border: 1.5px solid var(--ink); border-radius: 999px; padding: 5px 13px; cursor: pointer; font-size: 13px; }
+.act.primary { background: var(--green); border-color: var(--green); color: #fff; }
+:root[data-theme="dark"] .act.primary { color: #0F140E; }
+
+.intro { max-width: 1200px; margin: 0 auto; padding: 8px 28px 26px; }
+.kicker { font: 500 12px "Red Hat Mono", monospace; letter-spacing: .16em; color: var(--green); margin-bottom: 10px; }
+.intro h1 { font-weight: 800; font-size: clamp(32px, 4.6vw, 58px); line-height: 1; letter-spacing: -.035em; max-width: 18ch; }
+.intro h1 em { font-style: normal; font-family: "Kalam", cursive; font-weight: 400; color: var(--green); }
+.intro p:last-child { color: var(--ink-2); margin-top: 14px; max-width: 60ch; }
+
+/* Laboratório: bancada + celular */
+.lab { max-width: 1200px; margin: 0 auto; padding: 0 28px 24px; display: grid; grid-template-columns: 1fr 380px; gap: 48px; align-items: start; }
+.bench { background: var(--card); border: 1.5px solid var(--line); border-radius: 14px; padding: 22px; box-shadow: 0 20px 40px -28px rgba(0,0,0,.35); }
+.lbl { display: block; font-weight: 600; font-size: 14px; margin-bottom: 6px; }
+.lbl-row { display: flex; justify-content: space-between; align-items: baseline; margin-top: 16px; }
+select, textarea, input[type="search"] { width: 100%; background: var(--field); border: 1.5px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+select:focus, textarea:focus, input:focus { outline: 2px solid var(--green); outline-offset: 1px; }
+textarea { font: 400 15px/1.55 "Red Hat Mono", monospace; resize: vertical; min-height: 220px; }
+.link { background: none; border: 0; color: var(--red); font-weight: 600; cursor: pointer; font-size: 14px; }
+.hint { font-size: 13px; color: var(--ink-2); margin-top: 6px; }
+.go { width: 100%; margin-top: 18px; background: var(--green); color: #fff; border: 0; border-radius: 10px; padding: 13px; font-weight: 700; font-size: 16px; cursor: pointer; transition: transform .1s; }
+:root[data-theme="dark"] .go { color: #0F140E; }
+.go:active { transform: scale(.98); }
+
+/* Galeria de pratos */
+.gallery { margin-top: 16px; border: 1.5px dashed var(--line); border-radius: 10px; padding: 10px 12px; }
+.gallery summary { cursor: pointer; font-weight: 600; color: var(--green); }
+.gallery input { margin: 12px 0 6px; }
+.group h3 { font: 500 11.5px "Red Hat Mono", monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); margin: 12px 0 6px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; background: var(--field); border: 1.5px solid var(--line); border-radius: 999px; padding: 3px 10px 3px 4px; cursor: pointer; font-size: 13px; }
+.chip:hover { border-color: var(--green); }
+.chip canvas { width: 22px; height: 22px; }
+.chip.in { opacity: .45; cursor: default; }
+.chip[hidden], .group[hidden] { display: none; }
+
+/* Celular com a imagem */
+.stage { position: sticky; top: 16px; }
+.phone { background: #111; border-radius: 36px; padding: 12px; box-shadow: 0 30px 50px -24px rgba(0,0,0,.55); }
+.phone canvas { display: block; width: 100%; height: auto; border-radius: 26px; background: #F3EEDF; }
+.phone.flash canvas { animation: flash .5s ease-out; }
+@keyframes flash { from { filter: brightness(1.6); } }
+.warns { list-style: none; padding: 0; margin: 12px 0 0; font-size: 13.5px; color: var(--red); font-weight: 600; }
+.warns li + li { margin-top: 4px; }
+.acts { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+.note { margin-top: 10px; font-size: 12px; color: var(--ink-2); text-align: center; }
+
+/* Abaixo: galeria e ficha */
+.app, .sheet { max-width: 1200px; margin: 0 auto; padding: 64px 28px 0; }
+.sec-h { margin-bottom: 28px; }
+.sec-h h2 { font-weight: 800; font-size: clamp(30px, 4vw, 48px); line-height: 1; letter-spacing: -.03em; }
+.sec-h p:last-child:not(.kicker) { margin-top: 10px; color: var(--ink-2); }
+.shots { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; align-items: start; }
+.shots figure { margin: 0; }
+.shots img { display: block; width: 100%; height: auto; border-radius: 16px; border: 5px solid #1b1b1a; background: #1b1b1a; box-shadow: 0 18px 30px -16px rgba(0,0,0,.45); transition: transform .25s; }
+.shots li:nth-child(odd) img { transform: rotate(-1deg); }
+.shots li:nth-child(even) img { transform: rotate(1deg) translateY(12px); }
+.shots li img:hover { transform: rotate(0) translateY(-6px) scale(1.03); }
+.shots figcaption { margin-top: 20px; font-size: 14px; line-height: 1.35; }
+.shots figcaption b { font-family: "Red Hat Mono", monospace; color: var(--green); margin-right: 6px; }
+.spec { border-top: 2px solid var(--ink); margin: 0; }
+.spec div { display: grid; grid-template-columns: 200px 1fr; gap: 24px; padding: 16px 0; border-bottom: 1px dashed var(--line); }
+.spec dt { font: 600 12px "Red Hat Mono", monospace; letter-spacing: .12em; text-transform: uppercase; padding-top: 4px; }
+.spec dd { margin: 0; font-size: 16px; line-height: 1.6; max-width: 72ch; }
+.spec dd.mono { font-size: 14px; }
+.foot-nav { display: flex; gap: 10px; flex-wrap: wrap; padding: 36px 0 80px; }
+.foot-nav .act { font-size: 14px; padding: 8px 16px; }
+
+@media (max-width: 900px) {
+  .lab { grid-template-columns: 1fr; }
+  .stage { position: static; max-width: 340px; margin: 0 auto; width: 100%; }
+  .shots { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 46%; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 18px; }
+  .shots li { scroll-snap-align: start; }
+}
+@media (max-width: 640px) {
+  .top { padding: 14px 16px; }
+  .top nav { gap: 6px; }
+  .pill { padding: 4px 9px; font-size: 12px; }
+  .intro, .lab { padding-left: 16px; padding-right: 16px; }
+  .bench { padding: 16px; }
+  .app, .sheet { padding: 48px 16px 0; }
+  .shots { grid-auto-columns: 70%; }
+  .spec div { grid-template-columns: 1fr; gap: 6px; }
+}
