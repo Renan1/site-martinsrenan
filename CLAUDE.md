@@ -31,6 +31,7 @@ tools/serve.mjs  servidor local
 .nojekyll    faz o GitHub Pages servir os arquivos sem processar
 ```
 - Ver localmente: `node tools/serve.mjs` e abrir http://localhost:4173 (o servidor do app desliga quando a sessão reinicia: se localhost não abrir, é isso)
+- Galeria de prints: `<ol class="shots"><li><figure><img>…<figcaption>` + `assets/css/lightbox.css` e `assets/js/lightbox.js` na página = clicar amplia o print (setas/deslizar troca, Esc fecha). Usado em scanner, leitor-qr, cardapio, viagens, dashboard, financas.
 - Fonte manuscrita: Kalam (a Nanum Pen Script foi trocada porque não tem acentos do português).
 - Nova página de projeto: criar `projetos/<slug>/index.html` + `assets/css/<slug>.css` + `assets/js/<slug>.js` e pôr `page: '<slug>'` no projeto em `projects.js`.
 - Links sempre RELATIVOS (`projetos/`, `../`, `../../`), para funcionar no domínio e no localhost.
@@ -117,5 +118,6 @@ Menu do topo (todas as páginas): Projetos concluídos (`/projetos/`, só conclu
 - [ ] E-mail contato@martinsrenan.com.br (decisão do Renan: QUER usar; provavelmente Cloudflare Email Routing, grátis). Fazer junto com a publicação/DNS; até lá o site usa o Gmail (trocar só `mail` em assets/js/contact.js). Conferir a doc oficial do Cloudflare antes.
 - [x] Página institucional Soluções em TI (2026-10-21): carreira do currículo do Renan como rack (6 fases, clique puxa o servidor e mostra no console), competências que acendem as fases, KPIs do CV, formação/certificações como módulos SFP, idiomas e prêmios. SEM dados pessoais (nome completo, endereço); empregadores e clientes da carreira aparecem (são do CV profissional).
 - [ ] Conteúdo dos projetos (descrição, stack, prints, links)
-- [ ] Publicação no GitHub Pages + DNS
+- [x] GitHub Pages ativo (2026-10-21): branch main, pasta raiz, em https://renan1.github.io/site-martinsrenan/ (107 arquivos conferidos com 200, sem erros de CSP).
+- [ ] Domínio: 1) verificar martinsrenan.com.br no PERFIL do GitHub (Settings → Pages → Add a domain → TXT `_github-pages-challenge-Renan1` no registro.br, manter para sempre); 2) pôr o domínio no repo (Settings → Pages → Custom domain); 3) DNS no registro.br (4 A + 4 AAAA opcionais + CNAME www); 4) Enforce HTTPS. Sem registro curinga (*). Ordem da doc oficial (conferida 2026-10-21).
 - [ ] Compra do .dev no Cloudflare + redirecionamento
