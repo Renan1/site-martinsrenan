@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Contato — Renan Martins</title>
+<meta name="description" content="Fale com Renan Martins por WhatsApp ou e-mail: conte o problema e desenhamos a solução.">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/fonts.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/contato.css">
+</head>
+<body>
+<header class="top">
+  <a class="who" href="../">RENAN MARTINS<span>TI · INFRA · SEGURANÇA · IA</span></a>
+  <nav><a href="../projetos/"><span class="lg">Projetos concluídos</span><span class="sm">Concluídos</span></a><a href="./" aria-current="page">Contato</a><a href="../futuros/"><span class="lg">Futuros projetos</span><span class="sm">Futuros</span></a><button class="btn" type="button" data-theme-toggle>Tema</button></nav>
+</header>
+
+<main class="wrap">
+  <section class="intro">
+    <p class="kicker"><a href="../">← PAINEL</a> · PORTA 12 · SEU PROBLEMA</p>
+    <h1>Vamos conversar.</h1>
+    <p>Me conte o problema que está travando o seu negócio. Eu desenho a solução com você.</p>
+  </section>
+
+  <section class="panel" aria-label="Formas de contato">
+    <div class="unit">
+      <div class="tag"><span>U4 · CONTATO</span><span>2 PORTAS · OUT</span></div>
+      <div class="ports">
+        <a class="port" id="whats" data-c="whats"><span class="led"></span><span class="jack"></span><span class="lbl">WhatsApp</span></a>
+        <a class="port" id="mail" data-c="mail"><span class="led"></span><span class="jack"></span><span class="lbl">E-mail</span></a>
+      </div>
+    </div>
+    <div class="lcd" aria-live="polite">
+      <div class="ln dim">rm-patch · contato · 2 linhas disponíveis</div>
+      <div class="ln row"><span>whatsapp :</span> <span id="whats-txt"></span> <button class="copy" type="button" data-copy="whats">copiar</button></div>
+      <div class="ln row"><span>e-mail   :</span> <span id="mail-txt"></span> <button class="copy" type="button" data-copy="mail">copiar</button></div>
+      <div class="ln dim" id="status">&gt; toque numa porta para abrir a conversa.</div>
+    </div>
+  </section>
+</main>
+
+<script src="../assets/js/contact.js"></script>
+<script src="../assets/js/contato.js"></script>
+<script src="../assets/js/theme.js"></script>
+</body>
+</html>

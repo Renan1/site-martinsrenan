@@ -8,4 +8,4 @@ Todas sob a **SIL Open Font License 1.1** (https://openfontlicense.org), obtidas
 | red-hat-mono.woff2 | Red Hat Mono | Red Hat, MCKL — fonts.google.com/specimen/Red+Hat+Mono |
 | familjen-grotesk.woff2 | Familjen Grotesk | Familjen STHLM — fonts.google.com/specimen/Familjen+Grotesk |
 | martian-mono.woff2 | Martian Mono | Evil Martians — fonts.google.com/specimen/Martian+Mono |
-| nanum-pen-script.woff2 | Nanum Pen Script | Sandoll — fonts.google.com/specimen/Nanum+Pen+Script |
+| kalam.woff2 | Kalam | Indian Type Foundry — fonts.google.com/specimen/Kalam |

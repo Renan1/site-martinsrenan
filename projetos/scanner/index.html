@@ -6,30 +6,31 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Scanner / PDF tools — Renan Martins</title>
-<meta name="description" content="Scanner / PDF tools: digitaliza, lê o texto (OCR), renomeia e gera PDF no celular. Nada sai do aparelho.">
+<meta name="description" content="Scanner Couve Flor: app no celular que fotografa, lê (OCR), nomeia e organiza documentos, e envia o fechamento das maquininhas ao Google Drive. Nada sai do aparelho sem querer.">
 <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../../assets/css/fonts.css">
 <link rel="stylesheet" href="../../assets/css/scanner.css">
 </head>
 <body>
-<main class="stage" id="stage">
+<main>
+<section class="stage" id="stage" aria-label="Antes e depois: a mesa de papéis e o que o app faz">
   <div class="layer analog" aria-hidden="true">
     <div class="coffee"></div>
-    <div class="note sticky p1">Viagem 14h<br>rota 3 — <s>34</s> 38 km?<br><span class="r">conferir c/ motorista!!</span></div>
-    <div class="note scrap p2">almoço T3:<br><s>212</s> <s>216</s> 214?<br><span class="tilt">recontar amanhã</span></div>
-    <div class="note p3">nota fornecedor<br>— foto ficou torta<br>— nome do arquivo: <span class="r">IMG_4471.jpg</span> ??</div>
-    <div class="note sticky pink p4">cardápio de amanhã<br>arroz, feijão, frango...<br><span class="r">fazer a arte!!!</span></div>
-    <div class="note scrap p5">mercado 87,90<br>(acho) — anotar<br>onde?</div>
-    <div class="note p6">how do you say<br>"resolvi o problema" ??</div>
+    <div class="note sticky p1">relatório das 3 maquininhas<br>digitar e mandar pro Drive<br><span class="r">TODO DIA!!</span></div>
+    <div class="note scrap p2">foto torta da nota<br>arquivo: <span class="r">IMG_4471.jpg</span> ??</div>
+    <div class="note p3">de quem é esse recibo?<br>quanto foi? <span class="tilt">onde eu guardo??</span></div>
+    <div class="note sticky pink p4">PDF pesado demais<br>pro WhatsApp <span class="r">:(</span></div>
+    <div class="note scrap p5">juntar recibo + nota<br><span class="tilt">num arquivo só</span></div>
+    <div class="note p6">esse contrato <span class="r">precisa de senha</span>!</div>
   </div>
 
   <div class="layer digital" id="digital" aria-hidden="true">
-    <div class="card p1"><div class="k"><span>viagens-couveflor</span><span>#148</span></div><div class="v">Rota 3 · 38 km</div><div class="row"><span>saída 14:02</span><span class="ok">registrada</span></div></div>
-    <div class="card p2"><div class="k"><span>leitor-qr</span><span>T3</span></div><div class="v">214 refeições</div><div class="row"><span>almoço</span><span class="ok">conferido</span></div></div>
-    <div class="card p3"><div class="k"><span>scanner</span><span>OCR</span></div><div class="v">NF_fornecedor_2026-10-21.pdf</div><div class="row"><span>perspectiva corrigida</span><span class="ok">no aparelho</span></div></div>
-    <div class="card p4"><div class="k"><span>gerarcardapio</span><span>22/10</span></div><div class="tile"><span>COUVE FLOR · CARDÁPIO</span><b>Frango, arroz e feijão</b></div></div>
-    <div class="card p5"><div class="k"><span>finanças</span><span>offline</span></div><div class="v">Mercado · R$ 87,90</div><div class="row"><span>casa</span><span class="ok">sincronizado</span></div></div>
-    <div class="card p6"><div class="k"><span>english-coach</span><span>voz</span></div><div class="v">"I solved the problem."</div><div class="row"><span>why: past simple</span><span class="ok">corrigido</span></div></div>
+    <div class="card p1"><div class="k"><span>fechamento do dia</span><span>3/3</span></div><div class="v">✓ Enviado ao Drive</div><div class="row"><span>lido do papel · nome e pasta sozinhos</span></div></div>
+    <div class="card p2"><div class="k"><span>escanear</span><span>câmera</span></div><div class="v">Documento detectado</div><div class="row"><span>bordas e perspectiva</span><span class="ok">corrigidas</span></div></div>
+    <div class="card p3"><div class="k"><span>leitura OCR</span><span>pt-BR</span></div><div class="v">Recibo · Nº 457 · R$ 350,00</div><div class="row"><span>pasta sugerida</span><span class="ok">Financeiro/Recibos</span></div></div>
+    <div class="card p4"><div class="k"><span>compactar</span><span>3 níveis</span></div><div class="v">Nível Forte</div><div class="row"><span>e-mail e WhatsApp</span><span class="ok">cabe</span></div></div>
+    <div class="card p5"><div class="k"><span>juntar PDFs</span><span>2 → 1</span></div><div class="v">recibo.pdf + nf.pdf</div><div class="row"><span>na ordem que você escolher</span><span class="ok">pronto</span></div></div>
+    <div class="card p6"><div class="k"><span>proteger</span><span>AES-128</span></div><div class="v">PDF com senha</div><div class="row"><span>imprimir · copiar · editar</span><span class="ok">permissões</span></div></div>
   </div>
 
   <div class="lens" id="lens"><i></i><i></i><i></i><i></i></div>
@@ -39,14 +40,52 @@
     <nav><a class="pill" href="../../">← Painel</a><a class="pill" href="../">Concluídos</a><button class="pill" type="button" data-theme-toggle>Tema</button></nav>
   </header>
 
-  <section class="hero">
-    <h1>Toda operação tem uma <span>bagunça</span>. Passe o scanner.</h1>
-    <p>Sou de TI, infra e segurança. Pego o que roda no papel e entrego um sistema que resolve. Mova o cursor (ou o dedo) sobre a mesa.</p>
+  <div class="hero">
+    <p class="kicker">PORTA 04 · SCANNER / PDF TOOLS</p>
+    <h1>Papel na mesa, <span>PDF certo</span> no lugar. Passe o scanner.</h1>
+    <p>Um app no celular que fotografa, lê e organiza os documentos da Couve Flor, e manda o fechamento das maquininhas para o Drive. Mova o cursor (ou o dedo) sobre a mesa.</p>
     <div class="acts">
       <button class="scanall" type="button" id="all">Escanear tudo</button>
-      <a class="pill proj" href="../">Ver os projetos →</a>
+      <a class="pill" href="#app">Ver o app ↓</a>
     </div>
-  </section>
+  </div>
+</section>
+
+<section class="app" id="app" aria-labelledby="app-t">
+  <div class="sec-h">
+    <p class="kicker">O APP DE VERDADE</p>
+    <h2 id="app-t">Seis telas, um fluxo.</h2>
+    <p>Prints do guia do operador, feitos com documentos de teste. Dados sensíveis tarjados.</p>
+  </div>
+  <ol class="shots">
+    <li><figure><img src="../../assets/img/scanner/camera.jpg" width="520" height="1126" loading="lazy" alt="Câmera do app com o relatório da maquininha enquadrado e o aviso Documento detectado."><figcaption><b>1</b> Fotografa e detecta o documento</figcaption></figure></li>
+    <li><figure><img src="../../assets/img/scanner/fechamento.jpg" width="520" height="1126" loading="lazy" alt="Tela Fechamento do dia: operadora, terminal e data lidos do papel, total conferido e Enviado ao Drive."><figcaption><b>2</b> Fechamento do dia vai para o Drive</figcaption></figure></li>
+    <li><figure><img src="../../assets/img/scanner/pdf-criado.jpg" width="520" height="1126" loading="lazy" alt="Tela PDF criado com sucesso, com prévia do recibo e nome de arquivo sugerido."><figcaption><b>3</b> PDF criado, com nome sugerido</figcaption></figure></li>
+    <li><figure><img src="../../assets/img/scanner/ocr.jpg" width="520" height="1126" loading="lazy" alt="Quadro Leitura Automática (OCR) com tipo, emissor, número, data, valor e pasta sugerida."><figcaption><b>4</b> Leitura automática (OCR)</figcaption></figure></li>
+    <li><figure><img src="../../assets/img/scanner/ferramentas.jpg" width="520" height="1126" loading="lazy" alt="Aba Ferramentas: proteger com senha, juntar, dividir e compactar PDF."><figcaption><b>5</b> Ferramentas de PDF</figcaption></figure></li>
+    <li><figure><img src="../../assets/img/scanner/senha.jpg" width="520" height="1126" loading="lazy" alt="Proteger com senha: permissões do documento e PDF protegido pronto para baixar."><figcaption><b>6</b> Proteger com senha</figcaption></figure></li>
+  </ol>
+</section>
+
+<section class="sheet" aria-labelledby="sheet-t">
+  <div class="sec-h">
+    <p class="kicker">FICHA TÉCNICA</p>
+    <h2 id="sheet-t">Scanner Couve Flor</h2>
+  </div>
+  <dl class="spec">
+    <div><dt>Problema</dt><dd>Todo dia, os relatórios das maquininhas e os documentos do restaurante (notas, recibos, contratos) viravam fotos tortas, arquivos sem nome e trabalho manual para chegar ao Drive.</dd></div>
+    <div><dt>Solução</dt><dd>Um app instalável no celular: fotografa, corrige a perspectiva, lê o texto em português, sugere nome e pasta e gera o PDF. O fechamento das maquininhas é reconhecido e enviado ao Google Drive; o operador só confere o "✓ Enviado ao Drive".</dd></div>
+    <div><dt>Privacidade</dt><dd>Tudo é processado no próprio aparelho. Só o relatório da maquininha vai para o Drive da empresa, e só quando está configurado. Os outros documentos nunca saem sozinhos.</dd></div>
+    <div><dt>Funciona offline</dt><dd>PWA instalável, abre em tela cheia; bibliotecas e idioma do OCR ficam no aparelho.</dd></div>
+    <div><dt>Stack</dt><dd class="mono">HTML · CSS · JavaScript puros · getUserMedia · Tesseract.js (OCR) · pdf-lib · pdf.js · Service Worker · Google Drive</dd></div>
+    <div><dt>Código</dt><dd>Privado (repositório <span class="mono">scanner-couveflor</span>): aqui só a descrição e as telas.</dd></div>
+  </dl>
+  <nav class="foot">
+    <a class="pill" href="../../">← Voltar ao painel</a>
+    <a class="pill" href="../">Projetos concluídos</a>
+    <a class="pill" href="../../contato/">Quero algo assim</a>
+  </nav>
+</section>
 </main>
 
 <script src="../../assets/js/scanner.js"></script>

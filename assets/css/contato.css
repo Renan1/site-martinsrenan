@@ -1,0 +1,37 @@
+/* Página /contato/: um painel com 2 portas (WhatsApp e e-mail) e o display. */
+.who { text-decoration: none; }
+.wrap { max-width: 900px; margin: 0 auto; padding: 0 28px 80px; }
+.intro { padding: 40px 0 28px; }
+.kicker { font: 500 12px "Red Hat Mono"; letter-spacing: .2em; color: var(--ink-2); }
+.kicker a { text-decoration: none; color: var(--ink); }
+.intro h1 { font-weight: 800; font-size: clamp(40px, 7vw, 84px); line-height: 1; letter-spacing: -.045em; margin: 8px 0 12px; }
+.intro p:last-child { color: var(--ink-2); max-width: 46ch; font-size: 18px; }
+
+.panel { background: linear-gradient(var(--rack), var(--rack-2)); border-radius: 8px; padding: 14px; box-shadow: 0 30px 50px -24px rgba(0,0,0,.55); }
+.unit { background: linear-gradient(var(--panel-hi), var(--panel)); border-radius: 4px; padding: 12px 14px 18px; }
+.unit .tag { font: 700 10.5px "Red Hat Mono"; letter-spacing: .22em; color: var(--label); opacity: .7; margin-bottom: 14px; display: flex; justify-content: space-between; }
+.ports { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.port { --c: #25D366; display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 18px 8px; border-radius: 4px; color: var(--label); text-decoration: none; cursor: pointer; transition: background .15s; }
+.port[data-c="mail"] { --c: var(--amber); }
+.port:hover, .port:focus-visible { background: rgba(255,255,255,.05); outline: none; }
+.jack { width: 64px; height: 56px; background: var(--port); border-radius: 4px; position: relative; box-shadow: inset 0 3px 6px rgba(0,0,0,.8), 0 0 0 2px #5d666c; }
+.jack::after { content: ""; position: absolute; left: 22px; top: 0; width: 20px; height: 9px; background: var(--panel); border-radius: 0 0 3px 3px; }
+.port:hover .jack, .port:focus-visible .jack { box-shadow: inset 0 3px 6px rgba(0,0,0,.8), 0 0 0 2px var(--c); }
+.led { width: 10px; height: 10px; border-radius: 50%; background: var(--c); box-shadow: 0 0 10px var(--c); animation: led 1.2s steps(2) infinite; }
+.port.up .led { animation: none; }
+@keyframes led { 50% { background: var(--led-off); box-shadow: none; } }
+.lbl { font: 600 15px "Red Hat Mono"; letter-spacing: .12em; text-transform: uppercase; }
+
+.lcd { background: var(--lcd); border-radius: 4px; padding: 16px 18px; margin-top: 14px; font: 400 14px/1.8 "Red Hat Mono"; color: var(--lcd-ink); position: relative; overflow: hidden;
+  box-shadow: inset 0 0 0 2px #050a07, inset 0 0 40px rgba(0,0,0,.6); text-shadow: 0 0 6px rgba(124,255,176,.45); }
+.lcd::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(transparent 0 2px, rgba(0,0,0,.18) 2px 3px); pointer-events: none; }
+.lcd .ln { white-space: pre-wrap; position: relative; z-index: 1; }
+.lcd .dim { opacity: .6; }
+.lcd .row { display: flex; flex-wrap: wrap; gap: 0 10px; align-items: baseline; }
+.copy { background: none; border: 1px solid currentColor; color: inherit; font: inherit; font-size: 12px; padding: 0 8px; cursor: pointer; border-radius: 2px; text-shadow: inherit; }
+.copy:hover { background: var(--lcd-ink); color: var(--lcd); text-shadow: none; }
+
+@media (max-width: 640px) {
+  .wrap { padding: 0 16px 64px; }
+  .lcd { font-size: 13px; }
+}
