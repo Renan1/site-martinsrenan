@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Sites que atraem clientes — Renan Martins</title>
+<meta name="description" content="Raio-X de dois sites feitos por Renan Martins: o institucional da Couve Flor e este portfólio. SEO local, dados estruturados, segurança e peso da página, medidos.">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/fonts.css">
+<link rel="stylesheet" href="../../assets/css/sites.css">
+</head>
+<body>
+<header class="top">
+  <a class="who" href="../../">Renan Martins</a>
+  <nav><a class="pill" href="../../">← Painel</a><a class="pill" href="../">Concluídos</a><button class="pill" type="button" data-theme-toggle>Tema</button></nav>
+</header>
+
+<main>
+<section class="intro">
+  <p class="kicker">PORTA 06 · SITES QUE ATRAEM CLIENTES</p>
+  <h1>Bonito por fora. <em>Bem feito por dentro.</em></h1>
+  <p>Um site que atrai cliente aparece no Google, abre rápido no celular, leva ao WhatsApp em um toque e não entrega os dados de quem visita. Arraste a alça sobre a janela para ver, com raio-X, o que está por trás de cada site.</p>
+</section>
+
+<section class="lab" aria-label="Raio-X dos sites">
+  <div class="cases" role="group" aria-label="Escolha o site">
+    <button type="button" class="case" data-case="cf" aria-pressed="true"><b>Couve Flor</b><small>site institucional do restaurante</small></button>
+    <button type="button" class="case" data-case="rm" aria-pressed="false"><b>martinsrenan.com.br</b><small>este portfólio, com vários sites dentro</small></button>
+  </div>
+
+  <div class="stage">
+    <div class="browser">
+      <div class="bar"><i></i><i></i><i></i><span class="url" id="url"></span><a class="visit" id="visit" target="_blank" rel="noopener">abrir ↗</a></div>
+      <div class="view" id="view">
+        <img id="shot-d" alt="" width="1200" height="756">
+        <div class="xray" id="xray" aria-hidden="true"><div class="code" id="code"></div></div>
+        <div class="handle" id="handle" role="slider" tabindex="0" aria-label="Posição do raio-X" aria-valuemin="0" aria-valuemax="100" aria-valuenow="55"><span>RAIO-X</span></div>
+      </div>
+    </div>
+    <figure class="phone"><img id="shot-m" alt="" width="390" height="844"><figcaption>no celular (390 px)</figcaption></figure>
+  </div>
+
+  <div class="report">
+    <div class="checks">
+      <h2 id="checks-h"></h2>
+      <ul id="checks"></ul>
+      <p class="measured" id="measured"></p>
+    </div>
+    <div class="map" id="map" hidden>
+      <h2>Os sites dentro deste site</h2>
+      <p>Cada página de projeto é um mini-site com visual, fontes e interação próprios — todos com a mesma base segura.</p>
+      <ul id="pages"></ul>
+    </div>
+  </div>
+</section>
+
+<section class="sheet" aria-labelledby="sheet-t">
+  <div class="sec-h">
+    <p class="kicker">FICHA TÉCNICA</p>
+    <h2 id="sheet-t">Sites que atraem clientes</h2>
+  </div>
+  <dl class="spec">
+    <div><dt>Problema</dt><dd>Site desatualizado não aparece na busca, demora no celular e não leva o visitante a falar com a empresa. Muitos ainda carregam rastreadores e scripts de terceiros que ninguém revisou.</dd></div>
+    <div><dt>Solução</dt><dd>Sites estáticos, rápidos e sem servidor: SEO local (título, descrição, dados estruturados, sitemap), contato em um toque, HTTPS forçado e só o código necessário.</dd></div>
+    <div><dt>Couve Flor</dt><dd>Site institucional do restaurante corporativo: dados estruturados de restaurante para o Google, Open Graph para compartilhar no WhatsApp, botão de orçamento e de WhatsApp, imagens com texto alternativo e nenhum rastreador.</dd></div>
+    <div><dt>Este portfólio</dt><dd>12 páginas, cada uma com interação própria, sem framework e sem build. CSP em todas as páginas, fontes e scripts só do próprio site, nenhum <span class="mono">innerHTML</span> com texto externo e prints de apps com dados sensíveis tarjados.</dd></div>
+    <div><dt>Stack</dt><dd class="mono">HTML · CSS · JavaScript puros · Schema.org (JSON-LD) · Open Graph · GitHub Pages · Cloudflare (DNS e HTTPS)</dd></div>
+    <div><dt>Código</dt><dd><a href="https://github.com/Renan1/couveflor-site" target="_blank" rel="noopener">github.com/Renan1/couveflor-site ↗</a> · <a href="https://github.com/Renan1/site-martinsrenan" target="_blank" rel="noopener">github.com/Renan1/site-martinsrenan ↗</a></dd></div>
+  </dl>
+  <nav class="foot-nav">
+    <a class="act" href="../../">← Voltar ao painel</a>
+    <a class="act" href="../">Projetos concluídos</a>
+    <a class="act" href="../../contato/">Quero um site assim</a>
+  </nav>
+</section>
+</main>
+
+<script src="../../assets/js/projects.js"></script>
+<script src="../../assets/js/sites.js"></script>
+<script src="../../assets/js/theme.js"></script>
+</body>
+</html>

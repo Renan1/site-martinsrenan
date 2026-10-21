@@ -22,7 +22,7 @@ index.html                  página inicial (patch panel)
 projetos/index.html         projetos concluídos
 futuros/index.html          em construção + próximos projetos (futuros.js)
 contato/index.html          WhatsApp + e-mail (dados em assets/js/contact.js, montados em pedaços contra robôs de spam)
-projetos/<slug>/index.html  página interativa de cada projeto (hoje: scanner, leitor-qr, cardapio, viagens, tv, dashboard, financas)
+projetos/<slug>/index.html  página interativa de cada projeto (hoje: scanner, leitor-qr, cardapio, viagens, tv, dashboard, financas, sites)
 assets/css/  base.css (cores, tema, cabeçalho) · fonts.css · patch.css · projetos.css · scanner.css
 assets/js/   projects.js (FONTE ÚNICA dos 12 projetos) · patch.js · projetos.js · scanner.js · theme.js
 assets/fonts/ fontes locais .woff2 (OFL, ver LICENCAS.md) · assets/img/favicon.svg
@@ -73,7 +73,7 @@ Layout: problemas (U1) → calha de cabos (U2) → soluções (U3) → display e
 | 3 | Comunicação interna | TV corporativa | tv-couveflor | **TV** (parede + pasta conteudo/ editável, 2026-10-21) |
 | 4 | Digitalizar documentos | Scanner / PDF | scanner-couveflor (privado) | **Scanner** |
 | 5 | Problema com a TI | Soluções em TI | — | página institucional: currículo de TI e experiências comprovadas |
-| 6 | Site desatualizado | Sites que atraem clientes | couveflor-site + site-martinsrenan | depois (os próprios sites são o portfólio) |
+| 6 | Site desatualizado | Sites que atraem clientes | couveflor-site + site-martinsrenan | **Sites** (raio-X arrastável com código real + checklist medido, 2026-10-21) |
 | 7 | Post diário do cardápio | Gerador de cardápio | gerarcardapio-couveflor | **Cardápio** (gerador real em canvas, 2026-10-21) |
 | 8 | Empresa em planilha | Dashboard interativo | couveflor-dashboard (privado) | **Dashboard** (arquivos → painel, dados fictícios, 2026-10-21) |
 | 9 | Finanças pessoais | App financeiro familiar | sistemafinanceiro-familiar | **Finanças** (novo gasto + fatura no mês certo, dados fictícios, 2026-10-21) |
@@ -109,6 +109,7 @@ Menu do topo (todas as páginas): Projetos concluídos (`/projetos/`, só conclu
 - [x] Página da TV (2026-10-21): TV na parede passando 8 slides reais + pasta conteudo/ editável (ligar/desligar, reordenar, vídeo com codec errado → aviso vermelho) + diagrama GitHub→Pages→Pi→TV + ficha. Slides EXCLUÍDOS: 09 (empresas clientes), 10 (nomes de funcionárias), 06 (QR da pesquisa real), 03 (preço da refeição). Fonte: repo tv-couveflor.
 - [x] Página do Dashboard (2026-10-21): 3 arquivos do mês (PDV, Plano de Contas, Medição) destravam o painel; filtros cruzados; Cartão de Bolso; Leitura Estratégica com as 4 regras reais; simulador (food cost, peso do maior cliente, taxas); conciliação Medição×PDV×Financeiro. Dados 100% fictícios (Cliente A/B/C) + 6 prints do guia (telas de login EXCLUÍDAS: mostram o nome da conta Cloudflare Access). Detalhes internos do repo privado (conta Zero Trust, DNS, planilhas de custo) NÃO vão para o site.
 - [x] Página de Finanças (2026-10-21): celular "Novo gasto" (teclado pelos centavos, PIX/crédito, parcelas, cartões com fechamento diferente) + painel de outubro, faturas dos próximos meses com linha de 30% da renda, orçamentos e Saúde; modo avião com fila. Data fixa 21/10/2026. Família fictícia do guia (Lucas e Marina) + 6 prints; telas de login e da chave do Atalho EXCLUÍDAS. Sem emojis como ícone na simulação.
+- [x] Página de Sites (2026-10-21): 2 cases (Couve Flor e este portfólio) numa janela de navegador com raio-X arrastável mostrando trechos REAIS do código + celular + checklist MEDIDO (refazer as medições se os sites mudarem) + mapa das 12 páginas. Prints tirados com Edge sem janela via CDP (script em scratchpad: shot-mobile.mjs). Pontos a melhorar do site da Couve Flor (sem lazy loading, Google Fonts externo, sem CSP) NÃO foram expostos.
 - [ ] Páginas interativas dos demais projetos
 - [x] Contato: WhatsApp +55 32 98813-4420 e renanasmartins@gmail.com (aprovado pelo Renan para publicar).
 - [ ] E-mail contato@martinsrenan.com.br (decisão do Renan: QUER usar; provavelmente Cloudflare Email Routing, grátis). Fazer junto com a publicação/DNS; até lá o site usa o Gmail (trocar só `mail` em assets/js/contact.js). Conferir a doc oficial do Cloudflare antes.
