@@ -1,0 +1,76 @@
+/* Página inicial: patch panel. */
+.head { max-width: 1320px; margin: 0 auto; padding: 28px 28px 22px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: end; }
+.head h1 { font-weight: 800; font-size: clamp(34px, 4.8vw, 64px); line-height: .96; letter-spacing: -.045em; }
+.head h1 b { color: transparent; -webkit-text-stroke: 1.5px var(--ink); }
+.head p { color: var(--ink-2); max-width: 46ch; }
+
+/* Rack */
+.rack { max-width: 1320px; margin: 0 auto; padding: 0 28px; }
+.frame { background: linear-gradient(var(--rack), var(--rack-2)); border-radius: 8px; padding: 14px 40px; position: relative; box-shadow: 0 30px 50px -24px rgba(0,0,0,.55); }
+.frame::before, .frame::after { content: ""; position: absolute; top: 10px; bottom: 10px; width: 18px; background: repeating-linear-gradient(var(--rack-2) 0 6px, transparent 6px 22px), linear-gradient(90deg, #555c61, #3a4045); border-radius: 3px; }
+.frame::before { left: 10px; } .frame::after { right: 10px; }
+.unit { background: linear-gradient(var(--panel-hi), var(--panel)); border-radius: 4px; padding: 12px 14px 14px; margin: 8px 0; position: relative; }
+.unit .tag { font: 700 10.5px "Red Hat Mono"; letter-spacing: .22em; color: var(--label); opacity: .7; margin-bottom: 8px; display: flex; justify-content: space-between; }
+.ports { display: grid; grid-template-columns: repeat(12, 1fr); gap: 8px; }
+.port { --c: var(--lcd-ink); display: flex; flex-direction: column; align-items: center; gap: 6px; background: none; border: 0; cursor: grab; color: var(--label); touch-action: none; padding: 0; }
+.port { min-width: 0; }
+.port .lbl { font: 500 10px/1.2 "Red Hat Mono"; text-align: center; min-height: 3.6em; display: flex; align-items: center; justify-content: center; letter-spacing: .02em; text-transform: uppercase; max-width: 100%; overflow-wrap: anywhere; hyphens: auto; }
+.port .num { font: 500 9px "Red Hat Mono"; opacity: .5; }
+.jack { width: 38px; height: 34px; background: var(--port); border-radius: 3px; position: relative; box-shadow: inset 0 2px 4px rgba(0,0,0,.8), 0 0 0 2px #5d666c; }
+.jack::after { content: ""; position: absolute; left: 13px; top: 0; width: 12px; height: 6px; background: var(--panel); border-radius: 0 0 2px 2px; }
+.led { width: 8px; height: 8px; border-radius: 50%; background: var(--led-off); transition: background .15s, box-shadow .15s; }
+.port.blink .led { background: var(--c); box-shadow: 0 0 10px var(--c); animation: led .32s steps(2) infinite; }
+.port.up .led { background: var(--c); box-shadow: 0 0 10px var(--c); animation: none; }
+.port.bad .led { background: var(--amber); box-shadow: 0 0 10px var(--amber); animation: led .18s steps(2) infinite; }
+@keyframes led { 50% { background: var(--led-off); box-shadow: none; } }
+.port.up .jack { box-shadow: inset 0 2px 4px rgba(0,0,0,.8), 0 0 0 2px var(--c); }
+.port:focus-visible .jack { box-shadow: inset 0 2px 4px rgba(0,0,0,.8), 0 0 0 2px var(--amber); outline: none; }
+.port.up { cursor: default; }
+.port.cta .lbl { color: var(--amber); }
+
+/* Calha de cabos entre as fileiras */
+.tray { height: 150px; margin: 0 6px; border-radius: 3px; position: relative;
+  background: repeating-linear-gradient(90deg, rgba(255,255,255,.04) 0 2px, transparent 2px 6px), linear-gradient(var(--rack-2), var(--rack)); }
+.tray::before, .tray::after { content: ""; position: absolute; left: 0; right: 0; height: 6px; background: linear-gradient(var(--panel-hi), var(--panel)); }
+.tray::before { top: 0; } .tray::after { bottom: 0; }
+.tray span { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font: 700 10px "Red Hat Mono"; letter-spacing: .22em; color: var(--label); opacity: .25; }
+.port.hover .jack { box-shadow: inset 0 2px 4px rgba(0,0,0,.8), 0 0 0 2px var(--label); }
+
+/* LCD */
+.lcd { background: var(--lcd); border-radius: 4px; padding: 16px 18px; margin: 8px 0; font: 400 13.5px/1.6 "Red Hat Mono"; color: var(--lcd-ink); min-height: 150px; position: relative; overflow: hidden; margin-top: 14px;
+  box-shadow: inset 0 0 0 2px #050a07, inset 0 0 40px rgba(0,0,0,.6); text-shadow: 0 0 6px rgba(124,255,176,.45); }
+.lcd::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(transparent 0 2px, rgba(0,0,0,.18) 2px 3px); pointer-events: none; }
+.lcd .ln { white-space: pre-wrap; position: relative; z-index: 6; }
+.lcd .dim { opacity: .55; }
+.lcd .warn { color: var(--amber); text-shadow: 0 0 6px rgba(255,181,71,.5); }
+.lcd a { color: inherit; }
+.lcd a.open { display: inline-block; margin-top: 4px; padding: 2px 8px; border: 1px solid currentColor; text-decoration: none; }
+.lcd a.open:hover { background: var(--lcd-ink); color: var(--lcd); text-shadow: none; }
+.lcd .cursor { display: inline-block; width: 8px; height: 14px; background: currentColor; vertical-align: -2px; animation: bl 1s steps(2) infinite; }
+@keyframes bl { 50% { opacity: 0; } }
+
+.ctrl { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; max-width: 1320px; margin: 18px auto 64px; padding: 0 28px; }
+.ctrl .acts { display: flex; gap: 10px; flex-wrap: wrap; }
+.count { font: 500 13px "Red Hat Mono"; color: var(--ink-2); }
+.count b { color: var(--ink); }
+
+svg.cables { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; overflow: visible; }
+svg.cables path { fill: none; stroke-linecap: round; }
+svg.cables .shadow { stroke: rgba(0,0,0,.35); stroke-width: 9; }
+svg.cables .wire { stroke-width: 7; }
+svg.cables .plug { stroke: rgba(0,0,0,.35); stroke-width: 1; }
+
+@media (max-width: 980px) {
+  .ports { grid-template-columns: repeat(6, 1fr); row-gap: 14px; }
+}
+@media (max-width: 640px) {
+  .head { grid-template-columns: 1fr; gap: 12px; padding: 12px 16px 18px; }
+  .rack { padding: 0 8px; } .frame { padding: 10px 24px; }
+  .tray { height: 110px; }
+  .frame::before, .frame::after { width: 12px; } .frame::before { left: 6px; } .frame::after { right: 6px; }
+  .unit { padding: 10px 8px 12px; }
+  .ports { grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .port .lbl { font-size: 8.5px; letter-spacing: -.03em; min-height: 4.8em; }
+  .unit .tag { letter-spacing: .12em; }
+  .ctrl { padding: 0 16px; }
+}

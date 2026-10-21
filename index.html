@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Renan Martins — TI, infra, segurança e IA</title>
+<meta name="description" content="Portfólio de Renan Martins: problemas reais de negócio resolvidos com software, infraestrutura e segurança. Conecte um problema à solução.">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/patch.css">
+</head>
+<body>
+<header class="top">
+  <div class="who">RENAN MARTINS<span>TI · INFRA · SEGURANÇA · IA</span></div>
+  <nav><a href="projetos/">Projetos</a><a href="#contato">Contato</a><button class="btn" type="button" data-theme-toggle>Tema</button></nav>
+</header>
+
+<main>
+  <section class="head">
+    <h1>Todo problema tem uma <b>porta</b>. Conecte.</h1>
+    <p>Arraste um cabo de um problema (em cima) até a solução que eu construí para ele (embaixo). No celular: toque no problema e depois na solução.</p>
+  </section>
+
+  <section class="rack" aria-label="Patch panel: problemas e soluções">
+    <div class="frame" id="frame">
+      <div class="unit"><div class="tag"><span>U1 · PROBLEMAS</span><span>12 PORTAS · IN</span></div><div class="ports" id="probs"></div></div>
+      <div class="tray" aria-hidden="true"><span>U2 · CALHA DE CABOS</span></div>
+      <div class="unit"><div class="tag"><span>U3 · SOLUÇÕES</span><span>OUT</span></div><div class="ports" id="sys"></div></div>
+      <svg class="cables" id="cables" aria-hidden="true"></svg>
+      <div class="lcd" id="lcd" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <div class="ctrl" id="contato">
+    <span class="count" id="count"></span>
+    <div class="acts"><button class="btn" type="button" id="reset">Desconectar</button><button class="btn" type="button" id="auto">Conectar tudo</button><a class="btn" href="projetos/">Ver projetos →</a></div>
+  </div>
+</main>
+
+<script src="assets/js/projects.js"></script>
+<script src="assets/js/patch.js"></script>
+<script src="assets/js/theme.js"></script>
+</body>
+</html>

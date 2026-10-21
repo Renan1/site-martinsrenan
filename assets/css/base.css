@@ -1,0 +1,32 @@
+/* Base comum a todas as páginas: cores (claro/escuro), reset, cabeçalho e botões. */
+:root {
+  --room: #D9DDE0; --room-2: #CBD0D4; --ink: #15191C; --ink-2: #5B646B;
+  --rack: #2A2F33; --rack-2: #1C2023; --panel: #3A4045; --panel-hi: #50585E; --label: #E9EDF0; --port: #0D0F10;
+  --lcd: #0E1A12; --lcd-ink: #7CFFB0; --amber: #FFB547; --led-off: #2b3134;
+}
+:root[data-theme="dark"] {
+  --room: #0B0D0E; --room-2: #121517; --ink: #E7ECEF; --ink-2: #8A949B;
+  --rack: #1A1D20; --rack-2: #0F1113; --panel: #262B2F; --panel-hi: #353C41; --label: #C9D1D6; --port: #050606; --led-off: #1d2225;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --room: #0B0D0E; --room-2: #121517; --ink: #E7ECEF; --ink-2: #8A949B;
+    --rack: #1A1D20; --rack-2: #0F1113; --panel: #262B2F; --panel-hi: #353C41; --label: #C9D1D6; --port: #050606; --led-off: #1d2225;
+  }
+}
+* { box-sizing: border-box; margin: 0; }
+body { background: var(--room); color: var(--ink); font: 400 16px/1.5 "Sora", system-ui, sans-serif; transition: background .3s, color .3s; overflow-x: hidden;
+  background-image: linear-gradient(90deg, var(--room-2) 1px, transparent 1px); background-size: 120px 100%; }
+button { font: inherit; }
+
+.top { display: flex; justify-content: space-between; align-items: center; padding: 18px 28px; max-width: 1320px; margin: 0 auto; }
+.who { font-weight: 800; letter-spacing: -.02em; }
+.who span { font: 500 12px "Red Hat Mono"; color: var(--ink-2); margin-left: 10px; letter-spacing: .06em; }
+.top nav { display: flex; gap: 16px; align-items: center; font-size: 14px; }
+.top a { color: var(--ink); }
+.btn { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); border-radius: 4px; padding: 5px 12px; cursor: pointer; font: 500 12.5px "Red Hat Mono"; text-decoration: none; }
+
+a { color: inherit; }
+@media (max-width: 640px) {
+  .top { padding: 14px 16px; } .who span { display: none; } .top nav { gap: 12px; }
+}

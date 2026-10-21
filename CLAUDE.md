@@ -15,6 +15,24 @@ Portfólio de projetos de TI e IA do Renan Martins. Dono: Renan (TI/infra/cyber;
 - 2026-10-21: wireframes D/E/F da branch `claude/determined-meitner-esifiv` vistos e não escolhidos (branch não foi juntada). Conceitos interativos v3 em `design/v3/`.
 - Adaptações ao Windows na skill: `start index.html` no lugar de `open`; `$skill` = `/skill` no Claude Code.
 
+## Estrutura do site (2026-10-21)
+Site estático SEM build (sem Vite, sem node_modules): HTML + CSS + JS puros, publicado como está no GitHub Pages.
+```
+index.html                  página inicial (patch panel)
+projetos/index.html         índice de todos os projetos
+projetos/<slug>/index.html  página interativa de cada projeto (hoje: scanner)
+assets/css/  base.css (cores, tema, cabeçalho) · fonts.css · patch.css · projetos.css · scanner.css
+assets/js/   projects.js (FONTE ÚNICA dos 12 projetos) · patch.js · projetos.js · scanner.js · theme.js
+assets/fonts/ fontes locais .woff2 (OFL, ver LICENCAS.md) · assets/img/favicon.svg
+design/      protótipos e maquetes (não fazem parte do site)
+tools/serve.mjs  servidor local
+.nojekyll    faz o GitHub Pages servir os arquivos sem processar
+```
+- Ver localmente: `node tools/serve.mjs` e abrir http://localhost:4173
+- Nova página de projeto: criar `projetos/<slug>/index.html` + `assets/css/<slug>.css` + `assets/js/<slug>.js` e pôr `page: '<slug>'` no projeto em `projects.js`.
+- Links sempre RELATIVOS (`projetos/`, `../`, `../../`), para funcionar no domínio e no localhost.
+- Cada página tem CSP em `<meta>`: só arquivos do próprio site, sem CSS/JS embutido no HTML (nada de `<style>`, `<script>` inline ou `style=""`). Variáveis CSS setadas por JS (`el.style.setProperty`) são permitidas.
+
 ## Regras de segurança
 1. Repo é público: nunca commitar segredos, chaves, `.env`, dados pessoais ou de clientes.
 2. Nunca `innerHTML` com texto vindo de fora; usar `textContent`.
@@ -77,8 +95,10 @@ Projetos futuros: entram como portas novas.
 ## Status
 - [x] Domínio .com.br comprado
 - [x] Repo criado no GitHub (vazio)
-- [ ] Direção visual aprovada
-- [ ] Estrutura Vite criada e rodando localmente
+- [x] Direção visual aprovada (patch panel na home; Scanner e Comanda como bases de páginas de projeto)
+- [x] Estrutura do site criada e rodando localmente (estático, sem build)
+- [ ] Páginas interativas de cada projeto (pronta como base: scanner; conteúdo real pendente)
+- [ ] Página institucional (currículo de TI) e contato
 - [ ] Conteúdo dos projetos (descrição, stack, prints, links)
 - [ ] Publicação no GitHub Pages + DNS
 - [ ] Compra do .dev no Cloudflare + redirecionamento

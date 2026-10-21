@@ -1,0 +1,6 @@
+/* Fontes locais: SIL Open Font License 1.1 (ver assets/fonts/LICENCAS.md). Subconjunto latin, cobre o português. */
+@font-face { font-family: 'Sora'; font-style: normal; font-weight: 100 800; font-display: swap; src: url(../fonts/sora.woff2) format('woff2'); }
+@font-face { font-family: 'Red Hat Mono'; font-style: normal; font-weight: 300 700; font-display: swap; src: url(../fonts/red-hat-mono.woff2) format('woff2'); }
+@font-face { font-family: 'Familjen Grotesk'; font-style: normal; font-weight: 400 700; font-display: swap; src: url(../fonts/familjen-grotesk.woff2) format('woff2'); }
+@font-face { font-family: 'Martian Mono'; font-style: normal; font-weight: 100 800; font-display: swap; src: url(../fonts/martian-mono.woff2) format('woff2'); }
+@font-face { font-family: 'Nanum Pen Script'; font-style: normal; font-weight: 400; font-display: swap; src: url(../fonts/nanum-pen-script.woff2) format('woff2'); }
