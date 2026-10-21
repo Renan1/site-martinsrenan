@@ -84,6 +84,7 @@
     var rows = [{ t: 'LINK UP · porta ' + id + ' · 1 Gbps' }, { t: 'problema : ' + d.p }, { t: 'solução  : ' + d.name }, { t: '           ' + d.d, c: 'dim' }, { t: 'stack    : ' + d.st, c: 'dim' }];
     if (d.page) rows.push({ t: '[ abrir projeto → ]', href: 'projetos/' + d.page + '/', cls: 'open' });
     else if (d.cta) rows.push({ t: '> contato: em breve', c: 'dim' });
+    else if (d.soon) rows.push({ t: '> projeto em construção · veja em futuros projetos', href: 'futuros/' });
     else rows.push({ t: '> página do projeto em construção', c: 'dim' });
     if (d.repo) rows.push({ t: '> ver código no GitHub ↗', href: d.repo });
     else if (d.priv) rows.push({ t: '> código privado (só descrição)', c: 'dim' });

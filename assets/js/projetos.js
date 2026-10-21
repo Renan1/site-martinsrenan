@@ -9,7 +9,8 @@
     return a;
   }
 
-  window.PROJECTS.forEach(function (d, i) {
+  // Só os concluídos: em construção vai para /futuros/ e o contato fica no menu.
+  window.PROJECTS.filter(function (d) { return !d.soon && !d.cta; }).forEach(function (d, i) {
     var li = el('li', 'cab' + (d.cta ? ' cta' : ''));
     li.style.setProperty('--c', d.color);
     li.appendChild(el('span', 'n', String(i + 1).padStart(2, '0')));
@@ -27,7 +28,6 @@
 
     var go = el('div', 'go');
     if (d.page) go.appendChild(link('abrir projeto →', d.page + '/', 'open'));
-    else if (d.cta) go.appendChild(el('span', 'muted', 'contato: em breve'));
     else go.appendChild(el('span', 'muted', 'página em construção'));
     if (d.repo) go.appendChild(link('código no GitHub ↗', d.repo));
     else if (d.priv) go.appendChild(el('span', 'muted', 'código privado'));

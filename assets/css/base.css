@@ -27,6 +27,15 @@ button { font: inherit; }
 .btn { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); border-radius: 4px; padding: 5px 12px; cursor: pointer; font: 500 12.5px "Red Hat Mono"; text-decoration: none; }
 
 a { color: inherit; }
+.top nav a[aria-current="page"] { text-decoration-thickness: 2px; text-underline-offset: 4px; font-weight: 600; }
+.top nav .sm { display: none; }
+.top nav a, .btn { white-space: nowrap; }
+@media (max-width: 900px) {
+  .top nav .lg { display: none; } .top nav .sm { display: inline; }
+}
 @media (max-width: 640px) {
-  .top { padding: 14px 16px; } .who span { display: none; } .top nav { gap: 12px; }
+  .top { padding: 14px 16px; flex-wrap: wrap; row-gap: 10px; }
+  .who span { display: none; }
+  .top nav { gap: 14px; width: 100%; }
+  .top nav .btn { margin-left: auto; }
 }

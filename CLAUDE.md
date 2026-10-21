@@ -19,7 +19,8 @@ Portfólio de projetos de TI e IA do Renan Martins. Dono: Renan (TI/infra/cyber;
 Site estático SEM build (sem Vite, sem node_modules): HTML + CSS + JS puros, publicado como está no GitHub Pages.
 ```
 index.html                  página inicial (patch panel)
-projetos/index.html         índice de todos os projetos
+projetos/index.html         projetos concluídos
+futuros/index.html          em construção + próximos projetos (futuros.js)
 projetos/<slug>/index.html  página interativa de cada projeto (hoje: scanner)
 assets/css/  base.css (cores, tema, cabeçalho) · fonts.css · patch.css · projetos.css · scanner.css
 assets/js/   projects.js (FONTE ÚNICA dos 12 projetos) · patch.js · projetos.js · scanner.js · theme.js
@@ -73,10 +74,11 @@ Layout: problemas (U1) → calha de cabos (U2) → soluções (U3) → display e
 | 7 | Post diário do cardápio | Gerador de cardápio | gerarcardapio-couveflor | depois |
 | 8 | Empresa em planilha | Dashboard interativo | couveflor-dashboard (privado) | depois — SEM dados reais |
 | 9 | Finanças pessoais | App financeiro familiar | sistemafinanceiro-familiar | depois — SEM dados reais |
-| 10 | Treinar inglês (suposição: incluir) | English Coach | english-coach (local) | depois |
+| 10 | Preço no chute (não sei precificar meus produtos) | Gerador de preço | será criado em Renan1 (nome a definir, ex.: gerador-preco) | depois — EM CONSTRUÇÃO (`soon: true`) |
 | 11 | Acompanhar apuração (suposição: incluir) | Apuração 2026 | apuracao2026 | depois |
 | 12 | Seu problema | Vamos conversar | — | contato |
-Projetos futuros: entram como portas novas.
+Projetos futuros: ficam em `/futuros/` (lista `window.FUTURE` em projects.js) até ficarem prontos; aí viram porta no painel. English Coach saiu do painel em 2026-10-21 (fraco por enquanto) e está em `/futuros/`.
+Menu do topo (todas as páginas): Projetos concluídos (`/projetos/`, só concluídos) · Contato · Futuros projetos (`/futuros/`) · Tema.
 
 ## Inventário de projetos (GitHub Renan1, levantado em 2026-10-20)
 | Repo | Visibilidade | Descrição |

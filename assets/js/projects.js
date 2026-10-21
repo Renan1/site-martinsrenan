@@ -1,5 +1,6 @@
 // Fonte única dos projetos: usada pelo painel (index) e pela página /projetos/.
 // p = problema (porta de cima) · s = solução (porta de baixo) · page = pasta em /projetos/ quando a página existir.
+// soon = projeto em construção (aparece no painel e em /futuros/, não em /projetos/).
 window.PROJECTS = (function () {
   var GH = 'https://github.com/Renan1/';
   return [
@@ -12,8 +13,13 @@ window.PROJECTS = (function () {
     { id: 'cardapio', p: 'Post diário do cardápio', s: 'Gerador de cardápio',       name: 'Gerador de cardápio',       d: 'Gera a arte do cardápio do dia pronta para postar nas redes.', st: 'HTML · Canvas', repo: GH + 'gerarcardapio-couveflor', color: '#A855F7' },
     { id: 'dash',     p: 'Empresa em planilha',     s: 'Dashboard interativo',      name: 'Dashboard interativo',      d: 'Os números da empresa num painel interativo, no lugar das planilhas.', st: 'Cloudflare Workers · Python', priv: true, color: '#EC4899' },
     { id: 'financas', p: 'Finanças pessoais',       s: 'App financeiro',            name: 'App financeiro familiar',   d: 'Registra cada gasto na hora, mesmo sem sinal. Fechado por login.', st: 'PWA · Supabase', repo: GH + 'sistemafinanceiro-familiar', color: '#14B8A6' },
-    { id: 'coach',    p: 'Treinar inglês',          s: 'English Coach',             name: 'English Coach',             d: 'Tutora de inglês por voz com IA, para entrevistas de TI.', st: 'Worker · Supabase · Claude', color: '#06B6D4' },
+    { id: 'preco',    p: 'Preço no chute',          s: 'Gerador de preço',          name: 'Gerador de preço',          d: 'Define o preço de venda de cada produto a partir dos custos, em vez de no achismo.', st: 'em construção', soon: true, color: '#06B6D4' },
     { id: 'apuracao', p: 'Acompanhar apuração',     s: 'Apuração 2026',             name: 'Apuração 2026',             d: 'Acompanha a apuração com dados públicos do TSE, via funções no servidor.', st: 'Netlify · Worker', repo: GH + 'apuracao2026', color: '#84CC16' },
     { id: 'contato',  p: 'Seu problema',            s: 'Vamos conversar',           name: 'Vamos conversar',           d: 'Me conte o problema. Eu desenho a solução com você.', st: 'contato', cta: true, color: '#FFB547' }
   ];
 })();
+
+// Futuros projetos: ideias e protótipos que ainda não estão no painel.
+window.FUTURE = [
+  { id: 'coach', p: 'Treinar inglês para entrevistas', name: 'English Coach', d: 'Tutora de inglês falado com IA: conversa por voz e corrige cada frase.', st: 'Worker · Supabase · Claude', stage: 'protótipo', color: '#94A3B8' }
+];

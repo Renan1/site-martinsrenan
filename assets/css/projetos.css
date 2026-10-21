@@ -25,7 +25,11 @@
 .cab .go a { text-decoration: none; border-bottom: 1.5px solid var(--c); }
 .cab .go .open { background: var(--ink); color: var(--room); border: 0; padding: 4px 10px; border-radius: 3px; }
 .cab .go .muted { color: var(--ink-2); }
-.cab.cta h2 { color: var(--ink); }
+.kicker a { text-decoration: none; color: var(--ink); }
+
+/* Futuros: cabo tracejado, ainda sem o outro plugue (não conectado). */
+.cab.future .wire::after { flex: 0 1 70%; height: 0; border-top: 5px dashed var(--c); border-radius: 0; background: none; opacity: .8; }
+.cab.future .go .stage { border: 1.5px solid var(--c); padding: 2px 8px; border-radius: 3px; text-transform: uppercase; font-size: 11px; letter-spacing: .08em; }
 
 @media (max-width: 760px) {
   .wrap { padding: 0 16px 64px; }
