@@ -6,7 +6,7 @@ Portfólio de projetos de TI e IA do Renan Martins. Dono: Renan (TI/infra/cyber;
 - Domínio: `martinsrenan.com.br` (registro.br, DNS padrão do registro.br). `martinsrenan.dev` será comprado depois no Cloudflare e redirecionado para o .com.br.
 - Hospedagem: GitHub Pages, repo público `Renan1/site-martinsrenan`.
 - Conteúdo: projetos de TI e IA criados pelo Renan, incluindo os da empresa Couveflor (dele e da esposa). Os sistemas mantêm os endereços atuais; o portfólio só aponta para eles.
-- Repos privados (`scanner-couveflor`, `couveflor-dashboard`): mostrar descrição e imagens, sem link para o código.
+- Repos privados (`scanner-couveflor`, `couveflor-dashboard`, `precificacao-couveflor`): mostrar descrição e imagens, sem link para o código.
 - Visual: robusto, organizado, atrativo e autoral. Nada de cara de template ou de "site feito por IA" (evitar gradiente roxo genérico, cards idênticos, emojis como ícone, textos de marketing vazios).
 - 2026-10-20: as 3 maquetes em `design/` (A casos, B mapa, C diário) foram RECUSADAS por parecerem padrão de LLM. Ficam só como registro do que evitar.
 - Novo processo de design: prompt → imagem → código. Renan traz uma imagem de referência (mock) e usamos a skill `/img-to-html` (com `/to-wireframe`), etapa por etapa, com aprovação em cada uma.
@@ -22,7 +22,7 @@ index.html                  página inicial (patch panel)
 projetos/index.html         projetos concluídos
 futuros/index.html          em construção + próximos projetos (futuros.js)
 contato/index.html          WhatsApp + e-mail (dados em assets/js/contact.js, montados em pedaços contra robôs de spam)
-projetos/<slug>/index.html  página interativa de cada projeto (hoje: scanner, leitor-qr, cardapio, viagens, tv, dashboard, financas, sites, ti)
+projetos/<slug>/index.html  página interativa de cada projeto (hoje: scanner, leitor-qr, cardapio, viagens, tv, dashboard, financas, sites, ti, preco, apuracao — todas as portas)
 assets/css/  base.css (cores, tema, cabeçalho) · fonts.css · patch.css · projetos.css · scanner.css
 assets/js/   projects.js (FONTE ÚNICA dos 12 projetos) · patch.js · projetos.js · scanner.js · theme.js
 assets/fonts/ fontes locais .woff2 (OFL, ver LICENCAS.md) · assets/img/favicon.svg
@@ -77,8 +77,8 @@ Layout: problemas (U1) → calha de cabos (U2) → soluções (U3) → display e
 | 7 | Post diário do cardápio | Gerador de cardápio | gerarcardapio-couveflor | **Cardápio** (gerador real em canvas, 2026-10-21) |
 | 8 | Empresa em planilha | Dashboard interativo | couveflor-dashboard (privado) | **Dashboard** (arquivos → painel, dados fictícios, 2026-10-21) |
 | 9 | Finanças pessoais | App financeiro familiar | sistemafinanceiro-familiar | **Finanças** (novo gasto + fatura no mês certo, dados fictícios, 2026-10-21) |
-| 10 | Preço no chute (não sei precificar meus produtos) | Gerador de preço | será criado em Renan1 (nome a definir, ex.: gerador-preco) | depois — EM CONSTRUÇÃO (`soon: true`) |
-| 11 | Acompanhar apuração (suposição: incluir) | Apuração 2026 | apuracao2026 | depois |
+| 10 | Preço no chute (não sei precificar meus produtos) | Gerador de preço | precificacao-couveflor (privado) | **Gerador de preço** (gôndola com etiquetas + memória de cálculo + Simples Anexo I, 2026-10-21) |
+| 11 | Acompanhar apuração | Apuração 2026 | apuracao2026 | **Apuração** (noite simulada + avisos + navegador×função×TSE, 2026-10-21) |
 | 12 | Seu problema | Vamos conversar | — | contato |
 Projetos futuros: ficam em `/futuros/` (lista `window.FUTURE` em projects.js) até ficarem prontos; aí viram porta no painel. English Coach saiu do painel em 2026-10-21 (fraco por enquanto) e está em `/futuros/`.
 Menu do topo (todas as páginas): Projetos concluídos (`/projetos/`, só concluídos) · Contato · Futuros projetos (`/futuros/`) · Tema.
@@ -110,7 +110,9 @@ Menu do topo (todas as páginas): Projetos concluídos (`/projetos/`, só conclu
 - [x] Página do Dashboard (2026-10-21): 3 arquivos do mês (PDV, Plano de Contas, Medição) destravam o painel; filtros cruzados; Cartão de Bolso; Leitura Estratégica com as 4 regras reais; simulador (food cost, peso do maior cliente, taxas); conciliação Medição×PDV×Financeiro. Dados 100% fictícios (Cliente A/B/C) + 6 prints do guia (telas de login EXCLUÍDAS: mostram o nome da conta Cloudflare Access). Detalhes internos do repo privado (conta Zero Trust, DNS, planilhas de custo) NÃO vão para o site.
 - [x] Página de Finanças (2026-10-21): celular "Novo gasto" (teclado pelos centavos, PIX/crédito, parcelas, cartões com fechamento diferente) + painel de outubro, faturas dos próximos meses com linha de 30% da renda, orçamentos e Saúde; modo avião com fila. Data fixa 21/10/2026. Família fictícia do guia (Lucas e Marina) + 6 prints; telas de login e da chave do Atalho EXCLUÍDAS. Sem emojis como ícone na simulação.
 - [x] Página de Sites (2026-10-21): 2 cases (Couve Flor e este portfólio) numa janela de navegador com raio-X arrastável mostrando trechos REAIS do código + celular + checklist MEDIDO (refazer as medições se os sites mudarem) + mapa das 12 páginas. Prints tirados com Edge sem janela via CDP (script em scratchpad: shot-mobile.mjs). Pontos a melhorar do site da Couve Flor (sem lazy loading, Google Fonts externo, sem CSP) NÃO foram expostos.
-- [ ] Páginas interativas dos demais projetos
+- [x] Página do Gerador de preço (2026-10-21): gôndola com 5 etiquetas (produtos fictícios do guia: Bala Menta 39,00/21 → R$ 3,00), mesmas fórmulas do calc.js (venda/markup, preço fixado, arredondar, unidade/caixa, erro ≥100%), memória de cálculo + conferência, assistente do Simples Anexo I (1,2 mi → 8,83%; ICMS-ST 5,87%). Repo PRIVADO: sem link de código; detalhes do Access (nome da política, e-mails) NÃO vão para o site.
+- [x] Página da Apuração 2026 (2026-10-21): relógio da noite 17h→23h, celular com Início/Eleitos/Avisos, avisos de troca de liderança (Senado = 2 vagas), resumo dos deputados, caminho navegador×função×TSE com cache de 55 s. Candidatos, partidos e votos FICTÍCIOS (nunca resultados reais).
+- [x] Todas as 12 portas têm página (15 páginas no site; a página Sites cita "15 páginas": atualizar se mudar).
 - [x] Contato: WhatsApp +55 32 98813-4420 e renanasmartins@gmail.com (aprovado pelo Renan para publicar).
 - [ ] E-mail contato@martinsrenan.com.br (decisão do Renan: QUER usar; provavelmente Cloudflare Email Routing, grátis). Fazer junto com a publicação/DNS; até lá o site usa o Gmail (trocar só `mail` em assets/js/contact.js). Conferir a doc oficial do Cloudflare antes.
 - [x] Página institucional Soluções em TI (2026-10-21): carreira do currículo do Renan como rack (6 fases, clique puxa o servidor e mostra no console), competências que acendem as fases, KPIs do CV, formação/certificações como módulos SFP, idiomas e prêmios. SEM dados pessoais (nome completo, endereço); empregadores e clientes da carreira aparecem (são do CV profissional).

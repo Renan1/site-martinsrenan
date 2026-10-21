@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Apuração 2026 — Renan Martins</title>
+<meta name="description" content="App para acompanhar a apuração das eleições 2026 com os dados públicos do TSE: favoritos, eleitos por partido e avisos quando muda a liderança. Simulação com candidatos fictícios.">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/fonts.css">
+<link rel="stylesheet" href="../../assets/css/apuracao.css">
+</head>
+<body>
+<header class="top">
+  <a class="who" href="../../">Renan Martins</a>
+  <nav><a class="pill" href="../../">← Painel</a><a class="pill" href="../">Concluídos</a><button class="pill" type="button" data-theme-toggle>Tema</button></nav>
+</header>
+
+<main>
+<section class="intro">
+  <p class="kicker">PORTA 11 · APURAÇÃO 2026</p>
+  <h1>A noite da apuração, <em>no bolso</em>.</h1>
+  <p>Presidente, governador, senado e deputados do seu estado e da sua cidade numa tela só, atualizando sozinha, com aviso quando alguém assume a liderança. Arraste o relógio da noite (ou aperte play) e veja o app reagir. <strong>Simulação:</strong> candidatos, partidos e votos abaixo são fictícios.</p>
+</section>
+
+<section class="lab" aria-label="Simulação do app de apuração">
+  <div class="night">
+    <div class="clock">
+      <button type="button" class="play" id="play" aria-label="Reproduzir a apuração">▶</button>
+      <div class="dial">
+        <label for="prog">Seções totalizadas</label>
+        <input type="range" id="prog" min="0" max="100" step="0.5" value="0">
+        <div class="marks"><span>17h</span><span>19h</span><span>21h</span><span>23h</span></div>
+      </div>
+      <output id="hora" class="hora">17:00</output>
+    </div>
+    <div class="feed">
+      <div class="feed-h"><b>Avisos</b><button type="button" class="bell" id="bell" aria-pressed="false">Ligar avisos</button></div>
+      <ol id="log" class="log"><li class="dim">Ligue os avisos: o app avisa quando muda a liderança de Presidente, Governador ou Senado, e manda um resumo dos deputados a cada 10 min.</li></ol>
+    </div>
+  </div>
+
+  <div class="phone" aria-label="Tela do app">
+    <div class="screen">
+      <div class="appbar"><b>Apuração 2026</b><span id="upd">aguardando</span></div>
+      <div class="toast" id="toast" role="status" hidden></div>
+      <div class="tabs" role="tablist">
+        <button type="button" role="tab" data-tab="inicio" aria-selected="true">Início</button>
+        <button type="button" role="tab" data-tab="eleitos" aria-selected="false">Eleitos</button>
+        <button type="button" role="tab" data-tab="avisos" aria-selected="false">Avisos</button>
+      </div>
+      <div class="view" id="v-inicio"></div>
+      <div class="view" id="v-eleitos" hidden></div>
+      <div class="view" id="v-avisos" hidden></div>
+    </div>
+  </div>
+</section>
+
+<section class="path" aria-labelledby="path-t">
+  <div class="sec-h">
+    <p class="kicker">POR QUE TEM UM SERVIDOR NO MEIO</p>
+    <h2 id="path-t">O TSE publica, mas o navegador não deixa buscar.</h2>
+    <p>Os resultados são arquivos JSON públicos, só que o servidor do TSE não libera leitura vinda de outro site (CORS). Por isso o app chama uma função própria, que busca no TSE, limpa os dados e guarda a resposta por alguns segundos. Teste os dois caminhos.</p>
+  </div>
+  <div class="route">
+    <div class="node" id="n-user"><b>Celular</b><small>app (PWA)</small></div>
+    <div class="wire" id="w1"><i></i></div>
+    <div class="node" id="n-fn"><b>Função</b><small>Cloudflare Worker</small><span class="cache" id="cache">cache vazio</span></div>
+    <div class="wire" id="w2"><i></i></div>
+    <div class="node" id="n-tse"><b>TSE</b><small>resultados.tse.jus.br</small></div>
+  </div>
+  <div class="route-ctl">
+    <button type="button" class="act" id="direct">Buscar direto do navegador</button>
+    <button type="button" class="act primary" id="via">Buscar pela função</button>
+    <button type="button" class="act" id="crowd">Chegam 200 pessoas no mesmo minuto</button>
+  </div>
+  <p class="route-out mono" id="rout">pedidos ao app: 0 · consultas ao TSE: 0</p>
+</section>
+
+<section class="sheet" aria-labelledby="sheet-t">
+  <div class="sec-h">
+    <p class="kicker">FICHA TÉCNICA</p>
+    <h2 id="sheet-t">Apuração 2026</h2>
+  </div>
+  <dl class="spec">
+    <div><dt>Problema</dt><dd>Na noite da eleição, o site oficial mostra um cargo e um lugar por vez. Acompanhar presidente, o próprio estado, a própria cidade e os deputados exigia ficar trocando de tela e recarregando.</dd></div>
+    <div><dt>Solução</dt><dd>Um app instalável com tudo numa tela: Presidente e os favoritos no Início; Explorar por estado, cidade e cargo; Eleitos com as vagas por partido; Avisos quando muda a liderança. Atualiza a cada 60 segundos.</dd></div>
+    <div><dt>Dados</dt><dd>Somente os arquivos públicos de resultados do TSE. Para deputados, enquanto o TSE ainda não marca os eleitos, o app usa as vagas que ele já atribuiu a cada partido ou federação e pega os mais votados de cada um.</dd></div>
+    <div><dt>Servidor</dt><dd>Funções em JavaScript (mesmo código no Netlify e num Cloudflare Worker) buscam no TSE com uma nova tentativa em caso de falha e guardam a resposta (cerca de 55 s na noite da apuração; 7 dias depois do resultado final). Mil pessoas olhando viram poucas consultas ao TSE.</dd></div>
+    <div><dt>Avisos</dt><dd>Notificação do sistema quando possível; senão, aviso na tela com som e vibração. Deputados mudam de líder o tempo todo, então viram um resumo a cada 10 minutos em vez de um aviso por mudança.</dd></div>
+    <div><dt>Testes</dt><dd>Um modo de simulação local inventa votos e troca o líder a cada 10 segundos, para testar os avisos sem esperar a eleição.</dd></div>
+    <div><dt>Stack</dt><dd class="mono">HTML · CSS · JavaScript · PWA com service worker · Netlify Functions · Cloudflare Workers</dd></div>
+    <div><dt>Código</dt><dd><a href="https://github.com/Renan1/apuracao2026" target="_blank" rel="noopener">github.com/Renan1/apuracao2026 ↗</a></dd></div>
+  </dl>
+  <nav class="foot-nav">
+    <a class="act" href="../../">← Voltar ao painel</a>
+    <a class="act" href="../">Projetos concluídos</a>
+    <a class="act" href="../../contato/">Quero algo assim</a>
+  </nav>
+</section>
+</main>
+
+<script src="../../assets/js/apuracao.js"></script>
+<script src="../../assets/js/theme.js"></script>
+</body>
+</html>

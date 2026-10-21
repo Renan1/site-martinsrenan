@@ -36,13 +36,13 @@
         ['cm', '# fontes: assets/fonts/*.woff2 (locais, licença OFL)'],
         ['val', '0 scripts, fontes ou estilos de outros domínios'],
         ['val', 'página inicial: 73 KB (HTML + CSS + JS + fontes)'],
-        ['cm', '# 12 páginas · links relativos · sem build'],
+        ['cm', '# 15 páginas · links relativos · sem build'],
         ['tag', 'el.textContent = texto'], ['cm opt', '// nunca innerHTML com texto de fora'],
         ['cm', '# GitHub Pages + .nojekyll']
       ],
       checksH: 'Raio-X · este portfólio',
       checks: [
-        ['Política de segurança (CSP) em todas as páginas', '12 de 12 páginas · só o próprio site pode carregar código'],
+        ['Política de segurança (CSP) em todas as páginas', '15 de 15 páginas · só o próprio site pode carregar código'],
         ['Nada de terceiros', '0 scripts, fontes ou estilos externos · fontes .woff2 locais'],
         ['Leve', 'página inicial com 73 KB, contando fontes e scripts'],
         ['Seguro contra injeção de código', 'textos sempre com textContent, nunca innerHTML'],
