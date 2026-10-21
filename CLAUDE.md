@@ -22,7 +22,7 @@ index.html                  página inicial (patch panel)
 projetos/index.html         projetos concluídos
 futuros/index.html          em construção + próximos projetos (futuros.js)
 contato/index.html          WhatsApp + e-mail (dados em assets/js/contact.js, montados em pedaços contra robôs de spam)
-projetos/<slug>/index.html  página interativa de cada projeto (hoje: scanner, leitor-qr, cardapio, viagens, tv, dashboard, financas, sites)
+projetos/<slug>/index.html  página interativa de cada projeto (hoje: scanner, leitor-qr, cardapio, viagens, tv, dashboard, financas, sites, ti)
 assets/css/  base.css (cores, tema, cabeçalho) · fonts.css · patch.css · projetos.css · scanner.css
 assets/js/   projects.js (FONTE ÚNICA dos 12 projetos) · patch.js · projetos.js · scanner.js · theme.js
 assets/fonts/ fontes locais .woff2 (OFL, ver LICENCAS.md) · assets/img/favicon.svg
@@ -72,7 +72,7 @@ Layout: problemas (U1) → calha de cabos (U2) → soluções (U3) → display e
 | 2 | Controle de entrada | Leitor QR Code | leitor-qr-couveflor | **Leitor QR** (base Comanda, 2026-10-21) |
 | 3 | Comunicação interna | TV corporativa | tv-couveflor | **TV** (parede + pasta conteudo/ editável, 2026-10-21) |
 | 4 | Digitalizar documentos | Scanner / PDF | scanner-couveflor (privado) | **Scanner** |
-| 5 | Problema com a TI | Soluções em TI | — | página institucional: currículo de TI e experiências comprovadas |
+| 5 | Problema com a TI | Soluções em TI | — | **TI** (carreira como rack + competências que acendem fases, 2026-10-21) |
 | 6 | Site desatualizado | Sites que atraem clientes | couveflor-site + site-martinsrenan | **Sites** (raio-X arrastável com código real + checklist medido, 2026-10-21) |
 | 7 | Post diário do cardápio | Gerador de cardápio | gerarcardapio-couveflor | **Cardápio** (gerador real em canvas, 2026-10-21) |
 | 8 | Empresa em planilha | Dashboard interativo | couveflor-dashboard (privado) | **Dashboard** (arquivos → painel, dados fictícios, 2026-10-21) |
@@ -113,7 +113,7 @@ Menu do topo (todas as páginas): Projetos concluídos (`/projetos/`, só conclu
 - [ ] Páginas interativas dos demais projetos
 - [x] Contato: WhatsApp +55 32 98813-4420 e renanasmartins@gmail.com (aprovado pelo Renan para publicar).
 - [ ] E-mail contato@martinsrenan.com.br (decisão do Renan: QUER usar; provavelmente Cloudflare Email Routing, grátis). Fazer junto com a publicação/DNS; até lá o site usa o Gmail (trocar só `mail` em assets/js/contact.js). Conferir a doc oficial do Cloudflare antes.
-- [ ] Página institucional (currículo de TI)
+- [x] Página institucional Soluções em TI (2026-10-21): carreira do currículo do Renan como rack (6 fases, clique puxa o servidor e mostra no console), competências que acendem as fases, KPIs do CV, formação/certificações como módulos SFP, idiomas e prêmios. SEM dados pessoais (nome completo, endereço); empregadores e clientes da carreira aparecem (são do CV profissional).
 - [ ] Conteúdo dos projetos (descrição, stack, prints, links)
 - [ ] Publicação no GitHub Pages + DNS
 - [ ] Compra do .dev no Cloudflare + redirecionamento
