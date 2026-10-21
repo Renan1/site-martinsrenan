@@ -41,7 +41,8 @@ for f in img-to-html/SKILL.md img-to-html/README.md to-wireframe/SKILL.md to-wir
 
 ## Página inicial = Patch panel (aprovado 2026-10-21)
 Base: `design/v3/patch.html`. Cada problema (porta de cima) liga a uma solução (porta de baixo). Conexão certa → LEDs acesos na cor do cabo → "abrir projeto". Cada projeto terá sua página interativa própria (bases: `design/v3/scanner.html` e `design/v3/comanda.html`; o resto, criar depois).
-LEDs: pisca na cor do cabo na porta de origem ao puxar e na porta de solução sob o cabo; certo = fixo; errado = âmbar. O LED da solução certa NUNCA pisca antes (não entregar a resposta).
+LEDs (pedido do Renan, 2026-10-21): ao começar a puxar o cabo, piscam na cor do cabo a porta de origem E a solução certa (dica). Porta sob o cabo só ganha contorno. Certo = fixo; errado = âmbar.
+Layout: problemas (U1) → calha de cabos (U2) → soluções (U3) → display embaixo. Nenhum cabo passa pelo display.
 
 | # | Problema (porta) | Solução (porta) | Repo | Página própria |
 |---|---|---|---|---|
