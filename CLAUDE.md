@@ -22,7 +22,7 @@ index.html                  página inicial (patch panel)
 projetos/index.html         projetos concluídos
 futuros/index.html          em construção + próximos projetos (futuros.js)
 contato/index.html          WhatsApp + e-mail (dados em assets/js/contact.js, montados em pedaços contra robôs de spam)
-projetos/<slug>/index.html  página interativa de cada projeto (hoje: scanner, leitor-qr, cardapio, viagens)
+projetos/<slug>/index.html  página interativa de cada projeto (hoje: scanner, leitor-qr, cardapio, viagens, tv)
 assets/css/  base.css (cores, tema, cabeçalho) · fonts.css · patch.css · projetos.css · scanner.css
 assets/js/   projects.js (FONTE ÚNICA dos 12 projetos) · patch.js · projetos.js · scanner.js · theme.js
 assets/fonts/ fontes locais .woff2 (OFL, ver LICENCAS.md) · assets/img/favicon.svg
@@ -70,7 +70,7 @@ Layout: problemas (U1) → calha de cabos (U2) → soluções (U3) → display e
 |---|---|---|---|---|
 | 1 | Sem registro de viagens (Uber) | Lançamento de viagens | viagens-couveflor | **Viagens** (motorista ↔ estrada ↔ gestor, 2026-10-21) |
 | 2 | Controle de entrada | Leitor QR Code | leitor-qr-couveflor | **Leitor QR** (base Comanda, 2026-10-21) |
-| 3 | Comunicação interna | TV corporativa | tv-couveflor | depois |
+| 3 | Comunicação interna | TV corporativa | tv-couveflor | **TV** (parede + pasta conteudo/ editável, 2026-10-21) |
 | 4 | Digitalizar documentos | Scanner / PDF | scanner-couveflor (privado) | **Scanner** |
 | 5 | Problema com a TI | Soluções em TI | — | página institucional: currículo de TI e experiências comprovadas |
 | 6 | Site desatualizado | Sites que atraem clientes | couveflor-site + site-martinsrenan | depois (os próprios sites são o portfólio) |
@@ -106,6 +106,7 @@ Menu do topo (todas as páginas): Projetos concluídos (`/projetos/`, só conclu
 - [x] Página do Leitor QR (2026-10-21): quadro de refeições + QR para tocar + impressora térmica (Presença, Rampa com recusa, desfazer, CSV com fórmula neutralizada) + 6 prints tarjados + ficha técnica. Fonte: guia do operador do Renan.
 - [x] Página do Gerador de cardápio (2026-10-21): gerador de verdade (canvas 1080x1920, baixa PNG) com as regras do app + 6 prints do guia (sem dado sensível) + ficha técnica. Ícones ilustrativos desenhados em código (os 147 ícones do app não foram copiados: licença desconhecida).
 - [x] Página de Viagens (2026-10-21): simulação com 2 celulares (motorista e gestor) ligados por uma estrada: IDA/VOLTA/EXTRA, sinal offline com fila, cancelar só hoje, tarifa nova não muda o passado, Fechar PIX com E2E validado e recusa de repetido + 6 prints (chave PIX e E2E tarjados, dados do guia já fictícios) + ficha técnica. Fonte: guia .docx do Renan.
+- [x] Página da TV (2026-10-21): TV na parede passando 8 slides reais + pasta conteudo/ editável (ligar/desligar, reordenar, vídeo com codec errado → aviso vermelho) + diagrama GitHub→Pages→Pi→TV + ficha. Slides EXCLUÍDOS: 09 (empresas clientes), 10 (nomes de funcionárias), 06 (QR da pesquisa real), 03 (preço da refeição). Fonte: repo tv-couveflor.
 - [ ] Páginas interativas dos demais projetos
 - [x] Contato: WhatsApp +55 32 98813-4420 e renanasmartins@gmail.com (aprovado pelo Renan para publicar).
 - [ ] E-mail contato@martinsrenan.com.br (decisão do Renan: QUER usar; provavelmente Cloudflare Email Routing, grátis). Fazer junto com a publicação/DNS; até lá o site usa o Gmail (trocar só `mail` em assets/js/contact.js). Conferir a doc oficial do Cloudflare antes.

@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>TV corporativa — Renan Martins</title>
+<meta name="description" content="TV corporativa da Couve Flor: um Raspberry Pi passa os avisos do refeitório e se atualiza sozinho. Para trocar um aviso, basta soltar o arquivo numa pasta do GitHub. Experimente.">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/fonts.css">
+<link rel="stylesheet" href="../../assets/css/tv.css">
+</head>
+<body>
+<header class="top">
+  <a class="who" href="../../">Renan Martins</a>
+  <nav><a class="pill" href="../../">← Painel</a><a class="pill" href="../">Concluídos</a><button class="pill" type="button" data-theme-toggle>Tema</button></nav>
+</header>
+
+<main>
+<section class="intro">
+  <p class="kicker">PORTA 03 · TV CORPORATIVA</p>
+  <h1>Trocar o aviso da TV é <em>soltar um arquivo</em> numa pasta.</h1>
+  <p>No refeitório, um Raspberry Pi liga a TV e passa os avisos do restaurante. Ninguém edita código: quem cuida da comunicação só coloca, tira ou renumera arquivos na pasta. Experimente do lado direito: a TV muda na hora.</p>
+</section>
+
+<section class="room" aria-label="Simulação: TV do refeitório e pasta de conteúdo">
+  <div class="wall">
+    <div class="tv">
+      <div class="screen" id="screen" aria-live="polite">
+        <div class="diag" id="diag" hidden></div>
+        <div class="clock" id="clock">--:--</div>
+        <div class="empty" id="empty" hidden>Nenhum arquivo na pasta "conteudo".<br>Os nomes seguem o padrão 01.png, 02.mp4…</div>
+      </div>
+      <div class="bezel"><span class="brand">COUVE FLOR · REFEITÓRIO</span><span class="power" id="power"></span></div>
+    </div>
+    <div class="stand"><div class="cable"></div><div class="pi" title="Raspberry Pi 3"><span>RASPBERRY PI 3</span><i class="led"></i></div></div>
+    <div class="ctrl">
+      <span class="now" id="now">—</span>
+      <div class="ctrl-acts">
+        <button type="button" class="act" id="next">Próximo slide</button>
+        <label class="speed"><input type="checkbox" id="fast" checked> Demonstração: 5 s por slide <small>(na TV real: 30 s)</small></label>
+      </div>
+    </div>
+  </div>
+
+  <div class="repo">
+    <div class="repo-h"><span class="mono">Renan1 / tv-couveflor</span><b class="mono">conteudo/</b></div>
+    <ul class="files" id="files"></ul>
+    <div class="drawer">
+      <p class="mono lbl">Adicionar à pasta</p>
+      <div class="add" id="add"></div>
+    </div>
+    <p class="hint">Desmarque para remover · use ↑ ↓ para reordenar (o nome do arquivo é a ordem) · o vídeo com codec errado mostra o aviso vermelho e é pulado, sem travar a TV.</p>
+  </div>
+</section>
+
+<section class="flow" aria-labelledby="flow-t">
+  <div class="sec-h">
+    <p class="kicker">COMO FUNCIONA</p>
+    <h2 id="flow-t">Do GitHub à parede, sem tocar no Raspberry.</h2>
+  </div>
+  <ol class="steps">
+    <li><b>1</b><h3>Pasta no GitHub</h3><p>Solta <span class="mono">05.png</span> ou <span class="mono">06.mp4</span> em <span class="mono">conteudo/</span>. O número é a ordem.</p></li>
+    <li><b>2</b><h3>GitHub Pages</h3><p>Publica a página da TV num endereço próprio, com HTTPS, sem servidor.</p></li>
+    <li><b>3</b><h3>Raspberry Pi 3</h3><p>Abre a página em tela cheia e recarrega a cada 30 min para pegar o conteúdo novo.</p></li>
+    <li><b>4</b><h3>TV do refeitório</h3><p>Imagem 30 s, vídeo até o fim. Relógio no canto mostra que a tela está viva.</p></li>
+  </ol>
+</section>
+
+<section class="sheet" aria-labelledby="sheet-t">
+  <div class="sec-h">
+    <p class="kicker">FICHA TÉCNICA</p>
+    <h2 id="sheet-t">TV corporativa Couve Flor</h2>
+  </div>
+  <dl class="spec">
+    <div><dt>Problema</dt><dd>Avisos do restaurante (horários, campanhas, eventos, pesquisa de satisfação) precisavam chegar a quem almoça, e trocar o conteúdo de uma TV não podia depender de alguém de TI.</dd></div>
+    <div><dt>Solução</dt><dd>Um Raspberry Pi 3 ligado à TV abre uma página que varre sozinha a pasta <span class="mono">conteudo/</span> atrás de arquivos numerados (01 a 30, imagem ou vídeo). Adicionar, remover ou reordenar é só mexer nos arquivos.</dd></div>
+    <div><dt>Feito para o Pi</dt><dd>O Pi 3 tem um único decodificador de vídeo: cada vídeo só é carregado quando vai passar e é descarregado depois. Vídeo avança quando termina e cumpriu o tempo mínimo; uma trava de 3 minutos impede a TV de ficar presa.</dd></div>
+    <div><dt>Diagnóstico</dt><dd>Arquivo com problema mostra um aviso vermelho no canto por 8 segundos (ex.: "exporte em H.264") e a apresentação segue. Buracos na numeração são permitidos.</dd></div>
+    <div><dt>Stack</dt><dd class="mono">HTML · CSS · JavaScript puros · Raspberry Pi 3 · Chromium em modo quiosque · GitHub Pages · Cloudflare (DNS)</dd></div>
+    <div><dt>Código</dt><dd><a href="https://github.com/Renan1/tv-couveflor" target="_blank" rel="noopener">github.com/Renan1/tv-couveflor ↗</a></dd></div>
+  </dl>
+  <nav class="foot-nav">
+    <a class="act" href="../../">← Voltar ao painel</a>
+    <a class="act" href="../">Projetos concluídos</a>
+    <a class="act" href="../../contato/">Quero algo assim</a>
+  </nav>
+</section>
+</main>
+
+<script src="../../assets/js/tv.js"></script>
+<script src="../../assets/js/theme.js"></script>
+</body>
+</html>
