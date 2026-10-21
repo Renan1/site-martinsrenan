@@ -4,7 +4,7 @@
 window.PROJECTS = (function () {
   var GH = 'https://github.com/Renan1/';
   return [
-    { id: 'viagens',  p: 'Viagens sem registro',    s: 'Lançamento de viagens',     name: 'Lançamento de viagens',     d: 'As viagens (ex.: Uber) lançadas pelo celular, com histórico para a gestão.', st: 'PWA · Apps Script', repo: GH + 'viagens-couveflor', color: '#3B82F6' },
+    { id: 'viagens',  p: 'Viagens sem registro',    s: 'Lançamento de viagens',     name: 'Lançamento de viagens',     d: 'As viagens (ex.: Uber) lançadas pelo celular, com histórico para a gestão.', st: 'PWA · Apps Script', page: 'viagens', repo: GH + 'viagens-couveflor', color: '#3B82F6' },
     { id: 'qr',       p: 'Controle de entrada',     s: 'Leitor QR Code',            name: 'Leitor de QR Code',         d: 'A câmera lê o QR Code e registra cada entrada por refeição e data.', st: 'JavaScript · PWA', page: 'leitor-qr', repo: GH + 'leitor-qr-couveflor', color: '#FACC15' },
     { id: 'tv',       p: 'Comunicação interna',     s: 'TV corporativa',            name: 'TV corporativa',            d: 'Uma TV com o conteúdo de comunicação interna da empresa.', st: 'HTML', repo: GH + 'tv-couveflor', color: '#EF4444' },
     { id: 'scanner',  p: 'Digitalizar documentos',  s: 'Scanner / PDF',             name: 'Scanner / PDF tools',       d: 'Digitaliza, lê o texto (OCR), renomeia e gera PDF no celular. Nada sai do aparelho.', st: 'PWA · OCR · pdf-lib', page: 'scanner', priv: true, color: '#22C55E' },

@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Lançamento de viagens — Renan Martins</title>
+<meta name="description" content="Viagens Couve Flor: o motorista registra cada viagem com um toque, mesmo sem internet, e o gestor fecha o pagamento por PIX com o código E2E. Experimente a simulação.">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/fonts.css">
+<link rel="stylesheet" href="../../assets/css/viagens.css">
+</head>
+<body>
+<header class="top">
+  <a class="who" href="../../">Renan Martins</a>
+  <nav><a class="pill" href="../../">← Painel</a><a class="pill" href="../">Concluídos</a><button class="pill" type="button" data-theme-toggle>Tema</button></nav>
+</header>
+
+<main>
+<section class="intro">
+  <p class="kicker">PORTA 01 · LANÇAMENTO DE VIAGENS</p>
+  <h1>Cada viagem, <em>um toque</em>. Cada pagamento, um PIX conferido.</h1>
+  <p>Os motoristas que levam a equipe para o restaurante registram cada viagem pelo celular. O gestor vê tudo em tempo real e fecha o pagamento por PIX. Toque nos botões do motorista, derrube o sinal e feche o pagamento do lado do gestor. (Nomes e valores fictícios.)</p>
+</section>
+
+<section class="sim" aria-label="Simulação: celular do motorista e painel do gestor">
+  <!-- Motorista -->
+  <div class="phone" aria-label="Celular do motorista">
+    <div class="app-h"><span class="car" aria-hidden="true"></span><div><b>Viagens Couve Flor</b><small>Carlos Souza · motorista</small></div></div>
+    <div class="screen">
+      <div class="toast" id="toast" role="status" hidden></div>
+      <div class="queue" id="queue" hidden></div>
+      <div class="box clock"><span class="mini">● HORÁRIO ATUAL</span><b id="clock">--:--</b><small id="date"></small></div>
+      <div class="trip-btns">
+        <button type="button" class="trip ida" data-type="IDA"><span>IDA →</span><small>casa → empresa</small><b class="fare">R$ 50,00</b></button>
+        <button type="button" class="trip volta" data-type="VOLTA"><span>VOLTA ←</span><small>empresa → casa</small><b class="fare">R$ 50,00</b></button>
+      </div>
+      <button type="button" class="extra-open" id="extra-open">+ Registrar viagem EXTRA <small>valor e motivo livres</small></button>
+      <form class="box extra" id="extra" hidden>
+        <label>Valor da corrida (R$)<input id="extra-val" inputmode="decimal" placeholder="Ex.: 70"></label>
+        <label>Descrição / motivo<input id="extra-desc" placeholder="Ex.: levar marmitas para o evento"></label>
+        <p class="err" id="extra-err"></p>
+        <button type="submit" class="ok">+ Confirmar registro EXTRA</button>
+      </form>
+      <div class="box due"><span class="mini">A RECEBER</span><b id="due">R$ 0,00</b><small id="due-n"></small></div>
+      <div class="box"><span class="mini">VIAGENS RECENTES</span><ul class="trips" id="trips"></ul></div>
+      <div class="box"><span class="mini">PAGAMENTOS RECEBIDOS</span><ul class="pays" id="pays"><li class="none">nenhum ainda</li></ul></div>
+    </div>
+  </div>
+
+  <!-- Estrada -->
+  <div class="road" aria-hidden="false">
+    <button type="button" class="signal" id="signal" aria-pressed="true">Sinal: <b>online</b></button>
+    <div class="lane"><div class="truck" id="truck"></div><div class="nosignal" id="nosignal">sem sinal</div></div>
+    <p class="road-note" id="road-note">As viagens sobem para a planilha</p>
+  </div>
+
+  <!-- Gestor -->
+  <div class="phone gestor" aria-label="Painel do gestor">
+    <div class="app-h"><span class="car" aria-hidden="true"></span><div><b>Painel do Gestor</b><small>entra com PIN de 4 dígitos</small></div></div>
+    <div class="screen">
+      <div class="stats"><div><span class="mini">EM ABERTO</span><b id="g-open">R$ 0,00</b></div><div><span class="mini">VIAGENS</span><b id="g-n">0</b></div></div>
+      <div class="box driver"><div><b>Carlos Souza</b><small id="g-driver"></small></div><button type="button" class="pix-btn" id="pix-open">Fechar PIX</button></div>
+      <form class="box pix" id="pix" hidden>
+        <p class="mini">FECHAR PAGAMENTO — CARLOS SOUZA</p>
+        <p class="sum" id="pix-sum"></p>
+        <label>Código E2E do PIX (obrigatório)<input id="e2e" spellcheck="false" autocomplete="off" placeholder="E + 31 caracteres"></label>
+        <button type="button" class="link" id="e2e-fake">gerar um E2E de teste</button>
+        <p class="err" id="pix-err"></p>
+        <button type="submit" class="ok">Confirmar pagamento PIX</button>
+      </form>
+      <div class="box tarifa"><span class="mini">TARIFA DO MOTORISTA</span><div class="row"><b id="g-fare">R$ 50,00</b><button type="button" class="link" id="fare-btn">mudar para R$ 55</button></div><small>Vale só para as próximas viagens.</small></div>
+      <div class="box"><span class="mini">HISTÓRICO DE PAGAMENTOS PIX</span><ul class="pays" id="g-pays"><li class="none">nenhum ainda</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="app" id="app" aria-labelledby="app-t">
+  <div class="sec-h">
+    <p class="kicker">O APP DE VERDADE</p>
+    <h2 id="app-t">Do toque do motorista ao PIX do gestor.</h2>
+    <p>Prints do guia do operador (dados fictícios). Chave PIX e códigos E2E tarjados.</p>
+  </div>
+  <ol class="shots">
+    <li><figure><img src="../../assets/img/viagens/motorista.jpg" width="469" height="1015" loading="lazy" alt="Tela do motorista: horário atual, botões IDA e VOLTA com a tarifa, a receber e pagamentos recebidos."><figcaption><b>1</b> Motorista: IDA e VOLTA num toque</figcaption></figure></li>
+    <li><figure><img src="../../assets/img/viagens/extra.jpg" width="469" height="1015" loading="lazy" alt="Registrar viagem EXTRA com valor, descrição, dia e horário."><figcaption><b>2</b> EXTRA com valor e motivo</figcaption></figure></li>
+    <li><figure><img src="../../assets/img/viagens/offline.jpg" width="469" height="690" loading="lazy" alt="Aviso 1 viagem aguardando internet, enviará sozinha."><figcaption><b>3</b> Sem internet, fica na fila</figcaption></figure></li>
+    <li><figure><img src="../../assets/img/viagens/gestor.jpg" width="469" height="1015" loading="lazy" alt="Painel do gestor: total do mês, viagens, em aberto e motoristas a pagar com Fechar PIX."><figcaption><b>4</b> Gestor: o que falta pagar</figcaption></figure></li>
+    <li><figure><img src="../../assets/img/viagens/fechar-pix.jpg" width="469" height="1015" loading="lazy" alt="Fechar pagamento: até o dia, valor, código E2E lido do PDF do comprovante e checagens."><figcaption><b>5</b> Fecha o PIX lendo o comprovante</figcaption></figure></li>
+    <li><figure><img src="../../assets/img/viagens/dashboard.jpg" width="469" height="1015" loading="lazy" alt="Dashboard de viagens: total, viagens, média por viagem e evolução mensal."><figcaption><b>6</b> Dashboard e projeção</figcaption></figure></li>
+  </ol>
+</section>
+
+<section class="sheet" aria-labelledby="sheet-t">
+  <div class="sec-h">
+    <p class="kicker">FICHA TÉCNICA</p>
+    <h2 id="sheet-t">Viagens Couve Flor</h2>
+  </div>
+  <dl class="spec">
+    <div><dt>Problema</dt><dd>As viagens dos motoristas que levam e trazem a equipe não tinham registro confiável: conferir quantas foram feitas, quanto pagar e o que já foi pago dependia de anotação e memória.</dd></div>
+    <div><dt>Solução</dt><dd>Cada motorista tem um link pessoal e registra IDA, VOLTA ou EXTRA com um toque. O gestor, com PIN, vê o consolidado, fecha o pagamento por PIX e acompanha o dashboard com evolução mensal e projeção.</dd></div>
+    <div><dt>Regras de negócio</dt><dd>O valor fica gravado em cada viagem (mudar a tarifa não altera o passado). O motorista só cancela o que lançou hoje; viagem paga não se cancela. EXTRA exige valor e descrição. Fechar = pagar: exige o código E2E de um PIX que já aconteceu, e E2E repetido é recusado.</dd></div>
+    <div><dt>Sem internet</dt><dd>A viagem fica guardada no celular ("aguardando internet") e sobe sozinha quando a conexão volta. Falta de sinal nunca é tratada como acesso inválido.</dd></div>
+    <div><dt>Segurança</dt><dd>PIN do gestor com bloqueio após 5 erros e nunca na URL (ações de gestor por POST). O comprovante fica numa pasta privada do Drive: o motorista vê só o código E2E.</dd></div>
+    <div><dt>Stack</dt><dd class="mono">HTML · CSS · JavaScript puros · Google Apps Script · Google Planilhas · Google Drive · PWA · GitHub Pages · SVG feito à mão</dd></div>
+    <div><dt>Código</dt><dd><a href="https://github.com/Renan1/viagens-couveflor" target="_blank" rel="noopener">github.com/Renan1/viagens-couveflor ↗</a></dd></div>
+  </dl>
+  <nav class="foot-nav">
+    <a class="act" href="../../">← Voltar ao painel</a>
+    <a class="act" href="../">Projetos concluídos</a>
+    <a class="act" href="../../contato/">Quero algo assim</a>
+  </nav>
+</section>
+</main>
+
+<script src="../../assets/js/viagens.js"></script>
+<script src="../../assets/js/theme.js"></script>
+</body>
+</html>
