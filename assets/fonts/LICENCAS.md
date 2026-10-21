@@ -9,3 +9,5 @@ Todas sob a **SIL Open Font License 1.1** (https://openfontlicense.org), obtidas
 | familjen-grotesk.woff2 | Familjen Grotesk | Familjen STHLM — fonts.google.com/specimen/Familjen+Grotesk |
 | martian-mono.woff2 | Martian Mono | Evil Martians — fonts.google.com/specimen/Martian+Mono |
 | kalam.woff2 | Kalam | Indian Type Foundry — fonts.google.com/specimen/Kalam |
+| courier-prime-400/700.woff2 | Courier Prime | Alan Dague-Greene (Quote-Unquote Apps) — fonts.google.com/specimen/Courier+Prime |
+| barlow-condensed-500/600.woff2 | Barlow Condensed | Jeremy Tribby — fonts.google.com/specimen/Barlow+Condensed |

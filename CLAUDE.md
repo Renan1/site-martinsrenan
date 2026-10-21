@@ -22,7 +22,7 @@ index.html                  página inicial (patch panel)
 projetos/index.html         projetos concluídos
 futuros/index.html          em construção + próximos projetos (futuros.js)
 contato/index.html          WhatsApp + e-mail (dados em assets/js/contact.js, montados em pedaços contra robôs de spam)
-projetos/<slug>/index.html  página interativa de cada projeto (hoje: scanner)
+projetos/<slug>/index.html  página interativa de cada projeto (hoje: scanner, leitor-qr)
 assets/css/  base.css (cores, tema, cabeçalho) · fonts.css · patch.css · projetos.css · scanner.css
 assets/js/   projects.js (FONTE ÚNICA dos 12 projetos) · patch.js · projetos.js · scanner.js · theme.js
 assets/fonts/ fontes locais .woff2 (OFL, ver LICENCAS.md) · assets/img/favicon.svg
@@ -37,7 +37,7 @@ tools/serve.mjs  servidor local
 - Cada página tem CSP em `<meta>`: só arquivos do próprio site, sem CSS/JS embutido no HTML (nada de `<style>`, `<script>` inline ou `style=""`). Variáveis CSS setadas por JS (`el.style.setProperty`) são permitidas.
 
 ## Regras de segurança
-0. Prints de apps: só com documentos de teste, e TARJAR (faixa preta) CNPJ, nº de série de maquininha, nomes de clientes e qualquer dado real antes de pôr em `assets/img/`. Conferir o resultado ampliado.
+0. Prints de apps: só com documentos de teste, e TARJAR (faixa preta) CNPJ, nº de série de maquininha, nomes de empresas clientes (no texto também: usar Cliente A/B/C), códigos de crachá e qualquer dado real antes de pôr em `assets/img/`. Conferir o resultado ampliado.
 1. Repo é público: nunca commitar segredos, chaves, `.env`, dados pessoais ou de clientes.
 2. Nunca `innerHTML` com texto vindo de fora; usar `textContent`.
 3. CSP e cabeçalhos de segurança onde a hospedagem permitir (GitHub Pages não aceita headers: usar `<meta http-equiv="Content-Security-Policy">`).
@@ -69,7 +69,7 @@ Layout: problemas (U1) → calha de cabos (U2) → soluções (U3) → display e
 | # | Problema (porta) | Solução (porta) | Repo | Página própria |
 |---|---|---|---|---|
 | 1 | Sem registro de viagens (Uber) | Lançamento de viagens | viagens-couveflor | depois |
-| 2 | Controle de entrada | Leitor QR Code | leitor-qr-couveflor | depois (talvez estilo Comanda) |
+| 2 | Controle de entrada | Leitor QR Code | leitor-qr-couveflor | **Leitor QR** (base Comanda, 2026-10-21) |
 | 3 | Comunicação interna | TV corporativa | tv-couveflor | depois |
 | 4 | Digitalizar documentos | Scanner / PDF | scanner-couveflor (privado) | **Scanner** |
 | 5 | Problema com a TI | Soluções em TI | — | página institucional: currículo de TI e experiências comprovadas |
@@ -103,6 +103,7 @@ Menu do topo (todas as páginas): Projetos concluídos (`/projetos/`, só conclu
 - [x] Direção visual aprovada (patch panel na home; Scanner e Comanda como bases de páginas de projeto)
 - [x] Estrutura do site criada e rodando localmente (estático, sem build)
 - [x] Página do Scanner com conteúdo real (2026-10-21): mesa com 6 problemas reais + galeria de 6 prints + ficha técnica. Fonte: guia do operador (PDF do Renan, prints com documentos de teste).
+- [x] Página do Leitor QR (2026-10-21): quadro de refeições + QR para tocar + impressora térmica (Presença, Rampa com recusa, desfazer, CSV com fórmula neutralizada) + 6 prints tarjados + ficha técnica. Fonte: guia do operador do Renan.
 - [ ] Páginas interativas dos demais projetos
 - [x] Contato: WhatsApp +55 32 98813-4420 e renanasmartins@gmail.com (aprovado pelo Renan para publicar).
 - [ ] E-mail contato@martinsrenan.com.br (decisão do Renan: QUER usar; provavelmente Cloudflare Email Routing, grátis). Fazer junto com a publicação/DNS; até lá o site usa o Gmail (trocar só `mail` em assets/js/contact.js). Conferir a doc oficial do Cloudflare antes.

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Leitor de QR Code — Renan Martins</title>
+<meta name="description" content="Leitor de QR Code da Couve Flor: o celular lê o crachá ou o cartão do cliente e cada refeição servida vira uma linha, por refeição e data. Presença, Rampa e exportação CSV segura.">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/fonts.css">
+<link rel="stylesheet" href="../../assets/css/leitor-qr.css">
+</head>
+<body>
+<header class="top">
+  <a class="who" href="../../">Renan Martins</a>
+  <nav><a class="pill" href="../../">← Painel</a><a class="pill" href="../">Concluídos</a><button class="pill" type="button" data-theme-toggle>Tema</button></nav>
+</header>
+
+<main>
+<section class="stage" aria-label="Simulação do leitor de QR Code">
+  <div class="left">
+    <div class="intro">
+      <p class="kicker">PORTA 02 · LEITOR DE QR CODE</p>
+      <h1>Cada refeição servida vira <em>uma linha</em>.</h1>
+      <p>No restaurante, o celular lê o QR do crachá (ou o cartão do cliente) e registra a leitura na pasta da refeição. Escolha a refeição, toque nos QR Codes e veja a impressora registrar.</p>
+    </div>
+
+    <div class="board">
+      <div class="modes" role="group" aria-label="Módulo">
+        <button type="button" class="mode" data-mode="presenca" aria-pressed="true">PRESENÇA</button>
+        <button type="button" class="mode" data-mode="rampa" aria-pressed="false">RAMPA</button>
+      </div>
+      <h2>QUAL REFEIÇÃO?</h2>
+      <div id="meals"></div>
+      <p class="foot" id="board-foot">TOQUE PARA ABRIR A PASTA</p>
+    </div>
+
+    <div class="tray-wrap">
+      <p class="tray-h" id="tray-h">Toque num QR para ler</p>
+      <div class="tray" id="tray"></div>
+      <p class="status" id="status" aria-live="polite"></p>
+    </div>
+  </div>
+
+  <div class="counter" aria-live="polite">
+    <div class="spike" id="spike" aria-hidden="true"><div class="rod"></div><div class="base"></div></div>
+    <div class="printer" id="printer"><div class="body"><span class="led"></span><span class="slot"></span></div></div>
+    <div class="receipt-wrap" id="out"></div>
+    <div class="tally" id="tally" hidden>
+      <div class="chips" id="chips"></div>
+      <button type="button" class="act" id="undo">Desfazer última</button>
+    </div>
+    <div class="acts">
+      <button type="button" class="act primary" id="export">Exportar CSV</button>
+      <a class="act" href="#app">Ver o app ↓</a>
+    </div>
+  </div>
+</section>
+
+<section class="app" id="app" aria-labelledby="app-t">
+  <div class="sec-h">
+    <p class="kicker">O APP DE VERDADE</p>
+    <h2 id="app-t">Do crachá à planilha.</h2>
+    <p>Prints do guia do operador. As telas com câmera são ilustrativas; códigos de crachá e nomes de clientes estão tarjados.</p>
+  </div>
+  <ol class="shots">
+    <li><figure><img src="../../assets/img/leitor-qr/inicio.jpg" width="520" height="1126" loading="lazy" alt="Tela inicial com os módulos Presença e Rampa e o seletor de tema."><figcaption><b>1</b> Dois módulos: Presença e Rampa</figcaption></figure></li>
+    <li><figure><img src="../../assets/img/leitor-qr/pasta.jpg" width="520" height="1126" loading="lazy" alt="Criação de pasta: refeição Almoço, data e nome sugerido Almoço21.10.2026."><figcaption><b>2</b> Uma pasta por refeição e data</figcaption></figure></li>
+    <li><figure><img src="../../assets/img/leitor-qr/camera.jpg" width="520" height="1126" loading="lazy" alt="Câmera ligada lendo o QR Code de um crachá dentro do visor."><figcaption><b>3</b> Lê o crachá pela câmera</figcaption></figure></li>
+    <li><figure><img src="../../assets/img/leitor-qr/registros.jpg" width="520" height="1126" loading="lazy" alt="Registro manual e lista de registros da pasta com TIME, CODE e QTY; códigos tarjados."><figcaption><b>4</b> Cada leitura vira TIME · CODE · QTY</figcaption></figure></li>
+    <li><figure><img src="../../assets/img/leitor-qr/rampa.jpg" width="520" height="1126" loading="lazy" alt="Rampa: contadores por cliente, barra de distribuição, desfazer última e botões de exportar; nomes tarjados."><figcaption><b>5</b> Rampa: pessoas por cliente</figcaption></figure></li>
+    <li><figure><img src="../../assets/img/leitor-qr/recusado.jpg" width="520" height="1126" loading="lazy" alt="Visor vermelho com o aviso QR NÃO RECONHECIDO: a leitura não foi contada."><figcaption><b>6</b> QR estranho é recusado</figcaption></figure></li>
+  </ol>
+</section>
+
+<section class="sheet" aria-labelledby="sheet-t">
+  <div class="sec-h">
+    <p class="kicker">FICHA TÉCNICA</p>
+    <h2 id="sheet-t">Leitor de QR Code Couve Flor</h2>
+  </div>
+  <dl class="spec">
+    <div><dt>Problema</dt><dd>Contar as refeições servidas, por refeição e por cliente, para fechar o "realizado" com cada empresa atendida pelo restaurante.</dd></div>
+    <div><dt>Solução</dt><dd>Web app no celular: abre a câmera traseira, lê o QR em intervalo fixo (0,5 a 1,5 s) e grava cada leitura (TIME, CODE, QTY) na pasta da refeição. Vibra, apita e pisca a cada leitura. Exporta CSV no formato da planilha da operação.</dd></div>
+    <div><dt>Regras de negócio</dt><dd>Repetidos contam (cada leitura é uma linha, sem bloqueio). TIME é sempre o horário real da leitura. Na Rampa, só cartões oficiais de cliente somam; qualquer outro QR é recusado. Excluir pasta exige exportar antes e duas confirmações.</dd></div>
+    <div><dt>Segurança</dt><dd>Sem <span class="mono">innerHTML</span> com dado lido (correção de XSS). CSV neutraliza fórmulas (<span class="mono">= + - @</span>) para não virarem comando no Excel. Biblioteca de leitura e fontes hospedadas no próprio app, sem CDN.</dd></div>
+    <div><dt>Dados</dt><dd>Ficam só no celular (armazenamento do navegador) até a exportação. Próxima versão: Google Apps Script + Planilhas, vários celulares na mesma pasta e fila offline para nenhuma leitura se perder.</dd></div>
+    <div><dt>Stack</dt><dd class="mono">HTML · CSS · JavaScript puros · getUserMedia · jsQR · localStorage · CSV · Web Share API · GitHub Pages</dd></div>
+    <div><dt>Código</dt><dd><a href="https://github.com/Renan1/leitor-qr-couveflor" target="_blank" rel="noopener">github.com/Renan1/leitor-qr-couveflor ↗</a></dd></div>
+  </dl>
+  <nav class="foot-nav">
+    <a class="act" href="../../">← Voltar ao painel</a>
+    <a class="act" href="../">Projetos concluídos</a>
+    <a class="act" href="../../contato/">Quero algo assim</a>
+  </nav>
+</section>
+</main>
+
+<script src="../../assets/js/leitor-qr.js"></script>
+<script src="../../assets/js/theme.js"></script>
+</body>
+</html>

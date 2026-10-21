@@ -4,3 +4,7 @@
 @font-face { font-family: 'Familjen Grotesk'; font-style: normal; font-weight: 400 700; font-display: swap; src: url(../fonts/familjen-grotesk.woff2) format('woff2'); }
 @font-face { font-family: 'Martian Mono'; font-style: normal; font-weight: 100 800; font-display: swap; src: url(../fonts/martian-mono.woff2) format('woff2'); }
 @font-face { font-family: 'Kalam'; font-style: normal; font-weight: 400; font-display: swap; src: url(../fonts/kalam.woff2) format('woff2'); }
+@font-face { font-family: 'Courier Prime'; font-style: normal; font-weight: 400; font-display: swap; src: url(../fonts/courier-prime-400.woff2) format('woff2'); }
+@font-face { font-family: 'Courier Prime'; font-style: normal; font-weight: 700; font-display: swap; src: url(../fonts/courier-prime-700.woff2) format('woff2'); }
+@font-face { font-family: 'Barlow Condensed'; font-style: normal; font-weight: 500; font-display: swap; src: url(../fonts/barlow-condensed-500.woff2) format('woff2'); }
+@font-face { font-family: 'Barlow Condensed'; font-style: normal; font-weight: 600; font-display: swap; src: url(../fonts/barlow-condensed-600.woff2) format('woff2'); }
