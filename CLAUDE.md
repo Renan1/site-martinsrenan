@@ -11,6 +11,8 @@ Portfólio de projetos de TI e IA do Renan Martins. Dono: Renan (TI/infra/cyber;
 - 2026-10-20: as 3 maquetes em `design/` (A casos, B mapa, C diário) foram RECUSADAS por parecerem padrão de LLM. Ficam só como registro do que evitar.
 - Novo processo de design: prompt → imagem → código. Renan traz uma imagem de referência (mock) e usamos a skill `/img-to-html` (com `/to-wireframe`), etapa por etapa, com aprovação em cada uma.
 - Skills `img-to-html` e `to-wireframe` (github.com/rtadewald/skills, sem licença) ficam em `~/.claude/skills`, NÃO no repo. Em outro PC, reinstalar (ver "Skills" abaixo). A geração de imagens via OpenRouter (`openrouter-img`) NÃO foi instalada: é paga e precisa de chave. Só com OK do Renan.
+- Estrutura do site: a PÁGINA INICIAL é interativa (o visitante mexe em algo e descobre quem é o Renan); os PROJETOS ficam numa página separada, dedicada a eles.
+- 2026-10-21: wireframes D/E/F da branch `claude/determined-meitner-esifiv` vistos e não escolhidos (branch não foi juntada). Conceitos interativos v3 em `design/v3/`.
 - Adaptações ao Windows na skill: `start index.html` no lugar de `open`; `$skill` = `/skill` no Claude Code.
 
 ## Regras de segurança
@@ -36,6 +38,26 @@ Portfólio de projetos de TI e IA do Renan Martins. Dono: Renan (TI/infra/cyber;
 R=rtadewald/skills; S="$HOME/.claude/skills"; mkdir -p "$S/img-to-html" "$S/to-wireframe/references"
 for f in img-to-html/SKILL.md img-to-html/README.md to-wireframe/SKILL.md to-wireframe/references/wireframe.example.svg; do gh api "repos/$R/contents/$f" -H "Accept: application/vnd.github.raw" > "$S/$f"; done
 ```
+
+## Página inicial = Patch panel (aprovado 2026-10-21)
+Base: `design/v3/patch.html`. Cada problema (porta de cima) liga a uma solução (porta de baixo). Conexão certa → LEDs acesos na cor do cabo → "abrir projeto". Cada projeto terá sua página interativa própria (bases: `design/v3/scanner.html` e `design/v3/comanda.html`; o resto, criar depois).
+LEDs: pisca na cor do cabo na porta de origem ao puxar e na porta de solução sob o cabo; certo = fixo; errado = âmbar. O LED da solução certa NUNCA pisca antes (não entregar a resposta).
+
+| # | Problema (porta) | Solução (porta) | Repo | Página própria |
+|---|---|---|---|---|
+| 1 | Sem registro de viagens (Uber) | Lançamento de viagens | viagens-couveflor | depois |
+| 2 | Controle de entrada | Leitor QR Code | leitor-qr-couveflor | depois (talvez estilo Comanda) |
+| 3 | Comunicação interna | TV corporativa | tv-couveflor | depois |
+| 4 | Digitalizar documentos | Scanner / PDF | scanner-couveflor (privado) | **Scanner** |
+| 5 | Problema com a TI | Soluções em TI | — | página institucional: currículo de TI e experiências comprovadas |
+| 6 | Site desatualizado | Sites que atraem clientes | couveflor-site + site-martinsrenan | depois (os próprios sites são o portfólio) |
+| 7 | Post diário do cardápio | Gerador de cardápio | gerarcardapio-couveflor | depois |
+| 8 | Empresa em planilha | Dashboard interativo | couveflor-dashboard (privado) | depois — SEM dados reais |
+| 9 | Finanças pessoais | App financeiro familiar | sistemafinanceiro-familiar | depois — SEM dados reais |
+| 10 | Treinar inglês (suposição: incluir) | English Coach | english-coach (local) | depois |
+| 11 | Acompanhar apuração (suposição: incluir) | Apuração 2026 | apuracao2026 | depois |
+| 12 | Seu problema | Vamos conversar | — | contato |
+Projetos futuros: entram como portas novas.
 
 ## Inventário de projetos (GitHub Renan1, levantado em 2026-10-20)
 | Repo | Visibilidade | Descrição |

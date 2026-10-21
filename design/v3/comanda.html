@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1 — Comanda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Barlow+Condensed:wght@500;600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --wall: #E9E1D3; --wall-2: #DDD3C2; --ink: #23201B; --ink-2: #6B6357; --paper: #FBFAF6; --paper-ink: #2A2722;
+    --felt: #1D1D1B; --letter: #F3F1EA; --steel: #B9B4AA; --steel-2: #8E897F; --tomato: #D2452C;
+  }
+  :root[data-theme="dark"] {
+    --wall: #17150F; --wall-2: #201D16; --ink: #EEE7DA; --ink-2: #9A9183; --paper: #E9E5DA; --paper-ink: #24211C;
+    --felt: #0B0B0A; --letter: #E8E5DC; --steel: #4A4740; --steel-2: #2F2D28; --tomato: #F06A4E;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --wall: #17150F; --wall-2: #201D16; --ink: #EEE7DA; --ink-2: #9A9183; --paper: #E9E5DA; --paper-ink: #24211C;
+      --felt: #0B0B0A; --letter: #E8E5DC; --steel: #4A4740; --steel-2: #2F2D28; --tomato: #F06A4E;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { min-height: 100%; }
+  body {
+    background: var(--wall); color: var(--ink); font: 400 16px/1.5 "Bricolage Grotesque", system-ui, sans-serif;
+    background-image: radial-gradient(var(--wall-2) 1px, transparent 1.4px); background-size: 7px 7px;
+    transition: background-color .3s, color .3s; overflow-x: hidden;
+  }
+  button { font: inherit; color: inherit; }
+
+  .top { display: flex; justify-content: space-between; align-items: center; padding: 18px 28px; }
+  .who { font-weight: 800; letter-spacing: -.01em; font-size: 18px; }
+  .who small { font-weight: 400; color: var(--ink-2); font-size: 14px; margin-left: 8px; }
+  .top nav { display: flex; gap: 18px; align-items: center; font-size: 15px; }
+  .top a { color: var(--ink); }
+  .theme { background: none; border: 1.5px solid var(--ink); border-radius: 999px; padding: 4px 12px; cursor: pointer; font-size: 13px; }
+
+  .stage { max-width: 1240px; margin: 0 auto; padding: 8px 28px 64px; display: grid; grid-template-columns: 1.15fr 1fr; gap: 56px; align-items: start; }
+
+  .intro { margin: 18px 0 26px; }
+  .intro h1 { font-weight: 800; font-size: clamp(34px, 4.6vw, 60px); line-height: .98; letter-spacing: -.035em; }
+  .intro h1 em { font-style: normal; color: var(--tomato); }
+  .intro p { color: var(--ink-2); margin-top: 12px; max-width: 46ch; }
+
+  /* Quadro de letras */
+  .board {
+    background: var(--felt); border-radius: 6px; padding: 26px 26px 22px; position: relative;
+    background-image: repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 2px, transparent 2px 9px);
+    box-shadow: 0 0 0 10px #6B4A2E, 0 0 0 12px #4C331F, 0 24px 40px -12px rgba(0,0,0,.45);
+  }
+  :root[data-theme="dark"] .board { box-shadow: 0 0 0 10px #3A2817, 0 0 0 12px #24180D, 0 24px 40px -12px rgba(0,0,0,.7); }
+  .board h2 { font: 600 15px "Barlow Condensed", sans-serif; letter-spacing: .32em; color: var(--letter); text-align: center; margin-bottom: 18px; opacity: .9; }
+  .item {
+    display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: baseline; width: 100%; text-align: left;
+    background: none; border: 0; cursor: pointer; padding: 7px 4px; color: var(--letter);
+    font: 500 clamp(17px, 1.9vw, 22px)/1.2 "Barlow Condensed", sans-serif; letter-spacing: .06em; text-transform: uppercase;
+    border-radius: 3px; transition: background .15s, transform .15s;
+  }
+  .item span:first-child { display: flex; gap: 10px; }
+  .item span:first-child::after { content: ""; flex: 1; border-bottom: 2px dotted rgba(243,241,234,.25); transform: translateY(-6px); }
+  .item .n { color: var(--tomato); font-variant-numeric: tabular-nums; }
+  .item:hover, .item:focus-visible { background: rgba(255,255,255,.06); outline: none; transform: translateX(3px); }
+  .item[aria-pressed="true"] { color: #fff; }
+  .item[aria-pressed="true"] .n { text-decoration: underline; text-underline-offset: 4px; }
+  .board .foot { margin-top: 14px; text-align: center; font: 500 13px "Barlow Condensed"; letter-spacing: .2em; color: rgba(243,241,234,.45); }
+
+  /* Impressora + espeto */
+  .counter { position: relative; padding-top: 18px; min-height: 640px; }
+  .printer { position: relative; width: min(360px, 100%); margin: 0 auto; z-index: 2; }
+  .printer .body {
+    height: 104px; border-radius: 16px 16px 10px 10px; background: linear-gradient(var(--steel), var(--steel-2));
+    box-shadow: inset 0 2px 0 rgba(255,255,255,.35), 0 18px 30px -14px rgba(0,0,0,.5); position: relative;
+  }
+  .printer .body::before { content: "RM-80 · TÉRMICA"; position: absolute; left: 18px; top: 16px; font: 700 11px "Courier Prime"; letter-spacing: .14em; color: rgba(0,0,0,.45); }
+  .printer .led { position: absolute; right: 22px; top: 18px; width: 9px; height: 9px; border-radius: 50%; background: #3a3; box-shadow: 0 0 8px #4c4; }
+  .printer.busy .led { background: #f5a524; box-shadow: 0 0 10px #f5a524; animation: blink .25s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: .35; } }
+  .printer .slot { position: absolute; left: 22px; right: 22px; bottom: 18px; height: 10px; border-radius: 6px; background: #1b1a17; box-shadow: inset 0 3px 4px rgba(0,0,0,.6); }
+
+  .receipt-wrap { width: min(310px, 88%); margin: -22px auto 0; position: relative; z-index: 1; }
+  .receipt {
+    background: var(--paper); color: var(--paper-ink); font: 400 14px/1.45 "Courier Prime", monospace; padding: 30px 20px 26px;
+    box-shadow: 0 10px 24px -14px rgba(0,0,0,.35); position: relative;
+    animation: feed .2s ease-out;
+  }
+  .receipt::after { content: ""; position: absolute; left: 0; right: 0; bottom: -7px; height: 7px; background: radial-gradient(circle at 7px 0, var(--paper) 6px, transparent 6.5px) 0 0 / 14px 7px repeat-x; }
+  @keyframes feed { from { transform: translateY(-14px); } }
+  .receipt .c { text-align: center; }
+  .receipt .b { font-weight: 700; }
+  .receipt .hr { border-top: 1.5px dashed currentColor; opacity: .5; margin: 8px 0; }
+  .receipt .lbl { font-size: 12px; letter-spacing: .12em; opacity: .7; margin-top: 6px; }
+  .receipt .big { font-weight: 700; font-size: 18px; line-height: 1.2; }
+  .receipt .row { display: flex; justify-content: space-between; gap: 12px; }
+  .receipt .bar { height: 42px; margin: 12px 0 4px; background: repeating-linear-gradient(90deg, currentColor 0 2px, transparent 2px 4px, currentColor 4px 5px, transparent 5px 8px, currentColor 8px 11px, transparent 11px 12px); }
+  .receipt a { color: inherit; font-weight: 700; }
+  .receipt .line { animation: type .12s ease-out; }
+  @keyframes type { from { opacity: 0; } }
+  .empty { text-align: center; color: var(--ink-2); font-size: 15px; margin-top: 48px; }
+  .empty b { color: var(--ink); }
+
+  .spike { position: absolute; left: -8px; bottom: 0; width: 120px; height: 300px; pointer-events: none; }
+  .spike .rod { position: absolute; left: 58px; bottom: 18px; width: 3px; height: 250px; background: linear-gradient(90deg, #888, #ddd, #777); border-radius: 2px 2px 0 0; }
+  .spike .base { position: absolute; left: 20px; bottom: 0; width: 80px; height: 20px; border-radius: 50%; background: radial-gradient(#666, #2b2b2b); }
+  .spiked {
+    position: absolute; left: 6px; width: 108px; padding: 10px 8px; background: var(--paper); color: var(--paper-ink);
+    font: 9px/1.3 "Courier Prime"; box-shadow: 0 4px 10px -4px rgba(0,0,0,.4); transition: transform .4s cubic-bezier(.3,1.4,.5,1);
+  }
+  .spiked::before { content: ""; position: absolute; left: 50px; top: 14px; width: 6px; height: 6px; border-radius: 50%; background: rgba(0,0,0,.35); }
+
+  .go { display: inline-block; margin-top: 22px; font-weight: 700; color: var(--ink); text-decoration: none; border-bottom: 2px solid var(--tomato); }
+
+  @media (max-width: 880px) {
+    .stage { grid-template-columns: 1fr; gap: 28px; padding: 0 16px 48px; }
+    .top { padding: 14px 16px; }
+    .top nav a { display: none; }
+    .counter { min-height: 560px; }
+    .spike { display: none; }
+  }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="who">Renan Martins <small>TI · infra · segurança · IA</small></div>
+  <nav><a href="#">Projetos</a><a href="#">Contato</a><button class="theme" type="button" data-theme-toggle>Tema</button></nav>
+</header>
+
+<main class="stage">
+  <section>
+    <div class="intro">
+      <h1>Escolha um problema.<br>Eu <em>imprimo</em> a solução.</h1>
+      <p>Cada item do quadro é um problema real que eu já resolvi com software, quase todos dentro de um restaurante corporativo em Juiz de Fora.</p>
+    </div>
+    <div class="board">
+      <h2>O QUE ESTÁ TRAVANDO HOJE?</h2>
+      <div id="menu"></div>
+      <p class="foot">TOQUE PARA PEDIR</p>
+    </div>
+  </section>
+
+  <section class="counter" aria-live="polite">
+    <div class="spike" id="spike"><div class="rod"></div><div class="base"></div></div>
+    <div class="printer" id="printer"><div class="body"><span class="led"></span><span class="slot"></span></div></div>
+    <div class="receipt-wrap" id="out"><p class="empty">A impressora está pronta.<br><b>Escolha um item no quadro.</b></p></div>
+    <p style="text-align:center"><a class="go" href="#">Ver todos os projetos →</a></p>
+  </section>
+</main>
+
+<script>
+  var ITEMS = [
+    { p: 'Motorista anota viagem no papel', s: 'Viagens Couve Flor', d: 'App no celular do motorista. Cada viagem vai direto para a planilha da gestão.', st: 'PWA · Apps Script', c: 'público' },
+    { p: 'Contar refeição servida na mão', s: 'Leitor de QR', d: 'A câmera lê o QR de cada refeição e registra por turno e data.', st: 'JavaScript · PWA', c: 'público' },
+    { p: 'Papel sem nome, foto torta', s: 'Scanner de documentos', d: 'Digitaliza, lê o texto (OCR) e gera PDF. Nada sai do celular.', st: 'PWA · OCR · pdf-lib', c: 'privado' },
+    { p: 'Arte do cardápio todo dia', s: 'Gerador de cardápio', d: 'Monta a arte do cardápio do dia pronta para postar.', st: 'HTML · Canvas', c: 'público' },
+    { p: 'Números espalhados em PDFs', s: 'Painel Operação & Financeiro', d: 'Um painel só, com os números recalculados por um segundo caminho.', st: 'Workers · Python', c: 'privado' },
+    { p: 'Gasto da casa esquecido', s: 'Finanças da Família', d: 'Registra o gasto na hora, mesmo sem sinal, e sincroniza depois.', st: 'PWA · Supabase', c: 'público' },
+    { p: 'Treinar inglês para entrevista', s: 'English Coach', d: 'Tutora por voz com IA que corrige cada frase.', st: 'Worker · Supabase · Claude', c: 'em breve' },
+    { p: 'TSE bloqueia o navegador', s: 'Apuração 2026', d: 'Funções no servidor buscam os dados e mostram a apuração.', st: 'Netlify · Worker', c: 'público' }
+  ];
+
+  var menu = document.getElementById('menu'), out = document.getElementById('out'), printer = document.getElementById('printer'), spike = document.getElementById('spike');
+  var order = 0, timer = null, current = null, buttons = [];
+
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+
+  ITEMS.forEach(function (it, i) {
+    var b = el('button', 'item'); b.type = 'button'; b.setAttribute('aria-pressed', 'false');
+    var l = el('span'); l.appendChild(el('span', 'n', String(i + 1).padStart(2, '0'))); l.appendChild(el('span', '', it.p));
+    b.appendChild(l); b.appendChild(el('span', 'n', '→'));
+    b.addEventListener('click', function () { print(i); });
+    menu.appendChild(b); buttons.push(b);
+  });
+
+  function spikeIt(node) {
+    var t = el('div', 'spiked');
+    t.appendChild(el('div', '', node.dataset.title));
+    t.appendChild(el('div', '', '#' + node.dataset.num));
+    var n = spike.querySelectorAll('.spiked').length;
+    t.style.bottom = (30 + n * 26) + 'px';
+    t.style.transform = 'translateY(-200px) rotate(0deg)';
+    spike.appendChild(t);
+    requestAnimationFrame(function () { t.style.transform = 'rotate(' + (Math.random() * 16 - 8).toFixed(1) + 'deg)'; });
+    if (n >= 7) spike.querySelector('.spiked').remove();
+  }
+
+  function print(i) {
+    var it = ITEMS[i];
+    buttons.forEach(function (b, k) { b.setAttribute('aria-pressed', String(k === i)); });
+    if (current) spikeIt(current);
+    clearInterval(timer);
+    order++;
+    var num = String(order).padStart(4, '0');
+    var now = new Date();
+    var hhmm = now.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) + ' ' + now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
+    var r = el('div', 'receipt'); r.dataset.title = it.s; r.dataset.num = num;
+    out.replaceChildren(r); current = r;
+
+    var lines = [
+      ['c b', 'RENAN MARTINS · SISTEMAS'], ['c', 'Juiz de Fora · MG'], ['hr'],
+      ['row', 'PEDIDO Nº ' + num, hhmm], ['hr'],
+      ['lbl', 'PROBLEMA'], ['', it.p], ['lbl', 'SOLUÇÃO'], ['big', it.s], ['', it.d], ['hr'],
+      ['row', 'STACK', it.st], ['row', 'CÓDIGO', it.c], ['hr'],
+      ['bar'], ['c', '* obrigado pela visita *'], ['link', 'VER PROJETO COMPLETO →']
+    ];
+    var k = 0;
+    printer.classList.add('busy');
+    timer = setInterval(function () {
+      var L = lines[k++];
+      var n;
+      if (L[0] === 'hr') n = el('div', 'hr');
+      else if (L[0] === 'bar') n = el('div', 'bar');
+      else if (L[0] === 'row') { n = el('div', 'row'); n.appendChild(el('span', '', L[1])); n.appendChild(el('span', '', L[2])); }
+      else if (L[0] === 'link') { n = el('div', 'c'); var a = el('a', '', L[1]); a.href = '#'; n.appendChild(a); }
+      else n = el('div', L[0], L[1]);
+      n.classList.add('line');
+      r.appendChild(n);
+      if (k >= lines.length) { clearInterval(timer); printer.classList.remove('busy'); }
+    }, 70);
+  }
+</script>
+<script src="../theme.js"></script>
+</body>
+</html>
