@@ -1,0 +1,12 @@
+/* Marca RM no cabeçalho (todas as páginas): imagem clara/escura troca com o tema. */
+.who { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.who .marca { height: 24px; width: auto; display: block; flex: none; }
+.who .marca-d { display: none; }
+:root[data-theme="dark"] .who .marca-l { display: none; }
+:root[data-theme="dark"] .who .marca-d { display: block; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .who .marca-l { display: none; }
+  :root:not([data-theme="light"]) .who .marca-d { display: block; }
+}
+/* Com a marca o nome fica mais largo: no celular o menu desce para a linha de baixo (como na home). */
+@media (max-width: 640px) { .top { flex-wrap: wrap; row-gap: 10px; } }
