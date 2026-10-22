@@ -23,7 +23,7 @@ projetos/index.html         projetos concluídos
 futuros/index.html          em construção + próximos projetos (futuros.js)
 contato/index.html          WhatsApp + e-mail (dados em assets/js/contact.js, montados em pedaços contra robôs de spam)
 projetos/<slug>/index.html  página interativa de cada projeto (hoje: scanner, leitor-qr, cardapio, viagens, tv, dashboard, financas, sites, ti, preco, apuracao — todas as portas)
-assets/css/  base.css (cores, tema, cabeçalho) · fonts.css · patch.css · projetos.css · scanner.css
+assets/css/  base.css (cores, tema, cabeçalho) · fonts.css · rodape.css (rodapé, todas as páginas) · patch.css · projetos.css · scanner.css
 assets/js/   projects.js (FONTE ÚNICA dos 12 projetos) · patch.js · projetos.js · scanner.js · theme.js
 assets/fonts/ fontes locais .woff2 (OFL, ver LICENCAS.md) · assets/img/favicon.svg
 design/      protótipos e maquetes (não fazem parte do site)
@@ -65,10 +65,10 @@ tools/serve.mjs  servidor local
 
 ## Pendências (2026-10-22, em ordem)
 1. [feito 2026-10-22] Domínio testado: HTTPS, www e redirecionamento OK.
-2. E-mail contato@ (Email Routing).
+2. E-mail contato@ (Email Routing). 2026-10-22: ao ativar, o Cloudflare recusou ("Existing non-Cloudflare MX records conflict"). Causa provável: o MX nulo "." (e o SPF `v=spf1 -all`) criados antes pelo Cloudflare. Renan precisa apagá-los em DNS → Records e tentar Activate de novo; NÃO apagar o TXT `_github-pages-challenge`. Só trocar `mail` em contact.js depois de um e-mail de teste chegar.
 3. Logo: Renan gera imagens com os prompts da seção Status e manda a escolhida; Claude redesenha em SVG e aplica nas 15 páginas.
 4. [feito 2026-10-22] Inventário: tabela removida; a fonte é `assets/js/projects.js`.
-5. Rodapé "© 2026 Renan Martins" (texto definido pelo Renan, 2026-10-22; sem "todos os direitos reservados" nem "criado por"). Feito em `assets/css/rodape.css` + `<footer class="rodape">` nas 15 páginas, commit `4bde520` na branch `claude/determined-meitner-esifiv`, AGUARDANDO OK do Renan para ir ao main.
+5. [feito 2026-10-22] Rodapé "© 2026 Renan Martins" (texto definido pelo Renan; sem "todos os direitos reservados" nem "criado por") em `assets/css/rodape.css` + `<footer class="rodape">` nas 15 páginas, no main. Páginas novas devem incluir os dois.
 6. Opção do site todo em inglês (pedido do Renan, 2026-10-22). Antes de traduzir, DECIDIR a estrutura com o Renan: pastas `/en/` espelhando as páginas OU arquivo de textos por idioma carregado por JS (o CSP proíbe script inline). Custo alto: dobra a manutenção. Incluir seletor PT/EN no menu do topo e `lang`/`hreflang` corretos.
 7. POR ÚLTIMO (tem custo): compra do .dev no Cloudflare + redirecionamento.
 
@@ -76,7 +76,7 @@ tools/serve.mjs  servidor local
 - Clonar: `git clone https://github.com/Renan1/site-martinsrenan.git` e entrar na pasta. Se já existe: `git checkout main` e `git pull origin main`.
 - Ver localmente: `node tools/serve.mjs` e abrir http://localhost:4173. Não precisa de `npm install`.
 - Skills `img-to-html` e `to-wireframe` não vêm no repo: reinstalar pela seção "Skills".
-- A branch `claude/determined-meitner-esifiv` só guarda wireframes recusados (`design/v2/`); não usar nem juntar.
+- A branch `claude/determined-meitner-esifiv` guarda wireframes recusados (`design/v2/`) e serviu de rascunho do rodapé; não juntar ao main (levar commits por cherry-pick).
 
 ## Skills (reinstalar em outro PC, pelo Git Bash)
 ```bash
