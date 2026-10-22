@@ -68,7 +68,9 @@ tools/serve.mjs  servidor local
 2. E-mail contato@ (Email Routing).
 3. Logo: Renan gera imagens com os prompts da seção Status e manda a escolhida; Claude redesenha em SVG e aplica nas 15 páginas.
 4. Inventário abaixo está desatualizado ("(descrever)", falta `precificacao-couveflor`): a fonte real dos 12 projetos é `assets/js/projects.js`.
-5. Depois: compra do .dev no Cloudflare + redirecionamento.
+5. Rodapé padrão em todas as 15 páginas: "© 2026 Renan Martins" + "Criado por Renan Martins" (pedido do Renan, 2026-10-22). Sugestão: sem nome completo (regra de dados pessoais); "todos os direitos reservados" é opcional (sem efeito jurídico no Brasil). Fazer no CSS/HTML estático, sem script de terceiros; combinar o texto exato com o Renan antes.
+6. Opção do site todo em inglês (pedido do Renan, 2026-10-22). Antes de traduzir, DECIDIR a estrutura com o Renan: pastas `/en/` espelhando as páginas OU arquivo de textos por idioma carregado por JS (o CSP proíbe script inline). Custo alto: dobra a manutenção. Incluir seletor PT/EN no menu do topo e `lang`/`hreflang` corretos.
+7. Depois: compra do .dev no Cloudflare + redirecionamento.
 
 ## Trabalhar em outro PC (ex.: PC da empresa)
 - Clonar: `git clone https://github.com/Renan1/site-martinsrenan.git` e entrar na pasta. Se já existe: `git checkout main` e `git pull origin main`.
