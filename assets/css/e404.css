@@ -1,0 +1,9 @@
+/* Página 404: porta desconectada. */
+.e404 { max-width: 1320px; margin: 0 auto; padding: 56px 28px 40px; }
+.e404 svg { width: min(340px, 80%); height: auto; display: block; color: var(--ink); margin-bottom: 28px; }
+.e404 .num { font: 700 clamp(64px, 12vw, 112px)/1 "Red Hat Mono", ui-monospace, monospace; letter-spacing: -.04em; color: var(--ink-2); }
+.e404 h1 { font-weight: 800; letter-spacing: -.02em; font-size: clamp(28px, 5vw, 44px); line-height: 1.1; margin: 10px 0 14px; }
+.e404 p { max-width: 52ch; color: var(--ink-2); margin-bottom: 26px; }
+.e404 .acts { display: flex; gap: 10px; flex-wrap: wrap; }
+.e404 .acts .btn { text-decoration: none; padding: 9px 16px; font-size: 13.5px; }
+@media (max-width: 640px) { .e404 { padding: 32px 16px 24px; } }
