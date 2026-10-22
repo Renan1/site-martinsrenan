@@ -60,12 +60,12 @@ tools/serve.mjs  servidor local
 - DNSSEC: desligado ao trocar para o Cloudflare (o DS antigo, keytag 18564, saiu). Pode ser religado depois pelo Cloudflare, se o Renan quiser. Conferir: `Resolve-DnsName martinsrenan.com.br -Type DS -Server 8.8.8.8`.
 - Feito (Renan, 2026-10-22): Verify no GitHub, troca dos nameservers, registros A/CNAME, Custom domain no repo. Renan confirmou "site no ar".
 - Feito (Renan, 2026-10-22): "DNS check successful", Enforce HTTPS ATIVO e teste no navegador OK (https com cadeado, www, http→https). Domínio concluído.
-- Pendente: Email Routing no Cloudflare para contato@ → Gmail; depois trocar `mail` em assets/js/contact.js (conferir a doc oficial do Cloudflare antes).
+- Feito (2026-10-22): Email Routing no Cloudflare, contato@ → Gmail, testado. Os registros MX (route1/2/3.mx.cloudflare.net), SPF `include:_spf.mx.cloudflare.net` e DKIM `cf2024-1._domainkey` agora são do Email Routing: NÃO apagar. O MX nulo e o SPF `-all` antigos foram removidos.
 - Nas configurações de bots do Cloudflare: Search e Agent = Allow; Training = escolha do Renan.
 
 ## Pendências (2026-10-22, em ordem)
 1. [feito 2026-10-22] Domínio testado: HTTPS, www e redirecionamento OK.
-2. E-mail contato@ (Email Routing). 2026-10-22: ao ativar, o Cloudflare recusou ("Existing non-Cloudflare MX records conflict"). Causa provável: o MX nulo "." (e o SPF `v=spf1 -all`) criados antes pelo Cloudflare. Renan precisa apagá-los em DNS → Records e tentar Activate de novo; NÃO apagar o TXT `_github-pages-challenge`. Só trocar `mail` em contact.js depois de um e-mail de teste chegar.
+2. [feito 2026-10-22] E-mail contato@martinsrenan.com.br: Email Routing ativo (MX nulo e SPF antigo apagados), encaminha para o Gmail do Renan; teste de recebimento OK; `mail` em contact.js trocado. Respostas pelo Gmail saem do Gmail, não de contato@ (enviar "como" contato@ exigiria SMTP externo, não configurado).
 3. Logo: Renan gera imagens com os prompts da seção Status e manda a escolhida; Claude redesenha em SVG e aplica nas 15 páginas.
 4. [feito 2026-10-22] Inventário: tabela removida; a fonte é `assets/js/projects.js`.
 5. [feito 2026-10-22] Rodapé "© 2026 Renan Martins" (texto definido pelo Renan; sem "todos os direitos reservados" nem "criado por") em `assets/css/rodape.css` + `<footer class="rodape">` nas 15 páginas, no main. Páginas novas devem incluir os dois.
@@ -125,8 +125,8 @@ A lista oficial (nome, descrição, stack, repo, privado/público, cor) está em
 - [x] Página do Gerador de preço (2026-10-21): gôndola com 5 etiquetas (produtos fictícios do guia: Bala Menta 39,00/21 → R$ 3,00), mesmas fórmulas do calc.js (venda/markup, preço fixado, arredondar, unidade/caixa, erro ≥100%), memória de cálculo + conferência, assistente do Simples Anexo I (1,2 mi → 8,83%; ICMS-ST 5,87%). Repo PRIVADO: sem link de código; detalhes do Access (nome da política, e-mails) NÃO vão para o site.
 - [x] Página da Apuração 2026 (2026-10-21): relógio da noite 17h→23h, celular com Início/Eleitos/Avisos, avisos de troca de liderança (Senado = 2 vagas), resumo dos deputados, caminho navegador×função×TSE com cache de 55 s. Candidatos, partidos e votos FICTÍCIOS (nunca resultados reais).
 - [x] Todas as 12 portas têm página (15 páginas no site; a página Sites cita "15 páginas": atualizar se mudar).
-- [x] Contato: WhatsApp +55 32 98813-4420 e renanasmartins@gmail.com (aprovado pelo Renan para publicar).
-- [ ] E-mail contato@martinsrenan.com.br (decisão do Renan: QUER usar; provavelmente Cloudflare Email Routing, grátis). Fazer junto com a publicação/DNS; até lá o site usa o Gmail (trocar só `mail` em assets/js/contact.js). Conferir a doc oficial do Cloudflare antes.
+- [x] Contato: WhatsApp +55 32 98813-4420 e contato@martinsrenan.com.br (aprovado pelo Renan para publicar; o Gmail dele não aparece mais no site).
+- [x] E-mail contato@martinsrenan.com.br (2026-10-22): Cloudflare Email Routing → Gmail, testado; o site usa contato@ (assets/js/contact.js).
 - [x] Página institucional Soluções em TI (2026-10-21): carreira do currículo do Renan como rack (6 fases, clique puxa o servidor e mostra no console), competências que acendem as fases, KPIs do CV, formação/certificações como módulos SFP, idiomas e prêmios. SEM dados pessoais (nome completo, endereço); empregadores e clientes da carreira aparecem (são do CV profissional).
 - [x] Conteúdo dos projetos (2026-10-22): 12 páginas com descrição, stack, prints e links, ver `assets/js/projects.js`.
 - [x] GitHub Pages ativo (2026-10-21): branch main, pasta raiz, em https://renan1.github.io/site-martinsrenan/ (107 arquivos conferidos com 200, sem erros de CSP).
