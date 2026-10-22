@@ -25,7 +25,7 @@ contato/index.html          WhatsApp + e-mail (dados em assets/js/contact.js, mo
 projetos/<slug>/index.html  página interativa de cada projeto (hoje: scanner, leitor-qr, cardapio, viagens, tv, dashboard, financas, sites, ti, preco, apuracao — todas as portas)
 assets/css/  base.css (cores, tema, cabeçalho) · fonts.css · rodape.css (rodapé, todas as páginas) · patch.css · projetos.css · scanner.css
 assets/js/   projects.js (FONTE ÚNICA dos 12 projetos) · patch.js · projetos.js · scanner.js · theme.js
-assets/fonts/ fontes locais .woff2 (OFL, ver LICENCAS.md) · assets/img/favicon.svg
+assets/fonts/ fontes locais .woff2 (OFL, ver LICENCAS.md) · assets/img/ (favicon.svg, apple-touch-icon.png, icon-192/512.png, logo/) · manifest.webmanifest
 design/      protótipos e maquetes (não fazem parte do site)
 tools/serve.mjs  servidor local
 .nojekyll    faz o GitHub Pages servir os arquivos sem processar
@@ -33,6 +33,7 @@ tools/serve.mjs  servidor local
 - Ver localmente: `node tools/serve.mjs` e abrir http://localhost:4173 (o servidor do app desliga quando a sessão reinicia: se localhost não abrir, é isso)
 - Galeria de prints: `<ol class="shots"><li><figure><img>…<figcaption>` + `assets/css/lightbox.css` e `assets/js/lightbox.js` na página = clicar amplia o print (setas/deslizar troca, Esc fecha). Usado em scanner, leitor-qr, cardapio, viagens, dashboard, financas.
 - Fonte manuscrita: Kalam (a Nanum Pen Script foi trocada porque não tem acentos do português).
+- Todo `<head>` leva, logo após o `rel="icon"`: `apple-touch-icon`, `rel="manifest"` e as duas metas `theme-color` (claro #D9DDE0, escuro #0B0D0E); copiar de qualquer página existente, ajustando o prefixo `../`.
 - Nova página de projeto: criar `projetos/<slug>/index.html` + `assets/css/<slug>.css` + `assets/js/<slug>.js` e pôr `page: '<slug>'` no projeto em `projects.js`.
 - Links sempre RELATIVOS (`projetos/`, `../`, `../../`), para funcionar no domínio e no localhost.
 - Cada página tem CSP em `<meta>`: só arquivos do próprio site, sem CSS/JS embutido no HTML (nada de `<style>`, `<script>` inline ou `style=""`). Variáveis CSS setadas por JS (`el.style.setProperty`) são permitidas.
@@ -66,7 +67,7 @@ tools/serve.mjs  servidor local
 ## Pendências (2026-10-22, em ordem)
 1. [feito 2026-10-22] Domínio testado: HTTPS, www e redirecionamento OK.
 2. [feito 2026-10-22] E-mail contato@martinsrenan.com.br: Email Routing ativo (MX nulo e SPF antigo apagados), encaminha para o Gmail do Renan; teste de recebimento OK; `mail` em contact.js trocado. Respostas pelo Gmail saem do Gmail, não de contato@ (enviar "como" contato@ exigiria SMTP externo, não configurado).
-3. Logo: Renan gera imagens com os prompts da seção Status e manda a escolhida; Claude redesenha em SVG e aplica nas 15 páginas.
+3. [feito 2026-10-22] Logo aplicado (favicon, ícones, manifest, theme-color nas 15 páginas). Pendente só a decisão do Renan sobre pôr a marca no cabeçalho.
 4. [feito 2026-10-22] Inventário: tabela removida; a fonte é `assets/js/projects.js`.
 5. [feito 2026-10-22] Rodapé "© 2026 Renan Martins" (texto definido pelo Renan; sem "todos os direitos reservados" nem "criado por") em `assets/css/rodape.css` + `<footer class="rodape">` nas 15 páginas, no main. Páginas novas devem incluir os dois.
 6. Opção do site todo em inglês (pedido do Renan, 2026-10-22). Antes de traduzir, DECIDIR a estrutura com o Renan: pastas `/en/` espelhando as páginas OU arquivo de textos por idioma carregado por JS (o CSP proíbe script inline). Custo alto: dobra a manutenção. Incluir seletor PT/EN no menu do topo e `lang`/`hreflang` corretos.
@@ -132,7 +133,6 @@ A lista oficial (nome, descrição, stack, repo, privado/público, cor) está em
 - [x] GitHub Pages ativo (2026-10-21): branch main, pasta raiz, em https://renan1.github.io/site-martinsrenan/ (107 arquivos conferidos com 200, sem erros de CSP).
 - [x] Domínio apontado para o site (2026-10-22): https://martinsrenan.com.br no ar. HTTPS e testes OK.
 - [x] Visualizador de prints (lightbox) nas 6 galerias (2026-10-21).
-- [ ] Logo "RM · Soluções em TI · IA" + favicon/ícone do iPhone. 2026-10-21: 3 propostas em SVG em `design/logo/` (A porta RJ45, B um cabo só, C etiqueta de rack) RECUSADAS: muito literais, escuras/pesadas e letras fracas. Renan escolheu gerar imagens com IA: caminho grátis = ele gera no ChatGPT/Gemini/Ideogram com os prompts abaixo e manda; Claude redesenha a escolhida em SVG. OpenRouter (pago, chave) só com OK.
-  Prompts: (1) monograma "RM" geométrico, um traço compartilhado, espaço negativo, tinta #15191C em branco, acento verde-menta #7CFFB0, sem gradiente/3D/circuito/robô; (2) R e M com poucas linhas e um ponto-nó na conexão (IA sutil, sem cérebro/chip), fundo claro; (3) símbolo abstrato de duas formas que se encaixam formando R e M, legível em 16 px; (4) logotipo "RM" + "Soluções em TI · IA" em monoespaçada.
-  Depois da escolha: favicon.svg + apple-touch-icon.png 180×180 + ícones 192/512 + manifest.webmanifest + meta theme-color em todas as 15 páginas (PNG via Edge sem janela, como os prints).
+- [x] Logo "RM · Renan Martins · Soluções em TI · IA" (2026-10-22): vetorização (potrace) da imagem gerada em IA que o Renan aprovou. R, M, ">" e letras são os da imagem; o retângulo menta virou um quadrado de 52 px com aba de porta Ethernet (quadrado #53E59E, aba arredondada #3DC187). Tinta #15191C (escura: #EDF1F3). Aprovado como "publicável" (o Renan sabe que pode melhorar). Arquivos: `assets/img/logo/` (logo e marca, claro e escuro), `assets/img/favicon.svg`, `apple-touch-icon.png` (180, fundo cheio, sem cantos transparentes por causa do iOS), `icon-192.png`, `icon-512.png`, `manifest.webmanifest` (display "browser"). Fonte e histórico: `design/logo/v2/index.html`. Para regerar os PNGs: renderizar o SVG com Edge/Chromium sem janela a partir de uma página em arquivo (um `setContent` em branco não abre `file://`).
+  Limites conhecidos: em 16/32 px a aba da porta some (vira só um ponto verde); o "IA" do slogan em menta sobre branco tem contraste 1,6:1; o menta do logo (#53E59E) difere do #7CFFB0 do patch panel; `theme-color` segue a preferência do sistema, não o botão de tema do site; sem ícone "maskable" no manifest; a marca ainda NÃO aparece no cabeçalho.
 - [ ] Compra do .dev no Cloudflare + redirecionamento
