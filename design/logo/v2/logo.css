@@ -1,0 +1,8 @@
+body { margin: 0; padding: 32px; font: 15px/1.5 system-ui, sans-serif; background: #e9ecee; color: #15191c; }
+h1 { font-size: 20px; margin: 0 0 4px; } p { max-width: 70ch; margin: 0 0 24px; color: #4a5258; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px; }
+figure { margin: 0; background: #fff; border: 1px solid #cfd4d8; padding: 14px; } figure img { width: 100%; display: block; }
+figcaption { font: 500 12px/1.4 ui-monospace, monospace; margin-top: 8px; color: #4a5258; }
+.tiny { display: flex; gap: 24px; align-items: end; flex-wrap: wrap; } .tiny figure { padding: 12px; }
+figure.dark { background: #15191c; border-color: #15191c; } figure.dark figcaption { color: #aab2b8; }
+.sub { margin-top: 32px; }
