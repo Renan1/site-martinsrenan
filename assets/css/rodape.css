@@ -1,3 +1,5 @@
-/* Rodapé comum a todas as páginas: só herda cor e tipografia da página. */
-.rodape { max-width: 1320px; margin: 0 auto; padding: 28px 28px 32px; font: 500 12px/1.4 "Red Hat Mono", ui-monospace, monospace; letter-spacing: .04em; color: inherit; opacity: .6; }
+/* Rodapé comum a todas as páginas: marca pequena + © (herda cor e tipografia da página). */
+.rodape { max-width: 1320px; margin: 0 auto; padding: 28px 28px 32px; display: flex; align-items: center; gap: 10px; font: 500 12px/1.4 "Red Hat Mono", ui-monospace, monospace; letter-spacing: .04em; color: inherit; }
+.rodape .marca { height: 16px; width: auto; flex: none; }
+.rodape span { opacity: .6; }
 @media (max-width: 640px) { .rodape { padding: 24px 16px 28px; } }
