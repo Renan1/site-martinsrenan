@@ -51,19 +51,30 @@ tools/serve.mjs  servidor local
 - Commits pequenos; nunca `git push --force`.
 - Marcar incertezas como "suposição"; consultar docs oficiais.
 
-## DNS e domínio (estado em 2026-10-21, ~20h)
-- Site no ar em https://renan1.github.io/site-martinsrenan/ (GitHub Pages, branch main, raiz).
-- Cloudflare: conta do Renan, domínio adicionado (plano Free, "Connect a domain"). Nameservers atribuídos: `aitana.ns.cloudflare.com` e `sonny.ns.cloudflare.com`.
-  Registros já no Cloudflare: TXT `_github-pages-challenge-Renan1` = `a67119822097007a2fb234c9449cfc` (verificação do GitHub, MANTER PARA SEMPRE) + 3 registros de proteção criados pelo Cloudflare (MX nulo ".", SPF `v=spf1 -all`, DMARC reject) que o Email Routing vai substituir depois.
-- registro.br: hoje em modo avançado (servidores `d.sec.dns.br`/`e.sec.dns.br`), com o mesmo TXT. ATENÇÃO: o modo avançado LIGOU o DNSSEC (DS keytag 18564 publicado). Ao trocar para os nameservers do Cloudflare, deixar os campos de DNSSEC/DS VAZIOS (senão o domínio para) e conferir depois que o DS sumiu: `Resolve-DnsName martinsrenan.com.br -Type DS -Server 8.8.8.8`. DNSSEC pode ser religado depois pelo Cloudflare.
-- Próximos passos, nesta ordem (doc oficial do GitHub, conferida 2026-10-21):
-  1. Renan clica em Verify no GitHub (perfil → Settings → Pages → ⋯ → Continue verifying). O TXT já está público.
-  2. Renan troca no registro.br os servidores DNS para aitana/sonny (campos DNSSEC vazios) e clica "I updated my nameservers" no Cloudflare. Conferir com `nslookup -type=NS martinsrenan.com.br 8.8.8.8` até aparecer cloudflare.
-  3. Pôr o domínio no repo (Settings → Pages → Custom domain `martinsrenan.com.br`; via API: `gh api -X PUT repos/Renan1/site-martinsrenan/pages -f cname=martinsrenan.com.br`). NÃO fazer antes do DNS apontar: o github.io passa a redirecionar para o domínio.
-  4. No Cloudflare, nuvem CINZA ("DNS only", suposição: laranja atrapalha o certificado do GitHub; conferir doc): A raiz 185.199.108.153 / .109.153 / .110.153 / .111.153; AAAA opcionais 2606:50c0:8000::153 / 8001 / 8002 / 8003; CNAME `www` → `renan1.github.io`. Sem registro curinga (*).
-  5. Enforce HTTPS no repo (pode levar até 24 h para liberar).
-  6. Email Routing no Cloudflare para contato@ → Gmail; depois trocar `mail` em assets/js/contact.js.
+## DNS e domínio (estado em 2026-10-22: NO AR)
+- Site no ar em https://martinsrenan.com.br (GitHub Pages, branch main, raiz; arquivo `CNAME` na raiz criado pelo GitHub ao salvar o Custom domain). O endereço antigo https://renan1.github.io/site-martinsrenan/ passa a redirecionar para o domínio.
+- DNS no CLOUDFLARE (plano Free, conta do Renan). Nameservers: `aitana.ns.cloudflare.com` e `sonny.ns.cloudflare.com` (já trocados no registro.br, com DNSSEC/DS vazio).
+- Registros no Cloudflare, nuvem CINZA ("DNS only"; suposição: a laranja atrapalha o certificado do GitHub, não conferido na doc): A raiz 185.199.108.153 / .109.153 / .110.153 / .111.153 e CNAME `www` → `renan1.github.io`. Sem registro curinga (*).
+- TXT `_github-pages-challenge-Renan1` = `a67119822097007a2fb234c9449cfc` (verificação do domínio no GitHub, MANTER PARA SEMPRE).
+- 3 registros de proteção criados pelo Cloudflare (MX nulo ".", SPF `v=spf1 -all`, DMARC reject): o Email Routing vai substituí-los.
+- DNSSEC: desligado ao trocar para o Cloudflare (o DS antigo, keytag 18564, saiu). Pode ser religado depois pelo Cloudflare, se o Renan quiser. Conferir: `Resolve-DnsName martinsrenan.com.br -Type DS -Server 8.8.8.8`.
+- Feito (Renan, 2026-10-22): Verify no GitHub, troca dos nameservers, registros A/CNAME, Custom domain no repo. Renan confirmou "site no ar".
+- Pendente: Enforce HTTPS (Settings → Pages; pode levar até 24 h para liberar) e testar no navegador: https com cadeado, `www` abrindo/redirecionando, http redirecionando para https. Suposição: ainda NÃO conferido por Claude (o container não alcança o domínio).
+- Pendente: Email Routing no Cloudflare para contato@ → Gmail; depois trocar `mail` em assets/js/contact.js (conferir a doc oficial do Cloudflare antes).
 - Nas configurações de bots do Cloudflare: Search e Agent = Allow; Training = escolha do Renan.
+
+## Pendências (2026-10-22, em ordem)
+1. Enforce HTTPS + testar o domínio (acima).
+2. E-mail contato@ (Email Routing).
+3. Logo: Renan gera imagens com os prompts da seção Status e manda a escolhida; Claude redesenha em SVG e aplica nas 15 páginas.
+4. Inventário abaixo está desatualizado ("(descrever)", falta `precificacao-couveflor`): a fonte real dos 12 projetos é `assets/js/projects.js`.
+5. Depois: compra do .dev no Cloudflare + redirecionamento.
+
+## Trabalhar em outro PC (ex.: PC da empresa)
+- Clonar: `git clone https://github.com/Renan1/site-martinsrenan.git` e entrar na pasta. Se já existe: `git checkout main` e `git pull origin main`.
+- Ver localmente: `node tools/serve.mjs` e abrir http://localhost:4173. Não precisa de `npm install`.
+- Skills `img-to-html` e `to-wireframe` não vêm no repo: reinstalar pela seção "Skills".
+- A branch `claude/determined-meitner-esifiv` só guarda wireframes recusados (`design/v2/`); não usar nem juntar.
 
 ## Skills (reinstalar em outro PC, pelo Git Bash)
 ```bash
@@ -128,7 +139,7 @@ Menu do topo (todas as páginas): Projetos concluídos (`/projetos/`, só conclu
 - [x] Página institucional Soluções em TI (2026-10-21): carreira do currículo do Renan como rack (6 fases, clique puxa o servidor e mostra no console), competências que acendem as fases, KPIs do CV, formação/certificações como módulos SFP, idiomas e prêmios. SEM dados pessoais (nome completo, endereço); empregadores e clientes da carreira aparecem (são do CV profissional).
 - [ ] Conteúdo dos projetos (descrição, stack, prints, links)
 - [x] GitHub Pages ativo (2026-10-21): branch main, pasta raiz, em https://renan1.github.io/site-martinsrenan/ (107 arquivos conferidos com 200, sem erros de CSP).
-- [ ] Domínio apontado para o site: em andamento, ver "DNS e domínio" acima (próximo: Verify no GitHub + trocar nameservers com DNSSEC vazio).
+- [x] Domínio apontado para o site (2026-10-22): https://martinsrenan.com.br no ar. Falta só Enforce HTTPS + teste no navegador, ver "DNS e domínio".
 - [x] Visualizador de prints (lightbox) nas 6 galerias (2026-10-21).
 - [ ] Logo "RM · Soluções em TI · IA" + favicon/ícone do iPhone. 2026-10-21: 3 propostas em SVG em `design/logo/` (A porta RJ45, B um cabo só, C etiqueta de rack) RECUSADAS: muito literais, escuras/pesadas e letras fracas. Renan escolheu gerar imagens com IA: caminho grátis = ele gera no ChatGPT/Gemini/Ideogram com os prompts abaixo e manda; Claude redesenha a escolhida em SVG. OpenRouter (pago, chave) só com OK.
   Prompts: (1) monograma "RM" geométrico, um traço compartilhado, espaço negativo, tinta #15191C em branco, acento verde-menta #7CFFB0, sem gradiente/3D/circuito/robô; (2) R e M com poucas linhas e um ponto-nó na conexão (IA sutil, sem cérebro/chip), fundo claro; (3) símbolo abstrato de duas formas que se encaixam formando R e M, legível em 16 px; (4) logotipo "RM" + "Soluções em TI · IA" em monoespaçada.
