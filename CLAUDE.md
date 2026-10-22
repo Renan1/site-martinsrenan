@@ -23,7 +23,7 @@ projetos/index.html         projetos concluídos
 futuros/index.html          em construção + próximos projetos (futuros.js)
 contato/index.html          WhatsApp + e-mail (dados em assets/js/contact.js, montados em pedaços contra robôs de spam)
 projetos/<slug>/index.html  página interativa de cada projeto (hoje: scanner, leitor-qr, cardapio, viagens, tv, dashboard, financas, sites, ti, preco, apuracao — todas as portas)
-assets/css/  base.css (cores, tema, cabeçalho) · fonts.css · patch.css · projetos.css · scanner.css
+assets/css/  base.css (cores, tema, cabeçalho) · fonts.css · rodape.css (rodapé, todas as páginas) · patch.css · projetos.css · scanner.css
 assets/js/   projects.js (FONTE ÚNICA dos 12 projetos) · patch.js · projetos.js · scanner.js · theme.js
 assets/fonts/ fontes locais .woff2 (OFL, ver LICENCAS.md) · assets/img/favicon.svg
 design/      protótipos e maquetes (não fazem parte do site)
@@ -60,23 +60,23 @@ tools/serve.mjs  servidor local
 - DNSSEC: desligado ao trocar para o Cloudflare (o DS antigo, keytag 18564, saiu). Pode ser religado depois pelo Cloudflare, se o Renan quiser. Conferir: `Resolve-DnsName martinsrenan.com.br -Type DS -Server 8.8.8.8`.
 - Feito (Renan, 2026-10-22): Verify no GitHub, troca dos nameservers, registros A/CNAME, Custom domain no repo. Renan confirmou "site no ar".
 - Feito (Renan, 2026-10-22): "DNS check successful", Enforce HTTPS ATIVO e teste no navegador OK (https com cadeado, www, http→https). Domínio concluído.
-- Pendente: Email Routing no Cloudflare para contato@ → Gmail; depois trocar `mail` em assets/js/contact.js (conferir a doc oficial do Cloudflare antes).
+- Feito (2026-10-22): Email Routing no Cloudflare, contato@ → Gmail, testado. Os registros MX (route1/2/3.mx.cloudflare.net), SPF `include:_spf.mx.cloudflare.net` e DKIM `cf2024-1._domainkey` agora são do Email Routing: NÃO apagar. O MX nulo e o SPF `-all` antigos foram removidos.
 - Nas configurações de bots do Cloudflare: Search e Agent = Allow; Training = escolha do Renan.
 
 ## Pendências (2026-10-22, em ordem)
 1. [feito 2026-10-22] Domínio testado: HTTPS, www e redirecionamento OK.
-2. E-mail contato@ (Email Routing).
+2. [feito 2026-10-22] E-mail contato@martinsrenan.com.br: Email Routing ativo (MX nulo e SPF antigo apagados), encaminha para o Gmail do Renan; teste de recebimento OK; `mail` em contact.js trocado. Respostas pelo Gmail saem do Gmail, não de contato@ (enviar "como" contato@ exigiria SMTP externo, não configurado).
 3. Logo: Renan gera imagens com os prompts da seção Status e manda a escolhida; Claude redesenha em SVG e aplica nas 15 páginas.
-4. Inventário abaixo está desatualizado ("(descrever)", falta `precificacao-couveflor`): a fonte real dos 12 projetos é `assets/js/projects.js`.
-5. Rodapé padrão em todas as 15 páginas: "© 2026 Renan Martins" + "Criado por Renan Martins" (pedido do Renan, 2026-10-22). Sugestão: sem nome completo (regra de dados pessoais); "todos os direitos reservados" é opcional (sem efeito jurídico no Brasil). Fazer no CSS/HTML estático, sem script de terceiros; combinar o texto exato com o Renan antes.
+4. [feito 2026-10-22] Inventário: tabela removida; a fonte é `assets/js/projects.js`.
+5. [feito 2026-10-22] Rodapé "© 2026 Renan Martins" (texto definido pelo Renan; sem "todos os direitos reservados" nem "criado por") em `assets/css/rodape.css` + `<footer class="rodape">` nas 15 páginas, no main. Páginas novas devem incluir os dois.
 6. Opção do site todo em inglês (pedido do Renan, 2026-10-22). Antes de traduzir, DECIDIR a estrutura com o Renan: pastas `/en/` espelhando as páginas OU arquivo de textos por idioma carregado por JS (o CSP proíbe script inline). Custo alto: dobra a manutenção. Incluir seletor PT/EN no menu do topo e `lang`/`hreflang` corretos.
-7. Depois: compra do .dev no Cloudflare + redirecionamento.
+7. POR ÚLTIMO (tem custo): compra do .dev no Cloudflare + redirecionamento.
 
 ## Trabalhar em outro PC (ex.: PC da empresa)
 - Clonar: `git clone https://github.com/Renan1/site-martinsrenan.git` e entrar na pasta. Se já existe: `git checkout main` e `git pull origin main`.
 - Ver localmente: `node tools/serve.mjs` e abrir http://localhost:4173. Não precisa de `npm install`.
 - Skills `img-to-html` e `to-wireframe` não vêm no repo: reinstalar pela seção "Skills".
-- A branch `claude/determined-meitner-esifiv` só guarda wireframes recusados (`design/v2/`); não usar nem juntar.
+- A branch `claude/determined-meitner-esifiv` guarda wireframes recusados (`design/v2/`) e serviu de rascunho do rodapé; não juntar ao main (levar commits por cherry-pick).
 
 ## Skills (reinstalar em outro PC, pelo Git Bash)
 ```bash
@@ -106,19 +106,8 @@ Layout: problemas (U1) → calha de cabos (U2) → soluções (U3) → display e
 Projetos futuros: ficam em `/futuros/` (lista `window.FUTURE` em projects.js) até ficarem prontos; aí viram porta no painel. English Coach saiu do painel em 2026-10-21 (fraco por enquanto) e está em `/futuros/`.
 Menu do topo (todas as páginas): Projetos concluídos (`/projetos/`, só concluídos) · Contato · Futuros projetos (`/futuros/`) · Tema.
 
-## Inventário de projetos (GitHub Renan1, levantado em 2026-10-20)
-| Repo | Visibilidade | Descrição |
-|---|---|---|
-| viagens-couveflor | público | Sistema de viagens Couveflor |
-| scanner-couveflor | privado | PWA: digitalizar, OCR, renomear e compartilhar documentos |
-| tv-couveflor | público | (descrever) |
-| gerarcardapio-couveflor | público | Gera cardápio diário para posts em redes sociais |
-| leitor-qr-couveflor | público | (descrever) |
-| apuracao2026 | público | (descrever) |
-| sistemafinanceiro-familiar | público | Controle de gastos familiar |
-| couveflor-dashboard | privado | (descrever) |
-| couveflor-site | público | Site da Couveflor |
-| english-coach | local | Tutor de inglês falado com IA (Claude) — Cloudflare Pages + Worker + Supabase |
+## Inventário de projetos
+A lista oficial (nome, descrição, stack, repo, privado/público, cor) está em `assets/js/projects.js` (`PROJECTS` = 12 portas; `FUTURE` = futuros, hoje só English Coach). NÃO duplicar aqui. Repos privados (sem link de código): scanner-couveflor, couveflor-dashboard, precificacao-couveflor.
 
 ## Status
 - [x] Domínio .com.br comprado
@@ -136,10 +125,10 @@ Menu do topo (todas as páginas): Projetos concluídos (`/projetos/`, só conclu
 - [x] Página do Gerador de preço (2026-10-21): gôndola com 5 etiquetas (produtos fictícios do guia: Bala Menta 39,00/21 → R$ 3,00), mesmas fórmulas do calc.js (venda/markup, preço fixado, arredondar, unidade/caixa, erro ≥100%), memória de cálculo + conferência, assistente do Simples Anexo I (1,2 mi → 8,83%; ICMS-ST 5,87%). Repo PRIVADO: sem link de código; detalhes do Access (nome da política, e-mails) NÃO vão para o site.
 - [x] Página da Apuração 2026 (2026-10-21): relógio da noite 17h→23h, celular com Início/Eleitos/Avisos, avisos de troca de liderança (Senado = 2 vagas), resumo dos deputados, caminho navegador×função×TSE com cache de 55 s. Candidatos, partidos e votos FICTÍCIOS (nunca resultados reais).
 - [x] Todas as 12 portas têm página (15 páginas no site; a página Sites cita "15 páginas": atualizar se mudar).
-- [x] Contato: WhatsApp +55 32 98813-4420 e renanasmartins@gmail.com (aprovado pelo Renan para publicar).
-- [ ] E-mail contato@martinsrenan.com.br (decisão do Renan: QUER usar; provavelmente Cloudflare Email Routing, grátis). Fazer junto com a publicação/DNS; até lá o site usa o Gmail (trocar só `mail` em assets/js/contact.js). Conferir a doc oficial do Cloudflare antes.
+- [x] Contato: WhatsApp +55 32 98813-4420 e contato@martinsrenan.com.br (aprovado pelo Renan para publicar; o Gmail dele não aparece mais no site).
+- [x] E-mail contato@martinsrenan.com.br (2026-10-22): Cloudflare Email Routing → Gmail, testado; o site usa contato@ (assets/js/contact.js).
 - [x] Página institucional Soluções em TI (2026-10-21): carreira do currículo do Renan como rack (6 fases, clique puxa o servidor e mostra no console), competências que acendem as fases, KPIs do CV, formação/certificações como módulos SFP, idiomas e prêmios. SEM dados pessoais (nome completo, endereço); empregadores e clientes da carreira aparecem (são do CV profissional).
-- [ ] Conteúdo dos projetos (descrição, stack, prints, links)
+- [x] Conteúdo dos projetos (2026-10-22): 12 páginas com descrição, stack, prints e links, ver `assets/js/projects.js`.
 - [x] GitHub Pages ativo (2026-10-21): branch main, pasta raiz, em https://renan1.github.io/site-martinsrenan/ (107 arquivos conferidos com 200, sem erros de CSP).
 - [x] Domínio apontado para o site (2026-10-22): https://martinsrenan.com.br no ar. HTTPS e testes OK.
 - [x] Visualizador de prints (lightbox) nas 6 galerias (2026-10-21).
