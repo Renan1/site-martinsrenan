@@ -19,13 +19,14 @@ Portfólio de projetos de TI e IA do Renan Martins. Dono: Renan (TI/infra/cyber;
 Site estático SEM build (sem Vite, sem node_modules): HTML + CSS + JS puros, publicado como está no GitHub Pages.
 ```
 index.html                  página inicial (patch panel)
+404.html                    página de erro (GitHub Pages serve em qualquer endereço inexistente; usa caminhos a partir da raiz)
 projetos/index.html         projetos concluídos
 futuros/index.html          em construção + próximos projetos (futuros.js)
 contato/index.html          WhatsApp + e-mail (dados em assets/js/contact.js, montados em pedaços contra robôs de spam)
 projetos/<slug>/index.html  página interativa de cada projeto (hoje: scanner, leitor-qr, cardapio, viagens, tv, dashboard, financas, sites, ti, preco, apuracao — todas as portas)
-assets/css/  base.css (cores, tema, cabeçalho) · fonts.css · rodape.css (rodapé) · marca.css (marca RM no cabeçalho) · patch.css · projetos.css · scanner.css
+assets/css/  base.css (cores, tema, cabeçalho) · fonts.css · rodape.css (rodapé com marca) · marca.css (marca RM no cabeçalho e no rodapé) · e404.css (só a 404) · patch.css · projetos.css · scanner.css
 assets/js/   projects.js (FONTE ÚNICA dos 12 projetos) · patch.js · projetos.js · scanner.js · theme.js
-assets/fonts/ fontes locais .woff2 (OFL, ver LICENCAS.md) · assets/img/ (favicon.svg, apple-touch-icon.png, icon-192/512.png, logo/) · manifest.webmanifest
+assets/fonts/ fontes locais .woff2 (OFL, ver LICENCAS.md) · assets/img/ (favicon.svg, apple-touch-icon.png, icon-192/512.png, og.png, logo/) · manifest.webmanifest
 design/      protótipos e maquetes (não fazem parte do site)
 tools/serve.mjs  servidor local
 .nojekyll    faz o GitHub Pages servir os arquivos sem processar
@@ -35,6 +36,9 @@ tools/serve.mjs  servidor local
 - Fonte manuscrita: Kalam (a Nanum Pen Script foi trocada porque não tem acentos do português).
 - Todo `<head>` leva, logo após o `rel="icon"`: `apple-touch-icon`, `rel="manifest"` e as duas metas `theme-color` (claro #D9DDE0, escuro #0B0D0E); copiar de qualquer página existente, ajustando o prefixo `../`.
 - Cabeçalho (todas as páginas): dentro de `.who`, antes do nome, `<img class="marca marca-l" src=".../assets/img/logo/marca-claro.svg" alt=""><img class="marca marca-d" src=".../assets/img/logo/marca-escuro.svg" alt="">` + `<link>` para `assets/css/marca.css` (depois do `rodape.css`). A imagem clara/escura troca com o tema pelo CSS. Altura 24 px; no celular o `.top` quebra linha (senão o menu das páginas de projeto estoura a largura).
+- Rodapé (todas as páginas, antes dos `<script>`): `<footer class="rodape"><img class="marca marca-l" src=".../assets/img/logo/marca-claro.svg" alt=""><img class="marca marca-d" src=".../assets/img/logo/marca-escuro.svg" alt=""><span>© 2026 Renan Martins</span></footer>` + `rodape.css`.
+- Compartilhamento (WhatsApp etc.): todo `<head>` leva, depois do `description`, as metas `og:type`, `og:locale`, `og:site_name`, `og:title` (= `<title>`), `og:description` (= description), `og:url` (endereço completo da página), `og:image` (`https://martinsrenan.com.br/assets/img/og.png`, 1200×630, 36 KB; versão ESCURA escolhida em 2026-10-22, a clara foi descartada), `og:image:width/height/alt` e `twitter:card`. O endereço da imagem PRECISA ser completo (https://...). Não testado no WhatsApp real (o container não o alcança); o WhatsApp guarda o cartão em cache.
+- Página 404: `404.html` na raiz é a ÚNICA exceção à regra de links relativos: usa `/assets/...` e `/projetos/` porque é servida em qualquer profundidade. Tem `noindex` e não conta nas "15 páginas".
 - Nova página de projeto: criar `projetos/<slug>/index.html` + `assets/css/<slug>.css` + `assets/js/<slug>.js` e pôr `page: '<slug>'` no projeto em `projects.js`.
 - Links sempre RELATIVOS (`projetos/`, `../`, `../../`), para funcionar no domínio e no localhost.
 - Cada página tem CSP em `<meta>`: só arquivos do próprio site, sem CSS/JS embutido no HTML (nada de `<style>`, `<script>` inline ou `style=""`). Variáveis CSS setadas por JS (`el.style.setProperty`) são permitidas.
@@ -68,9 +72,9 @@ tools/serve.mjs  servidor local
 ## Pendências (2026-10-22, em ordem)
 1. [feito 2026-10-22] Domínio testado: HTTPS, www e redirecionamento OK.
 2. [feito 2026-10-22] E-mail contato@martinsrenan.com.br: Email Routing ativo (MX nulo e SPF antigo apagados), encaminha para o Gmail do Renan; teste de recebimento OK; `mail` em contact.js trocado. Respostas pelo Gmail saem do Gmail, não de contato@ (enviar "como" contato@ exigiria SMTP externo, não configurado).
-3. [feito 2026-10-22] Logo aplicado (favicon, ícones, manifest, theme-color nas 15 páginas). Marca no cabeçalho feita (opção A, 2026-10-22). Ideias ainda SEM decisão do Renan: marca no rodapé, imagem de compartilhamento Open Graph 1200×630 (WhatsApp), página 404.html, assinatura do e-mail.
+3. [feito 2026-10-22] Logo aplicado: favicon, ícones, manifest, theme-color, marca no cabeçalho (opção A) e no rodapé, imagem de compartilhamento (og.png, versão escura) e página 404. Ideia ainda SEM decisão: assinatura do e-mail contato@ com o logo.
 4. [feito 2026-10-22] Inventário: tabela removida; a fonte é `assets/js/projects.js`.
-5. [feito 2026-10-22] Rodapé "© 2026 Renan Martins" (texto definido pelo Renan; sem "todos os direitos reservados" nem "criado por") em `assets/css/rodape.css` + `<footer class="rodape">` nas 15 páginas, no main. Páginas novas devem incluir os dois.
+5. [feito 2026-10-22] Rodapé "© 2026 Renan Martins" (texto definido pelo Renan; sem "todos os direitos reservados" nem "criado por") em `assets/css/rodape.css` + `<footer class="rodape">` nas 15 páginas, agora com a marca RM pequena (16 px) antes do texto. Páginas novas devem incluir os dois.
 6. Opção do site todo em inglês (pedido do Renan, 2026-10-22). Antes de traduzir, DECIDIR a estrutura com o Renan: pastas `/en/` espelhando as páginas OU arquivo de textos por idioma carregado por JS (o CSP proíbe script inline). Custo alto: dobra a manutenção. Incluir seletor PT/EN no menu do topo e `lang`/`hreflang` corretos.
 7. POR ÚLTIMO (tem custo): compra do .dev no Cloudflare + redirecionamento.
 
@@ -135,5 +139,5 @@ A lista oficial (nome, descrição, stack, repo, privado/público, cor) está em
 - [x] Domínio apontado para o site (2026-10-22): https://martinsrenan.com.br no ar. HTTPS e testes OK.
 - [x] Visualizador de prints (lightbox) nas 6 galerias (2026-10-21).
 - [x] Logo "RM · Renan Martins · Soluções em TI · IA" (2026-10-22): vetorização (potrace) da imagem gerada em IA que o Renan aprovou. R, M, ">" e letras são os da imagem; o retângulo menta virou um quadrado de 52 px com aba de porta Ethernet (quadrado #53E59E, aba arredondada #3DC187). Tinta #15191C (escura: #EDF1F3). Aprovado como "publicável" (o Renan sabe que pode melhorar). Arquivos: `assets/img/logo/` (logo e marca, claro e escuro), `assets/img/favicon.svg`, `apple-touch-icon.png` (180, fundo cheio, sem cantos transparentes por causa do iOS), `icon-192.png`, `icon-512.png`, `manifest.webmanifest` (display "browser"). Fonte e histórico: `design/logo/v2/index.html`. Para regerar os PNGs: renderizar o SVG com Edge/Chromium sem janela a partir de uma página em arquivo (um `setContent` em branco não abre `file://`).
-  Limites conhecidos: em 16/32 px a aba da porta some (vira só um ponto verde); o "IA" do slogan em menta sobre branco tem contraste 1,6:1; o menta do logo (#53E59E) difere do #7CFFB0 do patch panel; `theme-color` segue a preferência do sistema, não o botão de tema do site; sem ícone "maskable" no manifest; a marca aparece no cabeçalho (ver "Estrutura do site").
+  Limites conhecidos: em 16/32 px a aba da porta some (vira só um ponto verde); o "IA" do slogan em menta sobre branco tem contraste 1,6:1; o menta do logo (#53E59E) difere do #7CFFB0 do patch panel; `theme-color` segue a preferência do sistema, não o botão de tema do site; sem ícone "maskable" no manifest; a marca aparece no cabeçalho e no rodapé (ver "Estrutura do site").
 - [ ] Compra do .dev no Cloudflare + redirecionamento
