@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data: blob:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Gerador de cardápio — Renan Martins</title>
+<meta name="description" content="Gerador de cardápio da Couve Flor: digite os pratos do dia e o app desenha no celular a imagem 1080×1920 pronta para o WhatsApp. Experimente aqui.">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/fonts.css">
+<link rel="stylesheet" href="../../assets/css/cardapio.css">
+<link rel="stylesheet" href="../../assets/css/lightbox.css">
+</head>
+<body>
+<header class="top">
+  <a class="who" href="../../">Renan Martins</a>
+  <nav><a class="pill" href="../../">← Painel</a><a class="pill" href="../">Concluídos</a><button class="pill" type="button" data-theme-toggle>Tema</button></nav>
+</header>
+
+<main>
+<section class="intro">
+  <p class="kicker">PORTA 07 · GERADOR DE CARDÁPIO</p>
+  <h1>Da lista da cozinha ao Status do WhatsApp em <em>um toque</em>.</h1>
+  <p>Todo dia, duas vezes por dia, o cardápio virava arte para as redes. Agora a equipe cola a lista de pratos e o app desenha a imagem no próprio celular. Experimente: monte o cardápio e gere.</p>
+</section>
+
+<section class="lab" aria-label="Simulação do gerador de cardápio">
+  <div class="bench">
+    <label class="lbl" for="day">Dia da semana</label>
+    <select id="day">
+      <option>Segunda-feira</option><option>Terça-feira</option><option>Quarta-feira</option>
+      <option>Quinta-feira</option><option selected>Sexta-feira</option><option>Sábado</option>
+    </select>
+
+    <div class="lbl-row"><label class="lbl" for="items">Itens do cardápio (um por linha)</label><button type="button" class="link" id="clear">Limpar</button></div>
+    <textarea id="items" rows="10" spellcheck="false"></textarea>
+    <p class="hint">A ordem digitada é a ordem na imagem. Tente um prato fora da lista, como "Pudim caseiro".</p>
+
+    <details class="gallery" id="gallery">
+      <summary>Veja as opções disponíveis (<span id="count">0</span>)</summary>
+      <input type="search" id="search" placeholder="Buscar prato (ex.: frango)" aria-label="Buscar prato">
+      <div id="groups"></div>
+    </details>
+
+    <button type="button" class="go" id="gen">Gerar cardápio</button>
+  </div>
+
+  <div class="stage">
+    <div class="phone"><canvas id="story" width="1080" height="1920" aria-label="Imagem do cardápio gerada"></canvas></div>
+    <ul class="warns" id="warns" aria-live="polite"></ul>
+    <div class="acts">
+      <button type="button" class="act primary" id="save">Salvar imagem (PNG)</button>
+      <a class="act" href="#app">Ver o app ↓</a>
+    </div>
+    <p class="note">Ícones ilustrativos desenhados aqui no navegador. O app real usa 147 ícones próprios.</p>
+  </div>
+</section>
+
+<section class="app" id="app" aria-labelledby="app-t">
+  <div class="sec-h">
+    <p class="kicker">O APP DE VERDADE</p>
+    <h2 id="app-t">Cinco passos, dois minutos.</h2>
+    <p>Prints do guia do operador.</p>
+  </div>
+  <ol class="shots">
+    <li><figure><img src="../../assets/img/cardapio/resultado.jpg" width="520" height="925" loading="lazy" alt="Imagem gerada: Cardápio do Dia, Sexta-feira, com a logo da Couve Flor e cada prato com seu ícone."><figcaption><b>1</b> O resultado: story 9:16</figcaption></figure></li>
+    <li><figure><img src="../../assets/img/cardapio/inicio.jpg" width="520" height="738" loading="lazy" alt="Tela inicial: dia da semana, itens um por linha e botão Gerar cardápio."><figcaption><b>2</b> Dia + lista de pratos</figcaption></figure></li>
+    <li><figure><img src="../../assets/img/cardapio/galeria.jpg" width="520" height="795" loading="lazy" alt="Galeria de pratos com busca por frango e ícones por categoria."><figcaption><b>3</b> Galeria com busca</figcaption></figure></li>
+    <li><figure><img src="../../assets/img/cardapio/gerado.jpg" width="520" height="990" loading="lazy" alt="Imagem gerada na tela e botão Salvar imagem."><figcaption><b>4</b> Gera e salva na galeria</figcaption></figure></li>
+    <li><figure><img src="../../assets/img/cardapio/sem-icone.jpg" width="520" height="1022" loading="lazy" alt="Item sem ícone específico: tigela genérica e aviso em vermelho."><figcaption><b>5</b> Prato desconhecido avisa</figcaption></figure></li>
+    <li><figure><img src="../../assets/img/cardapio/historico.jpg" width="520" height="554" loading="lazy" alt="Histórico de cardápios com exportar CSV, usar este cardápio e excluir."><figcaption><b>6</b> Histórico e CSV</figcaption></figure></li>
+  </ol>
+</section>
+
+<section class="sheet" aria-labelledby="sheet-t">
+  <div class="sec-h">
+    <p class="kicker">FICHA TÉCNICA</p>
+    <h2 id="sheet-t">Gerador de cardápio Couve Flor</h2>
+  </div>
+  <dl class="spec">
+    <div><dt>Problema</dt><dd>O cardápio do dia precisa ir para o WhatsApp e as redes cerca de duas vezes por dia, e montar a arte à mão toma tempo de quem está na cozinha.</dd></div>
+    <div><dt>Solução</dt><dd>Escolhe o dia, cola a lista (até do próprio WhatsApp) e o app desenha a imagem 1080 × 1920 com um ícone para cada prato. Salvar abre o compartilhar do celular: galeria ou direto no WhatsApp.</dd></div>
+    <div><dt>Como reconhece</dt><dd>Pelo texto: ignora maiúsculas e acentos, e o nome mais longo ganha ("bolinho de arroz" vence "arroz"). Prato desconhecido recebe uma tigela genérica e um aviso, para nada sair errado sem querer.</dd></div>
+    <div><dt>Histórico</dt><dd>Cada geração fica guardada no aparelho (dia, data, itens), sem duplicar a última. Dá para reusar um cardápio antigo ou exportar tudo em CSV.</dd></div>
+    <div><dt>Sem servidor</dt><dd>Tudo é desenhado no próprio celular: sem login, sem upload, funciona com internet fraca.</dd></div>
+    <div><dt>Stack</dt><dd class="mono">HTML · CSS · JavaScript puros · Canvas 2D · Web Share API · localStorage · CSV · GitHub Pages</dd></div>
+    <div><dt>Código</dt><dd><a href="https://github.com/Renan1/gerarcardapio-couveflor" target="_blank" rel="noopener">github.com/Renan1/gerarcardapio-couveflor ↗</a></dd></div>
+  </dl>
+  <nav class="foot-nav">
+    <a class="act" href="../../">← Voltar ao painel</a>
+    <a class="act" href="../">Projetos concluídos</a>
+    <a class="act" href="../../contato/">Quero algo assim</a>
+  </nav>
+</section>
+</main>
+
+<script src="../../assets/js/cardapio.js"></script>
+<script src="../../assets/js/lightbox.js"></script>
+<script src="../../assets/js/theme.js"></script>
+</body>
+</html>

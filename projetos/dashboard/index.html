@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Dashboard interativo — Renan Martins</title>
+<meta name="description" content="Painel de Operação & Financeiro da Couve Flor: junta fechamento, plano de contas e medição num painel só, com filtros cruzados, leitura estratégica e conciliação. Experimente com dados fictícios.">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/fonts.css">
+<link rel="stylesheet" href="../../assets/css/dashboard.css">
+<link rel="stylesheet" href="../../assets/css/lightbox.css">
+</head>
+<body>
+<header class="top">
+  <a class="who" href="../../">Renan Martins</a>
+  <nav><a class="pill" href="../../">← Painel</a><a class="pill" href="../">Concluídos</a><button class="pill" type="button" data-theme-toggle>Tema</button></nav>
+</header>
+
+<main>
+<section class="intro">
+  <p class="kicker">PORTA 08 · DASHBOARD INTERATIVO</p>
+  <h1>A empresa saiu da planilha e <em>coube numa tela</em>.</h1>
+  <p>Todo mês chegavam três arquivos diferentes: o fechamento das refeições, o plano de contas do consultor e a medição do maior cliente. Agora eles viram um painel só. Importe os arquivos, clique nos gráficos para filtrar e mexa no simulador. (Dados 100% fictícios.)</p>
+</section>
+
+<section class="lab" aria-label="Simulação do painel">
+  <aside class="desk">
+    <p class="lbl">ARQUIVOS DO MÊS</p>
+    <div class="files">
+      <button type="button" class="file xlsx" data-src="pdv"><span class="ic">XLSX</span><b>Fechamento PDV.xlsx</b><small>refeições servidas por dia</small><i>importar</i></button>
+      <button type="button" class="file pdf" data-src="plano"><span class="ic">PDF</span><b>Plano de Contas.pdf</b><small>receitas e despesas do consultor</small><i>importar</i></button>
+      <button type="button" class="file xlsx" data-src="medicao"><span class="ic">XLSX</span><b>Medição Cliente A.xlsx</b><small>o que o maior cliente aprovou</small><i>importar</i></button>
+    </div>
+    <button type="button" class="act all" id="all">Importar tudo</button>
+
+    <div class="sim" id="sim">
+      <p class="lbl">SIMULADOR · ÚLTIMO MÊS (AGO)</p>
+      <label>Food cost <b id="fc-v">32%</b><input type="range" id="fc" min="24" max="44" value="32"></label>
+      <label>Peso do maior cliente <b id="sh-v">52%</b><input type="range" id="sh" min="20" max="70" value="52"></label>
+      <label class="chk"><input type="checkbox" id="fin"> Taxas de cartão dispararam</label>
+      <p class="hint">A Leitura Estratégica recalcula na hora.</p>
+    </div>
+  </aside>
+
+  <div class="dash" id="dash">
+    <div class="dash-h">
+      <div><b>Painel Couve Flor</b><small>Operação &amp; Financeiro · Jan–Ago</small></div>
+      <div class="chips" id="chips"></div>
+    </div>
+
+    <div class="mod" data-need="pdv">
+      <div class="kpis" id="kpis"></div>
+      <div class="card">
+        <div class="card-h"><b>Faturamento mensal por cliente</b><small>clique numa barra, cliente ou mês para filtrar tudo</small></div>
+        <div class="legend" id="legend"></div>
+        <svg id="bars" viewBox="0 0 640 220" role="img" aria-label="Faturamento mensal por cliente"></svg>
+      </div>
+      <div class="lock">Importe o <b>Fechamento PDV</b> para ver a operação</div>
+    </div>
+
+    <div class="mod" data-need="plano">
+      <div class="card">
+        <div class="card-h"><b>Cartão de Bolso</b><small>borda verde = dentro da faixa de referência</small></div>
+        <div class="pocket" id="pocket"></div>
+      </div>
+      <div class="card">
+        <div class="card-h"><b>Leitura Estratégica</b><small>achados calculados, cada um com "o que fazer"</small></div>
+        <ul class="reads" id="reads"></ul>
+      </div>
+      <div class="lock">Importe o <b>Plano de Contas</b> para ver o financeiro</div>
+    </div>
+
+    <div class="mod" data-need="medicao">
+      <div class="card">
+        <div class="card-h"><b>Conciliação · Cliente A</b><small>o que foi servido foi faturado?</small></div>
+        <div class="tbl-wrap"><table class="conc" id="conc"></table></div>
+      </div>
+      <div class="lock">Importe a <b>Medição</b> para conferir o faturamento</div>
+    </div>
+  </div>
+</section>
+
+<section class="app" id="app" aria-labelledby="app-t">
+  <div class="sec-h">
+    <p class="kicker">O PAINEL DE VERDADE</p>
+    <h2 id="app-t">Sete abas, um negócio inteiro.</h2>
+    <p>Prints do guia do painel, com dados fictícios (Cliente A, B, C). Telas de login omitidas.</p>
+  </div>
+  <ol class="shots">
+    <li><figure><div class="phone"><img src="../../assets/img/dashboard/visao-geral.jpg" width="520" height="1000" loading="lazy" alt="Visão Geral: abas, faixa de resumo e cartões de faturamento, refeições, ticket médio e maior cliente."></div><figcaption><b>1</b> Visão Geral e abas</figcaption></figure></li>
+    <li><figure><div class="phone"><img src="../../assets/img/dashboard/capacidade.jpg" width="520" height="976" loading="lazy" alt="Capacidade produtiva: média diária, mediana, pico observado e dia forte (p90)."></div><figcaption><b>2</b> Capacidade produtiva</figcaption></figure></li>
+    <li><figure><div class="phone"><img src="../../assets/img/dashboard/cartao-bolso.jpg" width="520" height="1000" loading="lazy" alt="Cartão de Bolso com margens, food cost, folha, despesa financeira e concentração do maior cliente."></div><figcaption><b>3</b> Cartão de Bolso</figcaption></figure></li>
+    <li><figure><div class="phone"><img src="../../assets/img/dashboard/peso-clientes.jpg" width="520" height="1000" loading="lazy" alt="Peso de cada cliente no faturamento: gráfico de rosca e tabela mês a mês."></div><figcaption><b>4</b> Peso de cada cliente</figcaption></figure></li>
+    <li><figure><div class="phone"><img src="../../assets/img/dashboard/conciliacao.jpg" width="520" height="1000" loading="lazy" alt="Conciliação do Cliente A: Medição reconciliada, PDV e Financeiro mês a mês."></div><figcaption><b>5</b> Conciliação</figcaption></figure></li>
+    <li><figure><div class="phone"><img src="../../assets/img/dashboard/explorador.jpg" width="520" height="1000" loading="lazy" alt="Explorador: escolhe De e Até e compara com o período anterior."></div><figcaption><b>6</b> Explorador de períodos</figcaption></figure></li>
+  </ol>
+</section>
+
+<section class="sheet" aria-labelledby="sheet-t">
+  <div class="sec-h">
+    <p class="kicker">FICHA TÉCNICA</p>
+    <h2 id="sheet-t">Painel Couve Flor — Operação &amp; Financeiro</h2>
+  </div>
+  <dl class="spec">
+    <div><dt>Problema</dt><dd>Os números da empresa estavam espalhados em três fontes que não conversavam: o fechamento diário das refeições, o relatório mensal do consultor e a medição do maior cliente. Cruzar tudo à mão tomava tempo e escondia erros de faturamento.</dd></div>
+    <div><dt>Solução</dt><dd>Um painel com sete abas: Visão Geral, uma aba por cliente, Financeiro, Conciliação e Explorador. Quase tudo é clicável: clicar num cliente, mês ou refeição filtra o painel inteiro.</dd></div>
+    <div><dt>Leitura Estratégica</dt><dd>Achados calculados a cada mês: cliente com 40% ou mais da receita (risco crítico), margem que mudou 5 p.p. ou mais, food cost acima de 35% e despesa financeira que disparou. Cada um com "o que fazer".</dd></div>
+    <div><dt>Conciliação</dt><dd>Confere Medição × PDV × Financeiro para achar refeição servida e não faturada. Mês sem documento aparece como "aguardando" — o painel nunca inventa valor.</dd></div>
+    <div><dt>Segurança</dt><dd>Repositório privado e painel atrás do Cloudflare Access (Zero Trust): só e-mails autorizados entram, com código enviado por e-mail a cada login. Deploy automático a cada push, publicando só a pasta final.</dd></div>
+    <div><dt>Stack</dt><dd class="mono">JavaScript puro · gráficos SVG feitos à mão · Python (build e extração de PDF/Excel) · validação de somas e teste de renderização · Cloudflare Workers + Access · GitHub Actions</dd></div>
+    <div><dt>Código</dt><dd>Privado (repositório <span class="mono">couveflor-dashboard</span>): aqui só a descrição, as telas e uma simulação.</dd></div>
+  </dl>
+  <nav class="foot-nav">
+    <a class="act" href="../../">← Voltar ao painel</a>
+    <a class="act" href="../">Projetos concluídos</a>
+    <a class="act" href="../../contato/">Quero algo assim</a>
+  </nav>
+</section>
+</main>
+
+<script src="../../assets/js/dashboard.js"></script>
+<script src="../../assets/js/lightbox.js"></script>
+<script src="../../assets/js/theme.js"></script>
+</body>
+</html>

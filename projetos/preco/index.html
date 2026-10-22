@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Gerador de preço — Renan Martins</title>
+<meta name="description" content="Calculadora de precificação: preço de venda a partir do custo da caixa, margem, imposto e taxas, com memória de cálculo e Simples Nacional. Experimente com produtos fictícios.">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/fonts.css">
+<link rel="stylesheet" href="../../assets/css/preco.css">
+</head>
+<body>
+<header class="top">
+  <a class="who" href="../../">Renan Martins</a>
+  <nav><a class="pill" href="../../">← Painel</a><a class="pill" href="../">Concluídos</a><button class="pill" type="button" data-theme-toggle>Tema</button></nav>
+</header>
+
+<main>
+<section class="intro">
+  <p class="kicker">PORTA 10 · GERADOR DE PREÇO</p>
+  <h1>Preço <s>no chute</s> <em>na conta</em>.</h1>
+  <p>Quanto cobrar por uma bala, se a caixa custou R$ 39,00 e vem com 21? A calculadora tira o preço do custo, da margem, do imposto e da maquininha, e mostra a conta. Mexa nos parâmetros e veja as etiquetas mudarem. (Produtos e valores fictícios, do guia do app.)</p>
+</section>
+
+<section class="lab" aria-label="Simulação da calculadora de preço">
+  <div class="params" aria-label="Parâmetros">
+    <label>Margem padrão <span class="in"><input type="number" id="margem" min="0" max="95" step="1" value="30"><i>%</i></span></label>
+    <label>Imposto <span class="in"><input type="number" id="imposto" min="0" max="40" step="0.01" value="8"><i>%</i></span></label>
+    <label>Taxas (maquininha) <span class="in"><input type="number" id="taxas" min="0" max="20" step="0.1" value="0"><i>%</i></span></label>
+    <div class="seg"><span>Margem sobre</span><button type="button" data-base="venda" aria-pressed="true">venda</button><button type="button" data-base="custo" aria-pressed="false">custo (markup)</button></div>
+    <div class="seg"><span>Preço por</span><button type="button" data-un="un" aria-pressed="true">unidade</button><button type="button" data-un="cx" aria-pressed="false">caixa</button></div>
+    <label>Arredondar para cima
+      <select id="round"><option value="0">não</option><option value="0.05">R$ 0,05</option><option value="0.10">R$ 0,10</option><option value="0.50">R$ 0,50</option><option value="1">R$ 1,00</option></select>
+    </label>
+  </div>
+  <p class="warn" id="warn">Imposto provisório: 8% é uma estimativa. Use o assistente do Simples abaixo para aplicar a alíquota real.</p>
+
+  <div class="shelf" id="shelf"></div>
+
+  <div class="bottom">
+    <div class="memo" id="memo" aria-live="polite"></div>
+    <div class="simples">
+      <h2>Assistente do Simples Nacional · Anexo I</h2>
+      <label>Receita bruta dos últimos 12 meses (RBT12)<input id="rbt" inputmode="decimal" placeholder="ex.: 1.200.000,00" value="1.200.000,00"></label>
+      <label class="chk"><input type="checkbox" id="st"> Produtos com ICMS-ST já pago pelo fornecedor</label>
+      <div class="sres" id="sres"></div>
+      <button type="button" class="apply" id="apply">Aplicar como imposto</button>
+    </div>
+  </div>
+  <p class="total" id="total"></p>
+</section>
+
+<section class="sheet" aria-labelledby="sheet-t">
+  <div class="sec-h">
+    <p class="kicker">FICHA TÉCNICA</p>
+    <h2 id="sheet-t">Calculadora de Precificação</h2>
+  </div>
+  <dl class="spec">
+    <div><dt>Problema</dt><dd>No balcão de doces do restaurante o preço era decidido no chute: custo da caixa dividido pela quantidade, mais "um pouco". Imposto e maquininha comiam a margem sem ninguém perceber.</dd></div>
+    <div><dt>Solução</dt><dd>Preço = custo ÷ (1 − imposto − taxas − margem). Imposto e taxas incidem sobre o preço de venda, por isso entram no divisor. Cada produto mostra a memória de cálculo e a conferência do lucro, centavo por centavo.</dd></div>
+    <div><dt>Regras</dt><dd>Editar a margem recalcula o preço; fixar o preço faz a margem virar resultado. Se margem + imposto + taxas chegam a 100%, a linha mostra erro em vez de preço. O imposto padrão fica marcado como provisório até a alíquota real ser aplicada.</dd></div>
+    <div><dt>Simples Nacional</dt><dd>Assistente do Anexo I (comércio): alíquota efetiva = (RBT12 × nominal − dedução) ÷ RBT12, com redução para ICMS-ST. Acima de R$ 4,8 milhões, avisa que a empresa sai do Simples.</dd></div>
+    <div><dt>Segurança</dt><dd>A página mostra custos e margens, então nunca fica pública: repositório privado, login por código de e-mail no Cloudflare Access em todo o tráfego (produção e previews) e meta noindex. Nenhuma chave no código.</dd></div>
+    <div><dt>Stack</dt><dd class="mono">HTML · CSS · JavaScript puros · testes com node --test · exportação JSON/CSV · Cloudflare Pages + Access</dd></div>
+    <div><dt>Código</dt><dd>Privado (repositório <span class="mono">precificacao-couveflor</span>): aqui só a descrição e uma simulação com as mesmas fórmulas.</dd></div>
+  </dl>
+  <nav class="foot-nav">
+    <a class="act" href="../../">← Voltar ao painel</a>
+    <a class="act" href="../">Projetos concluídos</a>
+    <a class="act" href="../../contato/">Quero algo assim</a>
+  </nav>
+</section>
+</main>
+
+<script src="../../assets/js/preco.js"></script>
+<script src="../../assets/js/theme.js"></script>
+</body>
+</html>

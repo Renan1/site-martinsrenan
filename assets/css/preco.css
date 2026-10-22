@@ -1,0 +1,132 @@
+/* Página do Gerador de preço: gôndola com etiquetas de preço + memória de cálculo em papel de cupom + assistente do Simples. */
+:root {
+  --wall: #EEEAE2; --wall-2: #E4DFD5; --ink: #1A1814; --ink-2: #6A645A; --card: #FBF9F4; --line: #D3CDC1;
+  --shelf: #B9BEC2; --shelf-2: #8E959A; --tag: #FFE14D; --tag-ink: #141210; --red: #D7261E; --paper: #FFFEF8; --paper-ink: #2A2722;
+}
+:root[data-theme="dark"] {
+  --wall: #121110; --wall-2: #191816; --ink: #ECE8E0; --ink-2: #9A9387; --card: #1B1A18; --line: #34312C;
+  --shelf: #4A5055; --shelf-2: #2C3134; --paper: #E9E5DA;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --wall: #121110; --wall-2: #191816; --ink: #ECE8E0; --ink-2: #9A9387; --card: #1B1A18; --line: #34312C;
+    --shelf: #4A5055; --shelf-2: #2C3134; --paper: #E9E5DA;
+  }
+}
+* { box-sizing: border-box; margin: 0; }
+body { background: var(--wall); color: var(--ink); font: 400 16px/1.5 "Sora", system-ui, sans-serif; overflow-x: hidden; transition: background-color .3s, color .3s; }
+button, input, select { font: inherit; color: inherit; }
+a { color: inherit; }
+[hidden] { display: none !important; }
+.mono { font-family: "Red Hat Mono", monospace; }
+
+.top { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 18px 28px; max-width: 1240px; margin: 0 auto; }
+.who { font-weight: 800; font-size: 18px; text-decoration: none; }
+.top nav { display: flex; gap: 8px; }
+.pill, .act { display: inline-block; white-space: nowrap; text-decoration: none; background: transparent; color: var(--ink); border: 1.5px solid var(--ink); border-radius: 999px; padding: 5px 13px; cursor: pointer; font-size: 13px; }
+
+.intro { max-width: 1240px; margin: 0 auto; padding: 8px 28px 22px; }
+.kicker { font: 500 12px "Red Hat Mono", monospace; letter-spacing: .16em; color: var(--ink-2); margin-bottom: 10px; }
+.intro h1 { font-weight: 800; font-size: clamp(34px, 5vw, 64px); line-height: .98; letter-spacing: -.04em; }
+.intro h1 s { text-decoration-color: var(--red); text-decoration-thickness: 5px; color: var(--ink-2); }
+.intro h1 em { font-style: normal; background: var(--tag); color: var(--tag-ink); padding: 0 .12em; }
+.intro p:last-child { color: var(--ink-2); margin-top: 14px; max-width: 70ch; }
+
+.lab { max-width: 1240px; margin: 0 auto; padding: 0 28px; }
+.lab > * { min-width: 0; }
+
+/* Parâmetros: régua no topo, como no app */
+.params { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: end; background: var(--card); border: 1.5px solid var(--line); border-radius: 10px; padding: 12px 16px; }
+.params label, .seg { display: flex; flex-direction: column; gap: 4px; font: 600 11px "Red Hat Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+.in { display: flex; align-items: center; border: 1.5px solid var(--line); border-radius: 6px; background: var(--wall); }
+.in input { width: 64px; border: 0; background: transparent; padding: 5px 4px 5px 8px; font: 600 15px "Red Hat Mono", monospace; color: var(--ink); text-transform: none; }
+.in i { font-style: normal; padding-right: 8px; color: var(--ink-2); }
+.params select { border: 1.5px solid var(--line); border-radius: 6px; background: var(--wall); padding: 5px 8px; font: 600 14px "Red Hat Mono", monospace; text-transform: none; letter-spacing: 0; }
+.seg { flex-direction: row; align-items: center; gap: 0; flex-wrap: wrap; }
+.seg span { width: 100%; margin-bottom: 4px; }
+.seg button { border: 1.5px solid var(--line); background: var(--wall); padding: 4px 10px; cursor: pointer; font: 600 13px "Sora", sans-serif; letter-spacing: 0; text-transform: none; color: var(--ink); }
+.seg button + button { border-left: 0; }
+.seg button:nth-child(2) { border-radius: 6px 0 0 6px; } .seg button:last-child { border-radius: 0 6px 6px 0; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--wall); border-color: var(--ink); }
+.warn { margin-top: 10px; font-size: 13.5px; background: #FFF1C9; color: #6B4A00; border-left: 4px solid #E0A100; padding: 8px 12px; border-radius: 4px; }
+
+/* Gôndola: prateleira metálica com etiquetas */
+.shelf { margin-top: 26px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; padding: 0 14px 22px; position: relative;
+  background: linear-gradient(transparent calc(100% - 22px), var(--shelf) calc(100% - 22px), var(--shelf-2)); border-radius: 0 0 6px 6px; }
+.shelf::before { content: ""; position: absolute; left: 0; right: 0; bottom: -10px; height: 10px; background: linear-gradient(rgba(0,0,0,.25), transparent); }
+.tag { position: relative; background: var(--tag); color: var(--tag-ink); border-radius: 3px; padding: 10px 12px 12px; cursor: pointer; display: flex; flex-direction: column; gap: 6px;
+  box-shadow: 0 2px 0 rgba(0,0,0,.15); transition: transform .2s, box-shadow .2s; outline: none; }
+.tag::before { content: ""; position: absolute; left: 50%; top: -7px; width: 30px; height: 7px; margin-left: -15px; background: var(--shelf-2); border-radius: 2px 2px 0 0; }
+.tag:hover { transform: translateY(-3px); }
+.tag.on { transform: translateY(-6px) rotate(-1deg); box-shadow: 0 0 0 3px var(--ink), 0 14px 18px -10px rgba(0,0,0,.5); }
+.tag .name { font: 700 13px/1.2 "Barlow Condensed", "Sora", sans-serif; text-transform: uppercase; letter-spacing: .03em; min-height: 2.4em; }
+.tag .box { display: flex; gap: 6px; }
+.tag .box label { display: flex; flex-direction: column; font: 600 9.5px "Red Hat Mono", monospace; letter-spacing: .06em; text-transform: uppercase; opacity: .8; min-width: 0; }
+.tag .box label:first-child { flex: 1.5; } .tag .box label:last-child { flex: 1; }
+.tag .box input { width: 100%; border: 1px solid rgba(0,0,0,.25); background: rgba(255,255,255,.45); border-radius: 3px; padding: 2px 5px; font: 600 13px "Red Hat Mono", monospace; color: var(--tag-ink); }
+.price { display: flex; align-items: flex-start; gap: 3px; border-top: 2px solid var(--tag-ink); padding-top: 6px; }
+.price .cur { font: 700 14px "Barlow Condensed", sans-serif; margin-top: 6px; }
+.price .pv { width: 100%; min-width: 0; border: 0; background: transparent; font: 600 40px/1 "Barlow Condensed", "Sora", sans-serif; letter-spacing: -.01em; color: var(--tag-ink); padding: 0; border-bottom: 1.5px dashed transparent; }
+.price .pv:focus { outline: none; border-bottom-color: var(--tag-ink); }
+.tag .per { font: 600 11px "Red Hat Mono", monospace; margin-top: -4px; }
+.tag .note { font: 500 11px "Red Hat Mono", monospace; opacity: .8; }
+.tag.fix .price .pv { color: var(--red); }
+.tag.fix .note { color: var(--red); opacity: 1; font-weight: 700; }
+.tag.err { background: #F4D2CF; }
+.tag.err .price .pv { color: var(--red); font-size: 30px; }
+.tag .reset { align-self: flex-start; background: none; border: 0; padding: 0; text-decoration: underline; cursor: pointer; font-size: 11.5px; color: var(--tag-ink); }
+
+.total { margin-top: 26px; font: 600 14px "Red Hat Mono", monospace; color: var(--ink-2); }
+
+/* Memória de cálculo (cupom) + Simples */
+.bottom { display: grid; grid-template-columns: 1.1fr 1fr; gap: 24px; margin-top: 30px; align-items: start; }
+.bottom > * { min-width: 0; }
+.memo { background: var(--paper); color: var(--paper-ink); font: 400 13.5px/1.55 "Courier Prime", "Red Hat Mono", monospace; padding: 18px 20px 26px; position: relative;
+  box-shadow: 0 16px 30px -18px rgba(0,0,0,.45); min-height: 280px;
+  -webkit-mask: radial-gradient(circle 6px at 8px 100%, transparent 98%, #000) -8px 0 / 16px 100% repeat-x; mask: radial-gradient(circle 6px at 8px 100%, transparent 98%, #000) -8px 0 / 16px 100% repeat-x; }
+.memo .mh { font-weight: 700; letter-spacing: .2em; text-align: center; border-bottom: 1px dashed currentColor; padding-bottom: 6px; margin-bottom: 8px; }
+.memo .mp { font-weight: 700; font-size: 15px; margin-bottom: 6px; }
+.memo .ml { margin: 3px 0; overflow-wrap: anywhere; }
+.memo table { width: 100%; border-collapse: collapse; margin-top: 12px; border-top: 1px dashed currentColor; }
+.memo td { padding: 3px 0; }
+.memo td:last-child { text-align: right; }
+.memo tr.sum td { border-top: 1px solid currentColor; font-weight: 700; }
+.memo .mf { margin-top: 10px; font-weight: 700; }
+.memo .dim, .simples .dim { opacity: .65; font-size: 12.5px; margin-top: 4px; }
+.memo .bad, .simples .bad { color: var(--red); font-weight: 700; }
+
+.simples { background: var(--card); border: 1.5px solid var(--line); border-radius: 10px; padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; }
+.simples h2 { font-size: 16px; font-weight: 800; }
+.simples label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--ink-2); }
+.simples label input:not([type]) { border: 1.5px solid var(--line); border-radius: 6px; background: var(--wall); padding: 7px 10px; font: 600 15px "Red Hat Mono", monospace; color: var(--ink); }
+.simples .chk { flex-direction: row; align-items: center; gap: 8px; cursor: pointer; }
+.sres { font: 400 13px/1.55 "Red Hat Mono", monospace; min-height: 90px; }
+.sres .big { font: 600 44px/1 "Barlow Condensed", sans-serif; margin-top: 6px; }
+.apply { align-self: flex-start; background: var(--ink); color: var(--wall); border: 0; border-radius: 999px; padding: 8px 16px; cursor: pointer; font-size: 14px; }
+.apply:disabled { opacity: .4; cursor: default; }
+
+/* Ficha técnica */
+.sheet { max-width: 1240px; margin: 0 auto; padding: 72px 28px 0; }
+.sec-h { margin-bottom: 22px; }
+.sec-h h2 { font-weight: 800; font-size: clamp(30px, 4vw, 48px); line-height: 1; letter-spacing: -.03em; }
+.spec { border-top: 2px solid var(--ink); margin: 0; }
+.spec div { display: grid; grid-template-columns: 200px 1fr; gap: 24px; padding: 16px 0; border-bottom: 1px dashed var(--line); }
+.spec dt { font: 600 12px "Red Hat Mono", monospace; letter-spacing: .12em; text-transform: uppercase; padding-top: 4px; }
+.spec dd { margin: 0; font-size: 16px; line-height: 1.6; max-width: 72ch; }
+.spec dd.mono { font-size: 14px; }
+.foot-nav { display: flex; gap: 10px; flex-wrap: wrap; padding: 36px 0 80px; }
+.foot-nav .act { font-size: 14px; padding: 8px 16px; }
+
+@media (max-width: 1000px) {
+  .shelf { grid-template-columns: repeat(3, 1fr); row-gap: 40px; background: none; padding: 0; }
+  .tag::after { content: ""; position: absolute; left: -6px; right: -6px; bottom: -14px; height: 10px; background: linear-gradient(var(--shelf), var(--shelf-2)); border-radius: 2px; z-index: -1; }
+  .bottom { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .top { padding: 14px 16px; }
+  .top nav { gap: 6px; }
+  .pill { padding: 4px 9px; font-size: 12px; }
+  .intro, .lab, .sheet { padding-left: 16px; padding-right: 16px; }
+  .shelf { grid-template-columns: 1fr 1fr; }
+  .spec div { grid-template-columns: 1fr; gap: 6px; }
+}

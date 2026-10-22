@@ -1,0 +1,119 @@
+/* Página do projeto TV corporativa: parede do refeitório com a TV + pasta conteudo/ do GitHub. */
+:root {
+  --bg: #EDE8E0; --tile: #E2DBD0; --ink: #1D2321; --ink-2: #636B67; --line: #D3CBBE; --card: #FBF9F5; --field: #FFFFFF;
+  --teal: #12857A; --teal-soft: #D5EEEA; --red: #B3261E; --wood: #8A6A4A;
+}
+:root[data-theme="dark"] {
+  --bg: #131614; --tile: #191D1B; --ink: #E6ECE9; --ink-2: #93A09B; --line: #2A302D; --card: #1A1F1D; --field: #101412;
+  --teal: #4FD1BF; --teal-soft: #173A35; --red: #F2867B; --wood: #4E3B29;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #131614; --tile: #191D1B; --ink: #E6ECE9; --ink-2: #93A09B; --line: #2A302D; --card: #1A1F1D; --field: #101412;
+    --teal: #4FD1BF; --teal-soft: #173A35; --red: #F2867B; --wood: #4E3B29;
+  }
+}
+* { box-sizing: border-box; margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 400 16px/1.5 "Sora", system-ui, sans-serif; overflow-x: hidden; transition: background-color .3s, color .3s; }
+button, input { font: inherit; color: inherit; }
+a { color: inherit; }
+.mono { font-family: "Red Hat Mono", monospace; }
+[hidden] { display: none !important; }
+
+.top { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 18px 28px; max-width: 1240px; margin: 0 auto; }
+.who { font-weight: 800; font-size: 18px; text-decoration: none; }
+.top nav { display: flex; gap: 8px; }
+.pill, .act { display: inline-block; white-space: nowrap; text-decoration: none; background: transparent; color: var(--ink); border: 1.5px solid var(--ink); border-radius: 999px; padding: 5px 13px; cursor: pointer; font-size: 13px; }
+
+.intro { max-width: 1240px; margin: 0 auto; padding: 8px 28px 28px; }
+.kicker { font: 500 12px "Red Hat Mono", monospace; letter-spacing: .16em; color: var(--teal); margin-bottom: 10px; }
+.intro h1 { font-weight: 800; font-size: clamp(30px, 4.4vw, 56px); line-height: 1; letter-spacing: -.035em; max-width: 22ch; }
+.intro h1 em { font-style: normal; color: var(--teal); }
+.intro p:last-child { color: var(--ink-2); margin-top: 14px; max-width: 68ch; }
+
+/* Sala: parede com azulejos + TV + Raspberry; pasta do repositório ao lado */
+.room { max-width: 1240px; margin: 0 auto; padding: 0 28px; display: grid; grid-template-columns: 1fr 340px; gap: 32px; align-items: start; }
+.wall { border-radius: 18px; padding: 34px 34px 22px; background-color: var(--tile);
+  background-image: linear-gradient(var(--bg) 2px, transparent 2px), linear-gradient(90deg, var(--bg) 2px, transparent 2px); background-size: 46px 46px; }
+.tv { background: #0B0B0B; border-radius: 12px; padding: 12px 12px 0; box-shadow: 0 30px 50px -22px rgba(0,0,0,.6); }
+.screen { position: relative; aspect-ratio: 16 / 9; background: #000; overflow: hidden; border-radius: 3px; }
+.slide { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease-in-out; }
+.slide.active { opacity: 1; z-index: 1; }
+.clock { position: absolute; right: 2.4%; bottom: 3%; z-index: 10; color: rgba(255,255,255,.88); font: 700 clamp(18px, 3.2vw, 40px) "Sora", sans-serif; text-shadow: 0 2px 8px rgba(0,0,0,.6); }
+.diag { position: absolute; left: 1.5%; top: 2.5%; z-index: 20; max-width: 80%; background: rgba(180,0,0,.88); color: #fff; font: 600 clamp(10px, 1.3vw, 14px) "Red Hat Mono", monospace; padding: 6px 10px; border-radius: 5px; }
+.empty { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 20px; background: #900; color: #fff; font-size: clamp(13px, 1.8vw, 20px); z-index: 15; }
+.bezel { display: flex; justify-content: space-between; align-items: center; padding: 7px 4px 9px; }
+.brand { font: 600 9.5px "Red Hat Mono", monospace; letter-spacing: .2em; color: #6C6C6C; }
+.power { width: 6px; height: 6px; border-radius: 50%; background: #2BD46F; box-shadow: 0 0 6px #2BD46F; }
+.stand { display: flex; justify-content: center; align-items: flex-start; gap: 0; height: 64px; position: relative; }
+.cable { width: 3px; height: 34px; background: #222; margin-right: -2px; }
+.pi { margin-top: 30px; background: #2E7D32; color: #E8F5E9; border-radius: 6px; padding: 5px 10px 5px 12px; font: 600 9px "Red Hat Mono", monospace; letter-spacing: .14em; display: flex; align-items: center; gap: 8px; box-shadow: 0 6px 12px -6px rgba(0,0,0,.5);
+  background-image: radial-gradient(#C9A227 1px, transparent 1.5px); background-size: 6px 6px; background-position: right 4px top 3px; background-repeat: repeat-y; }
+.pi .led { width: 6px; height: 6px; border-radius: 50%; background: #FF4D4D; box-shadow: 0 0 6px #FF4D4D; }
+.pi.busy .led { background: #3EE19A; box-shadow: 0 0 6px #3EE19A; }
+.ctrl { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+.now { font: 600 13px "Red Hat Mono", monospace; }
+.ctrl-acts { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.speed { font-size: 13px; display: flex; gap: 6px; align-items: center; cursor: pointer; }
+.speed small { color: var(--ink-2); }
+
+/* Pasta do GitHub */
+.repo { background: var(--card); border: 1.5px solid var(--line); border-radius: 14px; overflow: hidden; }
+.repo-h { display: flex; justify-content: space-between; gap: 8px; padding: 10px 14px; border-bottom: 1.5px solid var(--line); font-size: 13px; background: color-mix(in srgb, var(--card) 70%, var(--line)); }
+.files { list-style: none; padding: 4px 0; }
+.files li { display: grid; grid-template-columns: 22px 46px 1fr auto; gap: 8px; align-items: center; padding: 6px 12px; border-bottom: 1px dashed var(--line); font-size: 13px; }
+.files li.on { background: var(--teal-soft); }
+.files li.bad .name { color: var(--red); }
+.files input { width: 16px; height: 16px; accent-color: var(--teal); cursor: pointer; }
+.files .thumb { width: 46px; aspect-ratio: 16/9; object-fit: cover; border-radius: 3px; background: #000; display: block; }
+.files .thumb.video { display: grid; place-items: center; color: #fff; font: 700 9px "Red Hat Mono", monospace; }
+.files .name { font-family: "Red Hat Mono", monospace; font-size: 12.5px; line-height: 1.25; }
+.files .name small { display: block; font-family: "Sora", sans-serif; color: var(--ink-2); font-size: 11px; }
+.files .mv { display: flex; gap: 2px; }
+.files .mv button { background: none; border: 1px solid var(--line); border-radius: 4px; width: 22px; height: 22px; cursor: pointer; font-size: 11px; line-height: 1; }
+.files .mv button:disabled { opacity: .3; cursor: default; }
+.drawer { padding: 10px 14px; border-top: 1.5px solid var(--line); }
+.drawer .lbl { font-size: 11px; letter-spacing: .12em; color: var(--ink-2); margin-bottom: 6px; }
+.add { display: flex; flex-wrap: wrap; gap: 6px; }
+.add button { background: var(--field); border: 1.5px dashed var(--line); border-radius: 8px; padding: 4px 8px; cursor: pointer; font-size: 12px; }
+.add button:hover { border-color: var(--teal); }
+.add .none { font-size: 12px; color: var(--ink-2); font-style: italic; }
+.hint { padding: 0 14px 14px; font-size: 12px; color: var(--ink-2); }
+
+/* Como funciona */
+.flow, .sheet { max-width: 1200px; margin: 0 auto; padding: 72px 28px 0; }
+.sec-h { margin-bottom: 26px; }
+.sec-h h2 { font-weight: 800; font-size: clamp(30px, 4vw, 48px); line-height: 1; letter-spacing: -.03em; }
+.steps { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; counter-reset: s; }
+.steps li { position: relative; padding: 18px 22px 18px 0; border-top: 2px solid var(--ink); }
+.steps li + li { padding-left: 22px; border-left: 1px dashed var(--line); }
+.steps li:not(:last-child)::after { content: "→"; position: absolute; right: -9px; top: 14px; background: var(--bg); color: var(--teal); font-weight: 700; padding: 0 2px; z-index: 1; }
+.steps b { font: 700 12px "Red Hat Mono", monospace; color: var(--teal); }
+.steps h3 { font-size: 18px; margin: 4px 0 6px; letter-spacing: -.01em; }
+.steps p { font-size: 14px; color: var(--ink-2); }
+
+.spec { border-top: 2px solid var(--ink); margin: 0; }
+.spec div { display: grid; grid-template-columns: 200px 1fr; gap: 24px; padding: 16px 0; border-bottom: 1px dashed var(--line); }
+.spec dt { font: 600 12px "Red Hat Mono", monospace; letter-spacing: .12em; text-transform: uppercase; padding-top: 4px; }
+.spec dd { margin: 0; font-size: 16px; line-height: 1.6; max-width: 72ch; }
+.spec dd.mono { font-size: 14px; }
+.foot-nav { display: flex; gap: 10px; flex-wrap: wrap; padding: 36px 0 80px; }
+.foot-nav .act { font-size: 14px; padding: 8px 16px; }
+
+@media (max-width: 980px) {
+  .room { grid-template-columns: 1fr; }
+  .steps { grid-template-columns: 1fr 1fr; row-gap: 18px; }
+  .steps li:nth-child(3) { border-left: 0; padding-left: 0; }
+  .steps li::after { display: none; }
+}
+@media (max-width: 640px) {
+  .top { padding: 14px 16px; }
+  .top nav { gap: 6px; }
+  .pill { padding: 4px 9px; font-size: 12px; }
+  .intro, .room { padding-left: 16px; padding-right: 16px; }
+  .wall { padding: 18px 14px 14px; }
+  .flow, .sheet { padding: 56px 16px 0; }
+  .steps { grid-template-columns: 1fr; }
+  .steps li + li { border-left: 0; padding-left: 0; }
+  .spec div { grid-template-columns: 1fr; gap: 6px; }
+}

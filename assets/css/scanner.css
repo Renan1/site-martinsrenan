@@ -1,0 +1,137 @@
+/* Página do projeto Scanner: mesa bagunçada + lente. */
+:root {
+  --paper: #EFE8D8; --paper-line: #C9D6E4; --pen: #233A7A; --pencil: #4A4640; --red: #C23B22; --sticky: #F6E27A; --sticky-2: #F4B6C2;
+  --sys-bg: #F7F8F7; --sys-grid: rgba(16,24,20,.06); --sys-card: #FFFFFF; --sys-ink: #111815; --sys-ink-2: #5D6862; --sys-line: #DCE2DE; --ok: #14845A;
+  --ui-ink: #16130E; --ui-bg: rgba(239,232,216,.9);
+}
+:root[data-theme="dark"] {
+  --paper: #2A261E; --paper-line: #3B4452; --pen: #A8BDF5; --pencil: #CFC7B8; --red: #F07B62; --sticky: #8C7A2A; --sticky-2: #84505B;
+  --sys-bg: #070A09; --sys-grid: rgba(220,255,235,.05); --sys-card: #0F1513; --sys-ink: #E2ECE6; --sys-ink-2: #81918A; --sys-line: #1F2925; --ok: #3EE19A;
+  --ui-ink: #F0EADC; --ui-bg: rgba(42,38,30,.9);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #2A261E; --paper-line: #3B4452; --pen: #A8BDF5; --pencil: #CFC7B8; --red: #F07B62; --sticky: #8C7A2A; --sticky-2: #84505B;
+    --sys-bg: #070A09; --sys-grid: rgba(220,255,235,.05); --sys-card: #0F1513; --sys-ink: #E2ECE6; --sys-ink-2: #81918A; --sys-line: #1F2925; --ok: #3EE19A;
+    --ui-ink: #F0EADC; --ui-bg: rgba(42,38,30,.9);
+  }
+}
+* { box-sizing: border-box; margin: 0; }
+body { background: var(--paper); color: var(--ui-ink); font: 400 16px/1.5 "Familjen Grotesk", system-ui, sans-serif; overflow-x: hidden; }
+button { font: inherit; }
+
+.stage { position: relative; height: max(100vh, 760px); overflow: hidden; touch-action: pan-y; cursor: none; }
+.layer { position: absolute; inset: 0; }
+
+/* Camada analógica */
+.analog { background: var(--paper); background-image: repeating-linear-gradient(transparent 0 31px, var(--paper-line) 31px 32px); }
+.analog::before { content: ""; position: absolute; left: 7%; top: 0; bottom: 0; width: 2px; background: var(--red); opacity: .35; }
+.coffee { position: absolute; width: 170px; height: 170px; border-radius: 50%; left: 64%; top: 6%; border: 9px solid rgba(120,74,30,.18); box-shadow: inset 0 0 22px rgba(120,74,30,.18); transform: scaleX(1.08) rotate(20deg); }
+.note { position: absolute; left: var(--x); top: var(--y); width: var(--w, 250px); transform: rotate(var(--rot, 0deg)); font: 400 20px/1.3 "Kalam", cursive; color: var(--pen); }
+.note.sticky { background: var(--sticky); padding: 18px 18px 22px; box-shadow: 0 10px 18px -10px rgba(0,0,0,.4); color: #2b2a22; }
+.note.pink { background: var(--sticky-2); }
+.note.scrap { background: #fffdf6; padding: 14px 16px; clip-path: polygon(0 4%, 12% 0, 30% 3%, 52% 0, 75% 4%, 100% 1%, 98% 50%, 100% 96%, 70% 100%, 40% 97%, 14% 100%, 1% 96%); color: var(--pencil); }
+:root[data-theme="dark"] .note.scrap { background: #3a352b; }
+.note s { color: var(--red); text-decoration-thickness: 2px; }
+.note .r { color: var(--red); }
+.note .tilt { display: inline-block; transform: rotate(-4deg); }
+
+/* Camada digital (revelada pela lente) */
+.digital {
+  background: var(--sys-bg); background-image: linear-gradient(var(--sys-grid) 1px, transparent 1px), linear-gradient(90deg, var(--sys-grid) 1px, transparent 1px); background-size: 24px 24px;
+  -webkit-mask-image: radial-gradient(circle var(--r, 0px) at var(--lx, 50%) var(--ly, 50%), #000 calc(var(--r, 0px) - 1px), transparent var(--r, 0px));
+          mask-image: radial-gradient(circle var(--r, 0px) at var(--lx, 50%) var(--ly, 50%), #000 calc(var(--r, 0px) - 1px), transparent var(--r, 0px));
+  color: var(--sys-ink); font-family: "Martian Mono", monospace;
+}
+.card { position: absolute; left: var(--x); top: var(--y); width: var(--w, 250px); background: var(--sys-card); border: 1px solid var(--sys-line); border-radius: 6px; padding: 14px 16px; font-size: 12px; line-height: 1.55; }
+.card .k { color: var(--sys-ink-2); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; display: flex; justify-content: space-between; margin-bottom: 8px; }
+.card .v { font-size: 15px; font-weight: 600; letter-spacing: -.01em; }
+.card .ok { color: var(--ok); }
+.card .ok::before { content: "● "; }
+.card .row { display: flex; justify-content: space-between; border-top: 1px dashed var(--sys-line); padding-top: 6px; margin-top: 6px; color: var(--sys-ink-2); }
+.card .tile { margin-top: 8px; aspect-ratio: 1.6; border-radius: 4px; background: linear-gradient(135deg, #1F6B3E, #0E3B22); color: #fff; padding: 10px; font-size: 10px; display: flex; flex-direction: column; justify-content: space-between; }
+.card .tile b { font-size: 15px; }
+
+/* Lente */
+.lens { position: absolute; left: 0; top: 0; width: calc(var(--r, 0px) * 2); height: calc(var(--r, 0px) * 2); transform: translate(calc(var(--lxp, 0px) - 50%), calc(var(--lyp, 0px) - 50%)); pointer-events: none; z-index: 3; }
+.lens i { position: absolute; width: 26px; height: 26px; border: 3px solid var(--ok); }
+.lens i:nth-child(1) { left: 6px; top: 6px; border-right: 0; border-bottom: 0; }
+.lens i:nth-child(2) { right: 6px; top: 6px; border-left: 0; border-bottom: 0; }
+.lens i:nth-child(3) { left: 6px; bottom: 6px; border-right: 0; border-top: 0; }
+.lens i:nth-child(4) { right: 6px; bottom: 6px; border-left: 0; border-top: 0; }
+.lens::after { content: ""; position: absolute; left: 14%; right: 14%; top: 50%; height: 2px; background: var(--ok); box-shadow: 0 0 12px var(--ok); animation: sweep 1.6s ease-in-out infinite alternate; }
+@keyframes sweep { from { transform: translateY(calc(var(--r, 0px) * -.6)); } to { transform: translateY(calc(var(--r, 0px) * .6)); } }
+.stage.full .lens { opacity: 0; transition: opacity .3s; }
+
+/* Interface por cima */
+.ui { position: absolute; left: 0; right: 0; top: 0; z-index: 4; display: flex; justify-content: space-between; align-items: center; padding: 18px 28px; pointer-events: none; }
+.ui > * { pointer-events: auto; }
+.ui .who { font-weight: 700; font-size: 18px; }
+.ui nav { display: flex; gap: 10px; align-items: center; }
+.pill { background: var(--ui-bg); color: var(--ui-ink); border: 1.5px solid currentColor; border-radius: 999px; padding: 5px 13px; cursor: pointer; font-size: 13px; text-decoration: none; backdrop-filter: blur(6px); }
+.hero { position: absolute; left: 28px; top: 78px; z-index: 4; width: min(470px, calc(100% - 56px)); background: var(--ui-bg); padding: 18px 20px; border-radius: 4px; backdrop-filter: blur(6px); }
+.hero h1 { font-weight: 700; font-size: clamp(30px, 3.6vw, 46px); line-height: 1; letter-spacing: -.03em; }
+.hero h1 span { font-family: "Kalam", cursive; font-weight: 400; font-size: 1.02em; color: var(--red); }
+.hero p { margin-top: 10px; font-size: 15.5px; opacity: .8; }
+.hero .acts { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+.scanall { background: var(--ui-ink); color: var(--paper); border: 0; border-radius: 999px; padding: 9px 16px; cursor: pointer; font-weight: 600; }
+
+@media (max-width: 760px) {
+  .stage { height: 1350px; cursor: auto; }
+  .ui { padding: 14px 16px; }
+  .hero { left: 16px; top: 90px; width: calc(100% - 32px); }
+  .note, .card { left: var(--mx); top: var(--my); width: min(var(--w, 250px), 74vw); }
+  .coffee { left: 60%; top: 48%; }
+}
+
+/* Posição de cada bilhete/cartão (desktop: --x/--y; celular: --mx/--my). */
+.p1 { --x: 52%; --y: 12%; --rot: -4deg; --mx: 8%;  --my: 420px; }
+.p2 { --x: 78%; --y: 30%; --w: 220px; --rot: 5deg;  --mx: 20%; --my: 590px; }
+.p3 { --x: 9%;  --y: 58%; --w: 280px; --rot: -2deg; --mx: 6%;  --my: 740px; }
+.p4 { --x: 40%; --y: 52%; --w: 230px; --rot: 3deg;  --mx: 22%; --my: 890px; }
+.p5 { --x: 68%; --y: 66%; --w: 240px; --rot: -5deg; --mx: 6%;  --my: 1040px; }
+.p6 { --x: 18%; --y: 82%; --w: 300px; --rot: 1deg;  --mx: 20%; --my: 1170px; }
+.who { text-decoration: none; color: inherit; }
+
+/* ---------- Conteúdo abaixo da mesa ---------- */
+.kicker { font: 500 11.5px "Martian Mono", monospace; letter-spacing: .14em; color: var(--red); margin: 0 0 8px; opacity: 1; }
+.hero .kicker { margin: 0 0 8px; opacity: 1; font-size: 10.5px; }
+.mono { font-family: "Martian Mono", monospace; font-size: 13px; }
+.app, .sheet { max-width: 1180px; margin: 0 auto; padding: 72px 28px 0; }
+.sec-h { margin-bottom: 28px; }
+.sec-h h2 { font-weight: 700; font-size: clamp(30px, 4vw, 48px); line-height: 1; letter-spacing: -.03em; }
+.sec-h p:last-child:not(.kicker) { margin-top: 10px; opacity: .75; max-width: 56ch; }
+
+/* Galeria: prints em moldura de celular, levemente "jogados" na mesa. */
+.shots { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(6, 1fr); gap: 22px; }
+.shots figure { margin: 0; }
+.shots img { display: block; width: 100%; height: auto; border-radius: 22px; border: 6px solid #1b1b1a; background: #1b1b1a; box-shadow: 0 18px 30px -16px rgba(0,0,0,.45); transition: transform .25s; }
+.shots li:nth-child(odd) img { transform: rotate(-1.2deg); }
+.shots li:nth-child(even) img { transform: rotate(1.2deg) translateY(14px); }
+.shots li img:hover { transform: rotate(0) translateY(-6px) scale(1.03); }
+.shots figcaption { margin-top: 22px; font-size: 14px; line-height: 1.35; }
+.shots figcaption b { font-family: "Martian Mono", monospace; font-weight: 600; color: var(--red); margin-right: 6px; }
+
+/* Ficha técnica: linhas como um datasheet. */
+.spec { border-top: 2px solid var(--ui-ink); margin: 0; }
+.spec div { display: grid; grid-template-columns: 200px 1fr; gap: 24px; padding: 16px 0; border-bottom: 1px dashed color-mix(in srgb, var(--ui-ink) 30%, transparent); }
+.spec dt { font: 600 11.5px "Martian Mono", monospace; letter-spacing: .12em; text-transform: uppercase; padding-top: 4px; }
+.spec dd { margin: 0; font-size: 16.5px; line-height: 1.55; max-width: 70ch; }
+.foot { display: flex; gap: 10px; flex-wrap: wrap; padding: 36px 0 80px; }
+.foot .pill { font-size: 14px; padding: 8px 16px; }
+
+@media (max-width: 980px) {
+  .shots { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 46%; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 18px; }
+  .shots li { scroll-snap-align: start; }
+}
+@media (max-width: 640px) {
+  .app, .sheet { padding: 56px 16px 0; }
+  .shots { grid-auto-columns: 70%; }
+  .spec div { grid-template-columns: 1fr; gap: 6px; }
+}
+.pill { white-space: nowrap; }
+@media (max-width: 640px) {
+  .ui { gap: 8px; }
+  .ui nav { gap: 6px; }
+  .ui .pill { padding: 4px 9px; font-size: 12px; }
+}

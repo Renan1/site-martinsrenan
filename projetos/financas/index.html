@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>App financeiro familiar — Renan Martins</title>
+<meta name="description" content="Finanças da Família: app que lança gastos em segundos, mesmo sem sinal, entende fatura e parcela de cartão e avisa quando o mês sai do normal. Experimente com dados fictícios.">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/fonts.css">
+<link rel="stylesheet" href="../../assets/css/financas.css">
+<link rel="stylesheet" href="../../assets/css/lightbox.css">
+</head>
+<body>
+<header class="top">
+  <a class="who" href="../../">Renan Martins</a>
+  <nav><a class="pill" href="../../">← Painel</a><a class="pill" href="../">Concluídos</a><button class="pill" type="button" data-theme-toggle>Tema</button></nav>
+</header>
+
+<main>
+<section class="intro">
+  <p class="kicker">PORTA 09 · APP FINANCEIRO FAMILIAR</p>
+  <h1>O gasto entra na hora. <em>A fatura cai no mês certo.</em></h1>
+  <p>O app da família lança cada gasto em segundos, funciona sem sinal e entende cartão de crédito: a compra conta no mês em que a fatura vence, parcela por parcela. Lance um gasto no celular e veja o mês reagir. (Família, cartões e valores fictícios; hoje é 21/10/2026.)</p>
+</section>
+
+<section class="lab" aria-label="Simulação: celular lançando um gasto e o painel do mês">
+  <div class="phone-col">
+    <div class="phone" aria-label="Celular: novo gasto">
+      <div class="status-bar"><span>9:41</span><i class="bars" id="signal-bars" aria-hidden="true"></i></div>
+      <div class="app">
+        <div class="app-h"><b>Novo gasto</b><button type="button" class="sync" id="sync">✓ Tudo sincronizado</button></div>
+        <div class="amount" id="amount" aria-live="polite">R$ 0,00</div>
+        <div class="seg" id="ways" role="group" aria-label="Forma de pagamento"></div>
+        <div class="credit" id="credit" hidden>
+          <div class="seg" id="cards" role="group" aria-label="Cartão"></div>
+          <label class="parc">Parcelas <select id="parc"></select></label>
+          <p class="note" id="credit-note"></p>
+        </div>
+        <p class="mini">CATEGORIA</p>
+        <div class="cats" id="cats"></div>
+        <div class="keys" id="keys"></div>
+        <button type="button" class="save" id="save">Salvar gasto</button>
+        <p class="toast" id="toast" role="status" hidden></p>
+      </div>
+    </div>
+    <button type="button" class="plane" id="plane" aria-pressed="false"><span id="plane-t">Simular modo avião (sem sinal)</span></button>
+  </div>
+
+  <div class="board">
+    <div class="month">
+      <div class="month-h"><b>Painel · Outubro de 2026</b><small>Família</small></div>
+      <div class="kpis">
+        <div><span>Ganhos</span><b class="in" id="k-in"></b></div>
+        <div><span>Gastos</span><b class="out" id="k-out"></b></div>
+        <div><span>Saldo</span><b id="k-bal"></b></div>
+        <div class="save-rate" id="k-rate-box"><span>Taxa de poupança</span><b id="k-rate"></b><small>referência ≥ 10%</small></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><b>Faturas do cartão</b><small>o que já está comprometido nos próximos meses</small></div>
+      <div class="bills" id="bills"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><b>Orçamento × realizado</b><small>aviso em 80%, estouro em 100%</small></div>
+      <div class="budgets" id="budgets"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><b>Saúde</b><small>alertas automáticos do mês</small></div>
+      <ul class="alerts" id="alerts"></ul>
+    </div>
+  </div>
+</section>
+
+<section class="app-real" id="app" aria-labelledby="app-t">
+  <div class="sec-h">
+    <p class="kicker">O APP DE VERDADE</p>
+    <h2 id="app-t">Do toque no celular à conversa sobre o mês.</h2>
+    <p>Prints do guia do app, com uma família fictícia ("Lucas" e "Marina"). Telas de login e da chave do Atalho omitidas.</p>
+  </div>
+  <ol class="shots">
+    <li><figure><div class="frame"><img src="../../assets/img/financas/novo-gasto.jpg" width="520" height="1126" loading="lazy" alt="Novo gasto: valor digitado, forma de pagamento, categorias e teclado."></div><figcaption><b>1</b> Gasto lançado em segundos</figcaption></figure></li>
+    <li><figure><div class="frame"><img src="../../assets/img/financas/carteira.jpg" width="520" height="1126" loading="lazy" alt="Caixa da Carteira: compras feitas com o iPhone chegando para lançar ou descartar."></div><figcaption><b>2</b> Compras da Carteira do iPhone</figcaption></figure></li>
+    <li><figure><div class="frame"><img src="../../assets/img/financas/painel.jpg" width="520" height="1126" loading="lazy" alt="Painel do mês: ganhos, gastos, saldo, taxa de poupança e previsto × realizado."></div><figcaption><b>3</b> Painel: previsto × realizado</figcaption></figure></li>
+    <li><figure><div class="frame"><img src="../../assets/img/financas/saude.jpg" width="520" height="1126" loading="lazy" alt="Saúde: alertas de orçamento e categorias acima da média e tarefas da família."></div><figcaption><b>4</b> Saúde: alertas e tarefas</figcaption></figure></li>
+    <li><figure><div class="frame"><img src="../../assets/img/financas/importar.jpg" width="520" height="1126" loading="lazy" alt="Importar fatura do banco com prévia, categoria sugerida e linhas já lançadas desmarcadas."></div><figcaption><b>5</b> Importa fatura sem duplicar</figcaption></figure></li>
+    <li><figure><div class="frame"><img src="../../assets/img/financas/exportar.jpg" width="520" height="1126" loading="lazy" alt="Exportar: JSON do mês para análise com o Claude, planilha CSV e backup completo."></div><figcaption><b>6</b> Análise do mês com o Claude</figcaption></figure></li>
+  </ol>
+</section>
+
+<section class="sheet" aria-labelledby="sheet-t">
+  <div class="sec-h">
+    <p class="kicker">FICHA TÉCNICA</p>
+    <h2 id="sheet-t">Finanças da Família</h2>
+  </div>
+  <dl class="spec">
+    <div><dt>Problema</dt><dd>Gasto anotado depois, de memória, se perde. E o cartão de crédito confunde: a compra de hoje só pesa no mês em que a fatura vence, e a parcelada pesa um pouco em cada mês.</dd></div>
+    <div><dt>Solução</dt><dd>Um app instalável no celular: gasto e ganho em poucos toques, até sem sinal. Ele calcula a fatura de cada parcela pelo dia de fechamento do cartão, lança as contas fixas sozinho e importa faturas e extratos do banco sem duplicar.</dd></div>
+    <div><dt>Saúde financeira</dt><dd>Regras que rodam várias vezes por dia: orçamento em 80% e 100%, categoria muito acima da média de 3 meses, poupança abaixo de 10%, parcelas acima de 30% da renda. Viram alertas e tarefas da família.</dd></div>
+    <div><dt>IA no mês</dt><dd>Exporta o mês em JSON (sem e-mails, identificadores nem localização) para análise com o Claude; as tarefas sugeridas voltam para o app.</dd></div>
+    <div><dt>Segurança</dt><dd>Fechado: sem login não se vê nada e não existe cadastro público. Regras de acesso no banco (RLS) por família. A chave do Atalho do iPhone só consegue inserir compras na caixa de quem a criou — não lê nada.</dd></div>
+    <div><dt>Stack</dt><dd class="mono">HTML · CSS · JavaScript puros · PWA · IndexedDB (fila offline) · Supabase (Postgres + Auth + RLS) · GitHub Pages · GitHub Actions · testes automatizados</dd></div>
+    <div><dt>Código</dt><dd><a href="https://github.com/Renan1/sistemafinanceiro-familiar" target="_blank" rel="noopener">github.com/Renan1/sistemafinanceiro-familiar ↗</a></dd></div>
+  </dl>
+  <nav class="foot-nav">
+    <a class="act" href="../../">← Voltar ao painel</a>
+    <a class="act" href="../">Projetos concluídos</a>
+    <a class="act" href="../../contato/">Quero algo assim</a>
+  </nav>
+</section>
+</main>
+
+<script src="../../assets/js/financas.js"></script>
+<script src="../../assets/js/lightbox.js"></script>
+<script src="../../assets/js/theme.js"></script>
+</body>
+</html>
