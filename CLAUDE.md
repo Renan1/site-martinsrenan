@@ -59,12 +59,12 @@ tools/serve.mjs  servidor local
 - 3 registros de proteção criados pelo Cloudflare (MX nulo ".", SPF `v=spf1 -all`, DMARC reject): o Email Routing vai substituí-los.
 - DNSSEC: desligado ao trocar para o Cloudflare (o DS antigo, keytag 18564, saiu). Pode ser religado depois pelo Cloudflare, se o Renan quiser. Conferir: `Resolve-DnsName martinsrenan.com.br -Type DS -Server 8.8.8.8`.
 - Feito (Renan, 2026-10-22): Verify no GitHub, troca dos nameservers, registros A/CNAME, Custom domain no repo. Renan confirmou "site no ar".
-- Feito (Renan, 2026-10-22, conferido na tela Settings → Pages): "DNS check successful" e Enforce HTTPS ATIVO. Falta só o teste no navegador: https com cadeado, `www` abrindo/redirecionando, http redirecionando para https (o banner do GitHub ainda mostra http://; suposição: só texto do banner).
+- Feito (Renan, 2026-10-22): "DNS check successful", Enforce HTTPS ATIVO e teste no navegador OK (https com cadeado, www, http→https). Domínio concluído.
 - Pendente: Email Routing no Cloudflare para contato@ → Gmail; depois trocar `mail` em assets/js/contact.js (conferir a doc oficial do Cloudflare antes).
 - Nas configurações de bots do Cloudflare: Search e Agent = Allow; Training = escolha do Renan.
 
 ## Pendências (2026-10-22, em ordem)
-1. Testar o domínio no navegador (cadeado, www, http→https). Enforce HTTPS já está ativo.
+1. [feito 2026-10-22] Domínio testado: HTTPS, www e redirecionamento OK.
 2. E-mail contato@ (Email Routing).
 3. Logo: Renan gera imagens com os prompts da seção Status e manda a escolhida; Claude redesenha em SVG e aplica nas 15 páginas.
 4. Inventário abaixo está desatualizado ("(descrever)", falta `precificacao-couveflor`): a fonte real dos 12 projetos é `assets/js/projects.js`.
@@ -139,7 +139,7 @@ Menu do topo (todas as páginas): Projetos concluídos (`/projetos/`, só conclu
 - [x] Página institucional Soluções em TI (2026-10-21): carreira do currículo do Renan como rack (6 fases, clique puxa o servidor e mostra no console), competências que acendem as fases, KPIs do CV, formação/certificações como módulos SFP, idiomas e prêmios. SEM dados pessoais (nome completo, endereço); empregadores e clientes da carreira aparecem (são do CV profissional).
 - [ ] Conteúdo dos projetos (descrição, stack, prints, links)
 - [x] GitHub Pages ativo (2026-10-21): branch main, pasta raiz, em https://renan1.github.io/site-martinsrenan/ (107 arquivos conferidos com 200, sem erros de CSP).
-- [x] Domínio apontado para o site (2026-10-22): https://martinsrenan.com.br no ar. Enforce HTTPS ativo; falta só o teste no navegador, ver "DNS e domínio".
+- [x] Domínio apontado para o site (2026-10-22): https://martinsrenan.com.br no ar. HTTPS e testes OK.
 - [x] Visualizador de prints (lightbox) nas 6 galerias (2026-10-21).
 - [ ] Logo "RM · Soluções em TI · IA" + favicon/ícone do iPhone. 2026-10-21: 3 propostas em SVG em `design/logo/` (A porta RJ45, B um cabo só, C etiqueta de rack) RECUSADAS: muito literais, escuras/pesadas e letras fracas. Renan escolheu gerar imagens com IA: caminho grátis = ele gera no ChatGPT/Gemini/Ideogram com os prompts abaixo e manda; Claude redesenha a escolhida em SVG. OpenRouter (pago, chave) só com OK.
   Prompts: (1) monograma "RM" geométrico, um traço compartilhado, espaço negativo, tinta #15191C em branco, acento verde-menta #7CFFB0, sem gradiente/3D/circuito/robô; (2) R e M com poucas linhas e um ponto-nó na conexão (IA sutil, sem cérebro/chip), fundo claro; (3) símbolo abstrato de duas formas que se encaixam formando R e M, legível em 16 px; (4) logotipo "RM" + "Soluções em TI · IA" em monoespaçada.
