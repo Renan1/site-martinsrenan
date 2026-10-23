@@ -27,8 +27,9 @@ projetos/<slug>/index.html  página interativa de cada projeto (hoje: scanner, l
 assets/css/  base.css (cores, tema, cabeçalho) · fonts.css · rodape.css (rodapé com marca) · marca.css (marca RM no cabeçalho e no rodapé) · e404.css (só a 404) · patch.css · projetos.css · scanner.css
 assets/js/   projects.js (FONTE ÚNICA dos 12 projetos) · patch.js · projetos.js · scanner.js · theme.js
 assets/fonts/ fontes locais .woff2 (OFL, ver LICENCAS.md) · assets/img/ (favicon.svg, apple-touch-icon.png, icon-192/512.png, og.png, logo/) · manifest.webmanifest
+cartao/<pessoa>/             cartões digitais (renan, camilla): ver seção "Cartões digitais"
 design/      protótipos e maquetes (não fazem parte do site)
-tools/serve.mjs  servidor local
+tools/serve.mjs  servidor local · tools/cartao-vcf.mjs gera os .vcf dos cartões
 .nojekyll    faz o GitHub Pages servir os arquivos sem processar
 ```
 - Ver localmente: `node tools/serve.mjs` e abrir http://localhost:4173 (o servidor do app desliga quando a sessão reinicia: se localhost não abrir, é isso)
@@ -68,6 +69,15 @@ tools/serve.mjs  servidor local
 - Feito (Renan, 2026-10-22): "DNS check successful", Enforce HTTPS ATIVO e teste no navegador OK (https com cadeado, www, http→https). Domínio concluído.
 - Feito (2026-10-22): Email Routing no Cloudflare, contato@ → Gmail, testado. Os registros MX (route1/2/3.mx.cloudflare.net), SPF `include:_spf.mx.cloudflare.net` e DKIM `cf2024-1._domainkey` agora são do Email Routing: NÃO apagar. O MX nulo e o SPF `-all` antigos foram removidos.
 - Nas configurações de bots do Cloudflare: Search e Agent = Allow; Training = escolha do Renan.
+
+## Cartões digitais (2026-10-23)
+- Substituem os cartões que estavam no Netlify. `cartao/renan/` e `cartao/camilla/` (Camilla = esposa do Renan, sócia da Couve Flor; ela autorizou publicar os dados dela). Modo Pessoal/Corporativo; `#corporativo` no endereço abre direto no Corporativo.
+- Um modelo só: `assets/css/cartao.css` + `assets/js/cartao.js` + ícones em `assets/img/cartao/icones.svg` (`<use href>`); fotos em `assets/img/cartao/`. Os dados de cada pessoa ficam no `index.html` dela. Não usam cabeçalho nem rodapé do site: a assinatura é a marca RM + link para o portfólio. `noindex` (têm telefones pessoais).
+- Por pasta: `qr.svg` e `qr-corporativo.svg` (gerados com o pacote npm `qrcode` FORA do repo, no scratchpad), `og.png` 1200×630 (prévia no WhatsApp, Edge sem janela), `icone.png` 180 (tela inicial) e os `.vcf`.
+- `.vcf`: gerados por `node tools/cartao-vcf.mjs` (vCard 3.0, CRLF, linhas dobradas, foto embutida). Os contatos estão no HTML E no script: mudar nos dois. `.gitattributes` tem `*.vcf -text` para o Git não estragar o CRLF.
+- Contatos: o cartão do Renan usa contato@martinsrenan.com.br (não o Gmail) + Outlook como alternativo. Corporativo: "Ligar" → 99173-4073 e WhatsApp do topo → 99133-3703 (Cotação), confirmado pelo Renan; o vCard corporativo do Renan inclui o celular pessoal de propósito.
+- Subdomínios (opção escolhida: dentro do site, subdomínio só REDIRECIONA): `cartaorenan.martinsrenan.com.br` → `https://martinsrenan.com.br/cartao/renan/` e `cartaocamilla.…` → `/cartao/camilla/`. Mesmo esquema do .dev: registro A → 192.0.2.1 com nuvem LARANJA + Redirect Rule. PENDENTE.
+- NFC: o Renan tem 2 tags NFC regraváveis com o link do Netlify; regravar com o endereço `https://martinsrenan.com.br/cartao/renan/` (funciona sem depender do subdomínio). Depois, desligar/redirecionar o Netlify.
 
 ## Pendências (2026-10-22, em ordem)
 1. [feito 2026-10-22] Domínio testado: HTTPS, www e redirecionamento OK.

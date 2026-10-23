@@ -9,7 +9,7 @@ const root = normalize(fileURLToPath(new URL('..', import.meta.url)));
 const port = 4173;
 const types = {
   '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
-  '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.woff2': 'font/woff2', '.json': 'application/json'
+  '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.woff2': 'font/woff2', '.json': 'application/json', '.vcf': 'text/vcard; charset=utf-8'
 };
 
 createServer(async (req, res) => {
